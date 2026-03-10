@@ -53,7 +53,7 @@ export function FeaturedCategories() {
   const isInView = useInView(ref, { once: true, amount: 0.15 })
 
   return (
-    <section ref={ref} className="py-32 bg-background relative overflow-hidden">
+    <section ref={ref} className="py-20 md:py-32 bg-background relative overflow-hidden">
       {/* Background Elements */}
       <motion.div
         animate={{
@@ -84,13 +84,13 @@ export function FeaturedCategories() {
 
           <BlurText
             text="Explore the elements of natural beauty"
-            className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-balance text-foreground mb-6"
+            className="text-[clamp(1.75rem,8vw,3.5rem)] md:text-5xl lg:text-6xl font-light tracking-tight text-balance text-foreground mb-6"
             animateBy="words"
             delay={0.1}
           />
 
           <FadeContent direction="up" delay={0.3}>
-            <p className="text-muted-foreground text-lg font-light">
+            <p className="text-muted-foreground text-sm md:text-lg font-light px-4 md:px-0">
               Elevate your ritual with pure, organic ingredients and authentic Senegalese craftsmanship.
             </p>
           </FadeContent>
@@ -137,7 +137,7 @@ export function FeaturedCategories() {
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.4))]" />
 
                     {/* Content */}
-                    <div className="absolute inset-0 p-8 md:p-10 flex flex-col justify-end text-white">
+                    <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 flex flex-col justify-end text-white">
                       <div className="flex items-end justify-between relative z-20">
                         <motion.div
                           initial={{ y: 0 }}
@@ -146,20 +146,20 @@ export function FeaturedCategories() {
                           className="max-w-[80%]"
                         >
                           <motion.h3
-                            className={`font-medium tracking-tight translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out text-[clamp(1.5rem,7vw,3rem)]`}
+                            className={`font-medium tracking-tight md:translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out text-[clamp(1.5rem,7vw,3rem)]`}
                           >
                             {category.name}
                           </motion.h3>
 
                           <div className="overflow-hidden">
-                            <motion.p className="text-white/80 mt-2 text-sm md:text-base font-light translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75">
+                            <motion.p className="text-white/80 mt-2 text-xs md:text-base font-light md:translate-y-full md:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75">
                               {category.description}
                             </motion.p>
                           </div>
 
-                          <motion.div className="flex items-center gap-3 mt-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="w-8 h-[1px] bg-white/60" />
-                            <p className="text-white/90 text-xs font-medium tracking-wider uppercase">
+                          <motion.div className="flex items-center gap-3 mt-4 md:opacity-70 group-hover:opacity-100 transition-opacity duration-300">
+                            <span className="w-6 md:w-8 h-[1px] bg-white/60" />
+                            <p className="text-white/90 text-[10px] md:text-xs font-medium tracking-wider uppercase">
                               {category.count} Products
                             </p>
                           </motion.div>
@@ -168,9 +168,9 @@ export function FeaturedCategories() {
                         <motion.div
                           whileHover={{ scale: 1.1, rotate: 45 }}
                           transition={{ duration: 0.4, ease: "easeOut" }}
-                          className="h-14 w-14 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white group-hover:border-white transition-all duration-500 shadow-xl"
+                          className="h-10 w-10 md:h-14 md:w-14 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white group-hover:border-white transition-all duration-500 shadow-xl shrink-0"
                         >
-                          <ArrowUpRight className="h-6 w-6 text-white group-hover:text-black transition-colors duration-500" />
+                          <ArrowUpRight className="h-5 w-5 md:h-6 md:w-6 text-white group-hover:text-black transition-colors duration-500" />
                         </motion.div>
                       </div>
                     </div>

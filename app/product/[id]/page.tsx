@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
-import Image from "next/image"
+import NextImage from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import {
     Star, Heart, ShoppingBag, ArrowLeft, ShieldCheck, Leaf, Globe,
-    Truck, CornerDownLeft, ChevronRight, Share2, Plus, Minus, Info, Award
+    Truck, CornerDownLeft, ChevronRight, Share2, Plus, Minus, Info, Award,
+    MapPin, ArrowRight
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -115,12 +116,13 @@ export default function ProductPage() {
                                     transition={{ duration: 0.5 }}
                                     className="w-full h-full"
                                 >
-                                    <Image
+                                    <NextImage
                                         src={product.images ? product.images[selectedImage] : product.image}
                                         alt={product.name}
                                         fill
                                         priority
                                         className="object-cover transition-transform duration-700 hover:scale-105"
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
                                     />
                                 </motion.div>
                             </AnimatePresence>
@@ -150,7 +152,7 @@ export default function ProductPage() {
                                         onClick={() => setSelectedImage(idx)}
                                         className={`relative w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 transition-all duration-300 ${selectedImage === idx ? 'ring-2 ring-primary ring-offset-4 scale-95' : 'opacity-60 hover:opacity-100'}`}
                                     >
-                                        <Image src={img} alt={`${product.name} view ${idx}`} fill className="object-cover" />
+                                        <NextImage src={img} alt={`${product.name} view ${idx}`} fill className="object-cover" sizes="100px" />
                                     </button>
                                 ))}
                             </div>
@@ -347,7 +349,7 @@ export default function ProductPage() {
                                         {review.author[0]}
                                     </div>
                                     <span className="text-xs font-bold text-[#2D241E]">{review.author}</span>
-                                    <Badge variant="ghost" className="bg-green-100 text-green-700 text-[9px] h-5">Verified Buyer</Badge>
+                                    <Badge variant="outline" className="bg-green-100 text-green-700 text-[9px] h-5">Verified Buyer</Badge>
                                 </div>
                             </Card>
                         ))}
@@ -371,7 +373,7 @@ export default function ProductPage() {
                         {products.slice(0, 4).map(p => (
                             <Card key={p.id} className="group border-none shadow-none bg-transparent cursor-pointer" onClick={() => router.push(`/product/${p.id}`)}>
                                 <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden mb-4 bg-muted">
-                                    <Image src={p.image} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    <NextImage src={p.image} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 50vw, 25vw" />
                                 </div>
                                 <div className="space-y-1">
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{p.seller}</span>

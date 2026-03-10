@@ -2,12 +2,12 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import NextImage from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import {
     ChevronRight, Lock, MapPin, CreditCard, ShoppingBag,
     ArrowLeft, CheckCircle2, ShieldCheck, Truck, Package,
-    Info, Sparkles, Plus, AlertCircle
+    Info, Sparkles, Plus, AlertCircle, Leaf, Award
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -85,7 +85,7 @@ export default function CheckoutPage() {
             <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-border/40 py-6">
                 <div className="container mx-auto px-4 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2">
-                        <Image src="/images/logo.png" alt="Moomel" width={100} height={30} className="h-8 w-auto" />
+                        <NextImage src="/images/logo.png" alt="Moomel" width={100} height={30} className="h-8 w-auto" />
                     </Link>
                     <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                         <ShieldCheck className="w-4 h-4 text-primary" />
@@ -290,7 +290,7 @@ export default function CheckoutPage() {
                                     ].map((item, idx) => (
                                         <div key={idx} className="flex gap-4 group">
                                             <div className="relative w-16 h-20 rounded-xl overflow-hidden bg-muted flex-shrink-0">
-                                                <Image src={item.img} alt={item.name} fill className="object-cover transition-transform group-hover:scale-110 duration-700" />
+                                                <NextImage src={item.img} alt={item.name} fill className="object-cover transition-transform group-hover:scale-110 duration-700" />
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex justify-between items-start">

@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import NextImage from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import {
     ShoppingBag, Trash2, Plus, Minus, ArrowRight, Heart,
-    ShieldCheck, Truck, CornerDownLeft, ArrowLeft, Info, HelpCircle
+    ShieldCheck, Truck, CornerDownLeft, ArrowLeft, Info, HelpCircle, Leaf
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -108,7 +108,7 @@ export default function CartPage() {
                                         className="group py-8 first:pt-0 border-b border-border/40 last:border-none flex items-start gap-6 md:gap-10"
                                     >
                                         <Link href={`/product/\${item.id}`} className="relative w-24 h-32 md:w-32 md:h-44 flex-shrink-0 rounded-2xl overflow-hidden bg-muted shadow-sm hover:shadow-xl transition-shadow duration-500">
-                                            <Image src={item.image} alt={item.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                                            <NextImage src={item.image} alt={item.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
                                         </Link>
 
                                         <div className="flex-1 space-y-4">

@@ -1,6 +1,7 @@
 "use client"
 
-import Image from "next/image"
+"use client"
+import NextImage from "next/image"
 import { Star, Quote } from "lucide-react"
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
@@ -142,15 +143,16 @@ export function Testimonials() {
                     <div className="flex items-center gap-4 pt-6 border-t border-border/50 group-hover:border-border/80 transition-colors duration-500">
                       <motion.div
                         whileHover={{ scale: 1.05 }}
-                        className="h-14 w-14 rounded-full overflow-hidden ring-4 ring-background shadow-sm"
                       >
-                        <Image
-                          src={testimonial.avatar}
-                          alt={testimonial.name}
-                          width={56}
-                          height={56}
-                          className="object-cover w-full h-full"
-                        />
+                        <div className="relative h-20 w-20 rounded-2xl overflow-hidden ring-4 ring-primary/10 ring-offset-4 group-hover:scale-105 transition-transform duration-700">
+                          <NextImage
+                            src={testimonial.avatar}
+                            alt={testimonial.name}
+                            fill
+                            className="object-cover"
+                            sizes="80px"
+                          />
+                        </div>
                       </motion.div>
                       <div>
                         <p className="font-medium text-foreground text-base tracking-tight">{testimonial.name}</p>

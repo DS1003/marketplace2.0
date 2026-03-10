@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import NextImage from "next/image"
 import Link from "next/link"
 import { Facebook, Instagram, Twitter, Youtube, Mail, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -97,12 +97,13 @@ export function Footer() {
             className="col-span-2 md:col-span-3 lg:col-span-2"
           >
             <Link href="/" className="inline-block">
-              <Image
+              <NextImage
                 src="/images/logo.png"
-                alt="Moomel"
-                width={140}
-                height={45}
-                className="h-12 w-auto"
+                alt="Moomel Logo"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+                sizes="120px"
               />
             </Link>
             <p className="text-background/70 mt-6 max-w-xs leading-relaxed text-base">

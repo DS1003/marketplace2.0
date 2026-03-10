@@ -1,6 +1,7 @@
 "use client"
 
-import Image from "next/image"
+"use client"
+import NextImage from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { motion, useInView } from "framer-motion"
@@ -121,12 +122,12 @@ export function FeaturedCategories() {
                     className={`relative w-full h-full overflow-hidden ${index === 0 ? "min-h-[400px] md:min-h-[600px]" : "min-h-[300px]"
                       }`}
                   >
-                    <Image
+                    <NextImage
                       src={category.image}
                       alt={category.name}
                       fill
-                      className="object-cover transition-all duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110 group-hover:blur-[2px]"
-                      sizes={index === 0 ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+                      className="object-cover transition-all duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110 filter group-hover:contrast-[1.05]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
 
                     {/* Sophisticated Gradient Mask */}

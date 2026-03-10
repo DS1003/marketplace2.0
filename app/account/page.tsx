@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import NextImage from "next/image"
 import { motion } from "framer-motion"
 import {
     User, Package, MapPin, CreditCard, Settings,
@@ -35,7 +35,7 @@ export default function AccountPage() {
                         <Card className="border-none shadow-xl rounded-[3rem] overflow-hidden bg-white">
                             <div className="p-10 flex flex-col items-center text-center space-y-6">
                                 <div className="relative w-32 h-32 rounded-full ring-4 ring-primary/10 ring-offset-4 overflow-hidden shadow-2xl group cursor-pointer">
-                                    <Image src="https://images.unsplash.com/photo-1531123414780-f74242c2b052?q=80&w=400" alt="Anta Diop" fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <NextImage src="https://images.unsplash.com/photo-1531123414780-f74242c2b052?q=80&w=400" alt="Anta Diop" fill className="object-cover transition-transform duration-700 group-hover:scale-110" sizes="128px" />
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                                         <Settings className="w-6 h-6" />
                                     </div>
@@ -115,7 +115,7 @@ export default function AccountPage() {
                                             <Card key={idx} className="border-none shadow-sm hover:shadow-xl bg-white rounded-[2.5rem] overflow-hidden transition-all duration-700 group cursor-pointer border border-transparent hover:border-primary/5">
                                                 <div className="p-8 md:p-10 flex flex-col md:flex-row gap-8 items-center">
                                                     <div className="relative w-20 h-24 rounded-2xl overflow-hidden bg-muted flex-shrink-0">
-                                                        <Image src={order.img} alt="order" fill className="object-cover transition-transform group-hover:scale-110 duration-700" />
+                                                        <NextImage src={order.img} alt="order" fill className="object-cover transition-transform group-hover:scale-110 duration-700" sizes="80px" />
                                                     </div>
                                                     <div className="flex-1 space-y-2 text-center md:text-left">
                                                         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">

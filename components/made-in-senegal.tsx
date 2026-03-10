@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import NextImage from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Quote } from "lucide-react"
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
@@ -32,7 +32,7 @@ export function MadeInSenegal() {
         transition={{ duration: 10, repeat: Infinity }}
         className="absolute -left-40 top-1/3 h-[400px] w-[400px] rounded-full bg-primary/10 blur-3xl"
       />
-      
+
       <div ref={containerRef} className="container mx-auto px-4 lg:px-8 relative">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Image Side */}
@@ -46,11 +46,12 @@ export function MadeInSenegal() {
               style={{ y: imageY }}
               className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl"
             >
-              <Image
+              <NextImage
                 src="/images/senegal-story.jpg"
                 alt="Senegalese artisan crafting beauty products"
                 fill
                 className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
               {/* Overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-transparent to-transparent" />
@@ -69,16 +70,17 @@ export function MadeInSenegal() {
                 &quot;Every product tells a story of tradition, love, and the rich heritage of Senegal.&quot;
               </p>
               <div className="flex items-center gap-4 mt-6 pt-6 border-t border-border">
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.1 }}
                   className="h-12 w-12 rounded-full bg-secondary overflow-hidden ring-2 ring-primary/20"
                 >
-                  <Image
+                  <NextImage
                     src="/images/founder-1.jpg"
                     alt="Founder"
                     width={48}
                     height={48}
                     className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </motion.div>
                 <div>
@@ -104,25 +106,25 @@ export function MadeInSenegal() {
                 Our Story
               </span>
             </FadeContent>
-            
+
             <BlurText
               text="Made with Love in Senegal"
               className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight"
               animateBy="words"
               delay={0.08}
             />
-            
+
             <FadeContent direction="up" delay={0.2}>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Moomel connects you directly with talented Senegalese artisans who craft 
-                premium organic beauty products using ancestral techniques passed down 
+                Moomel connects you directly with talented Senegalese artisans who craft
+                premium organic beauty products using ancestral techniques passed down
                 through generations.
               </p>
             </FadeContent>
-            
+
             <FadeContent direction="up" delay={0.3}>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Every purchase supports local communities, empowers women entrepreneurs, 
+                Every purchase supports local communities, empowers women entrepreneurs,
                 and celebrates the rich beauty traditions of West Africa.
               </p>
             </FadeContent>
@@ -150,8 +152,8 @@ export function MadeInSenegal() {
 
             <FadeContent direction="up" delay={0.5}>
               <Magnet padding={50} magnetStrength={2}>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-primary hover:bg-primary/90 text-primary-foreground group rounded-full px-8"
                 >
                   Meet Our Artisans

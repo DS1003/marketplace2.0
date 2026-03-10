@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Image from "next/image"
+import NextImage from "next/image"
 import { Shield, Sparkles, Heart, Leaf, Award, Globe, ArrowRight, CheckCircle2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -46,11 +46,12 @@ export default function AboutPage() {
                         <div className="lg:w-1/2 relative space-y-10 group">
                             <div className="relative aspect-square w-full max-w-lg mx-auto transform hover:rotate-2 transition-transform duration-1000">
                                 <div className="absolute inset-4 border-2 border-primary/10 rounded-[3rem]" />
-                                <Image
+                                <NextImage
                                     src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=800&auto=format&fit=crop"
                                     alt="Traditional extraction"
                                     fill
                                     className="rounded-[3rem] object-cover shadow-2xl z-10"
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
                                 />
                             </div>
                             {/* Floating element */}
@@ -122,11 +123,12 @@ export default function AboutPage() {
                         </div>
 
                         <div className="relative aspect-[4/3] rounded-[3rem] overflow-hidden shadow-xl group">
-                            <Image
+                            <NextImage
                                 src="https://images.unsplash.com/photo-1551632432-c735e8306917?q=80&w=800&auto=format&fit=crop"
                                 alt="Sustainable harvest"
                                 fill
                                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                                sizes="(max-width: 768px) 100vw, 50vw"
                             />
                         </div>
                     </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import NextImage from "next/image"
 import Link from "next/link"
-import { Search, ShoppingBag, User, Menu, X } from "lucide-react"
+import { Search, ShoppingBag, User, Menu, X, ChevronRight, Instagram, Facebook } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
@@ -227,63 +227,86 @@ export function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="lg:hidden fixed inset-0 bg-background/98 backdrop-blur-xl"
+              className="lg:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+              onClick={() => setIsMenuOpen(false)}
             >
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className="flex flex-col items-center justify-center h-full gap-8"
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-background shadow-2xl flex flex-col"
+                onClick={(e: React.MouseEvent) => e.stopPropagation()}
               >
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ delay: 0.1 + index * 0.05 }}
+                <div className="flex items-center justify-between p-6 border-b border-border/50">
+                  <NextImage
+                    src="/images/logo.png"
+                    alt="Moomel"
+                    width={100}
+                    height={32}
+                    className="h-8 w-auto"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="rounded-full"
                   >
-                    <Link
-                      href={link.href}
-                      className="text-3xl font-medium text-foreground hover:text-primary transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.div>
-                ))}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ delay: 0.4 }}
-                  className="flex items-center gap-4 mt-8"
-                >
-                  <Button variant="outline" size="icon" className="rounded-full h-12 w-12">
-                    <Search className="h-5 w-5" />
+                    <X className="h-6 w-6" />
                   </Button>
-                  <Button variant="outline" size="icon" className="rounded-full h-12 w-12">
-                    <User className="h-5 w-5" />
+                </div>
+
+                <div className="flex-1 overflow-y-auto py-8">
+                  <div className="px-6 space-y-2">
+                    {navLinks.map((link, index) => (
+                      <motion.div
+                        key={link.href}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                      >
+                        <Link
+                          href={link.href}
+                          className={cn(
+                            "flex items-center justify-between py-4 text-xl font-medium border-b border-border/30 last:border-none",
+                            pathname === link.href ? "text-primary" : "text-foreground"
+                          )}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {link.label}
+                          <ChevronRight className="h-5 w-5 opacity-30" />
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  <div className="mt-12 px-6">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-6">Quick Actions</p>
+                    <div className="grid grid-cols-2 gap-4">
+                      <Link href="/account" className="flex flex-col items-center justify-center p-6 bg-secondary/30 rounded-3xl gap-3" onClick={() => setIsMenuOpen(false)}>
+                        <User className="h-6 w-6 text-primary" />
+                        <span className="text-xs font-bold uppercase tracking-tight">Account</span>
+                      </Link>
+                      <Link href="/cart" className="flex flex-col items-center justify-center p-6 bg-secondary/30 rounded-3xl gap-3" onClick={() => setIsMenuOpen(false)}>
+                        <div className="relative">
+                          <ShoppingBag className="h-6 w-6 text-primary" />
+                          <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold">0</span>
+                        </div>
+                        <span className="text-xs font-bold uppercase tracking-tight">Cart</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-8 border-t border-border/50 bg-secondary/10">
+                  <Button className="w-full h-14 rounded-2xl bg-[#2D241E] text-white hover:bg-black font-bold uppercase tracking-widest text-xs mb-6">
+                    Sign In to Account
                   </Button>
-                  <Button variant="outline" size="icon" className="relative rounded-full h-12 w-12">
-                    <ShoppingBag className="h-5 w-5" />
-                    <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
-                      0
-                    </span>
-                  </Button>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <Button className="mt-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 py-6 text-lg">
-                    Sign In
-                  </Button>
-                </motion.div>
+                  <div className="flex justify-center gap-6">
+                    <div className="h-10 w-10 rounded-full bg-white border border-border/50 flex items-center justify-center text-muted-foreground"><Instagram className="h-5 w-5" /></div>
+                    <div className="h-10 w-10 rounded-full bg-white border border-border/50 flex items-center justify-center text-muted-foreground"><Facebook className="h-5 w-5" /></div>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           )}

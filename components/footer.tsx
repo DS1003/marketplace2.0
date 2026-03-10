@@ -5,8 +5,11 @@ import Link from "next/link"
 import { Facebook, Instagram, Twitter, Youtube, Mail, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { ChevronDown } from "lucide-react"
+import { useState } from "react"
 
 const footerLinks = {
   marketplace: [
@@ -88,13 +91,14 @@ export function Footer() {
 
       {/* Main Footer */}
       <div className="container mx-auto px-4 lg:px-8 py-20">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-12">
+        {/* Desktop Links Grid */}
+        <div className="hidden lg:grid grid-cols-6 gap-12">
           {/* Brand Column */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="col-span-2 md:col-span-3 lg:col-span-2"
+            className="col-span-2"
           >
             <Link href="/" className="inline-block">
               <NextImage
@@ -102,7 +106,7 @@ export function Footer() {
                 alt="Moomel Logo"
                 width={120}
                 height={40}
-                className="h-10 w-auto"
+                className="h-10 w-auto brightness-0 invert"
                 sizes="120px"
               />
             </Link>
@@ -117,122 +121,92 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                  transition={{ delay: 0.2 + index * 0.05 }}
                   whileHover={{ scale: 1.1, y: -2 }}
-                  className="h-12 w-12 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors duration-300"
+                  className="h-10 w-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors duration-300"
                   aria-label={social.label}
                 >
-                  <social.icon className="h-5 w-5 text-background" />
+                  <social.icon className="h-4 w-4 text-background" />
                 </motion.a>
               ))}
             </div>
           </motion.div>
 
-          {/* Marketplace Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h4 className="font-semibold text-background mb-6 text-lg">Marketplace</h4>
-            <ul className="space-y-4">
-              {footerLinks.marketplace.map((link, index) => (
-                <motion.li
-                  key={link.href}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                  transition={{ delay: 0.3 + index * 0.03 }}
-                >
-                  <Link
-                    href={link.href}
-                    className="text-background/70 hover:text-primary transition-colors text-sm inline-block"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
+          {Object.entries(footerLinks).map(([key, links], sectionIdx) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.2 + sectionIdx * 0.05 }}
+            >
+              <h4 className="font-semibold text-background mb-6 text-base uppercase tracking-widest">{key}</h4>
+              <ul className="space-y-4">
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-background/60 hover:text-primary transition-colors text-sm font-light inline-block"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
 
-          {/* Sellers Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-          >
-            <h4 className="font-semibold text-background mb-6 text-lg">For Sellers</h4>
-            <ul className="space-y-4">
-              {footerLinks.sellers.map((link, index) => (
-                <motion.li
-                  key={link.href}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                  transition={{ delay: 0.35 + index * 0.03 }}
+        {/* Mobile Layout */}
+        <div className="lg:hidden space-y-12">
+          <div className="text-center space-y-6">
+            <Link href="/" className="inline-block">
+              <NextImage
+                src="/images/logo.png"
+                alt="Moomel Logo"
+                width={140}
+                height={45}
+                className="h-12 w-auto brightness-0 invert mx-auto"
+              />
+            </Link>
+            <p className="text-background/70 max-w-sm mx-auto leading-relaxed text-sm font-light">
+              Premium organic beauty products crafted by local Senegalese artisans.
+            </p>
+            <div className="flex items-center justify-center gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  className="h-10 w-10 rounded-full bg-background/10 flex items-center justify-center"
+                  aria-label={social.label}
                 >
-                  <Link
-                    href={link.href}
-                    className="text-background/70 hover:text-primary transition-colors text-sm inline-block"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.li>
+                  <social.icon className="h-4 w-4 text-background" />
+                </a>
               ))}
-            </ul>
-          </motion.div>
+            </div>
+          </div>
 
-          {/* Company Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <h4 className="font-semibold text-background mb-6 text-lg">Company</h4>
-            <ul className="space-y-4">
-              {footerLinks.company.map((link, index) => (
-                <motion.li
-                  key={link.href}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                  transition={{ delay: 0.4 + index * 0.03 }}
-                >
-                  <Link
-                    href={link.href}
-                    className="text-background/70 hover:text-primary transition-colors text-sm inline-block"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Support Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-          >
-            <h4 className="font-semibold text-background mb-6 text-lg">Support</h4>
-            <ul className="space-y-4">
-              {footerLinks.support.map((link, index) => (
-                <motion.li
-                  key={link.href}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                  transition={{ delay: 0.45 + index * 0.03 }}
-                >
-                  <Link
-                    href={link.href}
-                    className="text-background/70 hover:text-primary transition-colors text-sm inline-block"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
+          <Accordion type="single" collapsible className="w-full border-t border-background/10">
+            {Object.entries(footerLinks).map(([key, links]) => (
+              <AccordionItem key={key} value={key} className="border-background/10">
+                <AccordionTrigger className="text-background hover:no-underline py-4 uppercase tracking-[0.2em] text-[10px] font-bold">
+                  {key}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-4 pb-4">
+                    {links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-background/60 text-sm font-light block"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </div>
 

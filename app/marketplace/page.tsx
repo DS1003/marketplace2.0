@@ -121,37 +121,37 @@ export default function MarketplacePage() {
             <Header />
 
             {/* 1️⃣ Marketplace Header */}
-            <section className="pt-32 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <section className="pt-24 pb-8 md:pt-32 md:pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <FadeContent blur={true} duration={0.8}>
-                    <div className="flex flex-col items-center text-center mb-10">
-                        <Badge variant="outline" className="mb-4 border-primary/20 bg-primary/5 text-primary">
+                    <div className="flex flex-col items-center text-center mb-8 md:mb-10">
+                        <Badge variant="outline" className="mb-4 border-primary/20 bg-primary/5 text-primary text-[10px] md:text-xs">
                             <SparklesIcon className="w-3 h-3 mr-2" /> Our Assortment
                         </Badge>
-                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                        <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
                             Marketplace
                         </h1>
-                        <p className="text-muted-foreground text-lg max-w-2xl">
+                        <p className="text-muted-foreground text-sm md:text-lg max-w-2xl px-2">
                             Discover premium organic beauty products crafted from the heart of Africa. Meticulously selected for quality, purity, and efficacy.
                         </p>
                     </div>
 
-                    <div className="max-w-3xl mx-auto flex flex-col md:flex-row gap-4 items-center">
+                    <div className="max-w-2xl mx-auto flex flex-col md:flex-row gap-4 items-center">
                         <div className="relative w-full">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
                             <Input
-                                placeholder="Search luxurious oils, soaps, and more..."
-                                className="w-full pl-12 h-14 rounded-full border-border/50 bg-background/50 backdrop-blur-sm shadow-sm hover:border-primary/30 transition-colors text-base"
+                                placeholder="Search products..."
+                                className="w-full pl-11 md:pl-12 h-12 md:h-14 rounded-full border-border/50 bg-background/50 backdrop-blur-sm shadow-sm hover:border-primary/30 transition-colors text-sm md:text-base"
                             />
                         </div>
                     </div>
 
                     {/* Category Quick Filters */}
-                    <div className="flex overflow-x-auto pb-4 pt-10 gap-3 hide-scrollbar justify-start md:justify-center">
+                    <div className="flex overflow-x-auto pb-4 pt-8 md:pt-10 gap-2 hide-scrollbar justify-start md:justify-center px-4 md:px-0">
                         {categories.map((category) => (
                             <Button
                                 key={category}
                                 variant={activeCategory === category ? "default" : "outline"}
-                                className={`rounded-full whitespace-nowrap transition-all ${activeCategory === category ? 'shadow-md scale-105' : 'bg-background hover:bg-primary/5'}`}
+                                className={`rounded-full whitespace-nowrap transition-all text-xs md:text-sm h-9 md:h-10 px-4 md:px-6 ${activeCategory === category ? 'shadow-md scale-105' : 'bg-background hover:bg-primary/5'}`}
                                 onClick={() => setActiveCategory(category)}
                             >
                                 {category}
@@ -167,17 +167,17 @@ export default function MarketplacePage() {
             <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
 
                 {/* Mobile Filters Toggle */}
-                <div className="lg:hidden flex items-center justify-between">
-                    <Button variant="outline" onClick={() => setIsMobileFiltersOpen(true)} className="flex items-center gap-2">
+                <div className="lg:hidden flex items-center justify-between mb-4">
+                    <Button variant="outline" size="sm" onClick={() => setIsMobileFiltersOpen(true)} className="flex items-center gap-2 rounded-full px-4 h-10 border-border/60">
                         <SlidersHorizontal className="w-4 h-4" /> Filters
                     </Button>
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">Sort by:</span>
+                    <div className="flex items-center gap-1">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mr-1">Sort by</span>
                         <Select defaultValue="popular">
-                            <SelectTrigger className="w-[140px] border-none bg-transparent shadow-none focus:ring-0">
+                            <SelectTrigger className="w-[120px] h-10 border-none bg-background shadow-sm rounded-full px-3 text-xs font-medium">
                                 <SelectValue placeholder="Sort" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="rounded-xl">
                                 <SelectItem value="popular">Most Popular</SelectItem>
                                 <SelectItem value="newest">Newest</SelectItem>
                                 <SelectItem value="price-asc">Price: Low to High</SelectItem>
@@ -285,7 +285,7 @@ export default function MarketplacePage() {
 
                     {/* 4️⃣ Sorting Options (Desktop) */}
                     <div className="hidden lg:flex items-center justify-between mb-8 pb-4 border-b border-border/40">
-                        <p className="text-sm text-muted-foreground font-medium">Showing 6 of 124 products</p>
+                        <p className="text-sm text-muted-foreground font-medium">Showing {products.length} of 124 products</p>
                         <div className="flex items-center gap-3">
                             <span className="text-sm text-foreground font-medium">Sort by</span>
                             <Select defaultValue="popular">
@@ -304,7 +304,7 @@ export default function MarketplacePage() {
                     </div>
 
                     {/* 3️⃣ Product Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mb-12">
                         {products.map((product, index) => (
                             <motion.div
                                 key={product.id}
@@ -400,19 +400,19 @@ export default function MarketplacePage() {
                                     </div>
 
                                     {/* Product Info */}
-                                    <CardContent className="p-5 flex-1 flex flex-col">
-                                        <div className="flex justify-between items-start mb-1 gap-2">
-                                            <div>
-                                                <span className="text-xs font-medium text-muted-foreground mb-1 block">{product.seller}</span>
-                                                <h3 className="font-semibold text-base line-clamp-1 group-hover/card:text-primary transition-colors cursor-pointer">{product.name}</h3>
+                                    <CardContent className="p-3 md:p-5 flex-1 flex flex-col">
+                                        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-1 gap-1 md:gap-2">
+                                            <div className="flex-1">
+                                                <span className="text-[10px] md:text-xs font-medium text-muted-foreground mb-1 block">{product.seller}</span>
+                                                <h3 className="font-semibold text-sm md:text-base line-clamp-1 group-hover/card:text-primary transition-colors cursor-pointer">{product.name}</h3>
                                             </div>
-                                            <span className="font-medium text-base">${product.price.toFixed(2)}</span>
+                                            <span className="font-bold text-sm md:text-base text-primary md:text-foreground md:font-medium">${product.price.toFixed(2)}</span>
                                         </div>
 
-                                        <div className="flex items-center gap-1 mt-auto pt-3">
-                                            <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-                                            <span className="text-xs font-semibold">{product.rating}</span>
-                                            <span className="text-xs text-muted-foreground ml-1">({product.reviews})</span>
+                                        <div className="flex items-center gap-1 mt-auto pt-2 md:pt-3">
+                                            <Star className="w-3 h-3 md:w-3.5 md:h-3.5 fill-amber-500 text-amber-500" />
+                                            <span className="text-[10px] md:text-xs font-semibold">{product.rating}</span>
+                                            <span className="text-[9px] md:text-xs text-muted-foreground">({product.reviews})</span>
                                         </div>
                                     </CardContent>
                                 </Card>

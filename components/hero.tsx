@@ -111,7 +111,7 @@ export function Hero() {
             {/* Headers */}
             <div className="flex flex-col gap-2 mb-8">
               <motion.h1
-                className="text-5xl font-light tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[5rem] lg:leading-[1.1]"
+                className="text-[clamp(2.3rem,9vw,5.5rem)] font-light tracking-tight text-white leading-[1.1] md:leading-[1.1]"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}

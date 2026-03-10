@@ -57,13 +57,12 @@ export function MadeInSenegal() {
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-transparent to-transparent" />
             </motion.div>
 
-            {/* Floating Quote Card */}
             <motion.div
               style={{ y: cardY }}
               initial={{ opacity: 0, x: 40, y: 40 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute -bottom-8 -right-8 lg:bottom-12 lg:-right-12 max-w-sm bg-card p-8 rounded-3xl shadow-2xl border border-border/50 backdrop-blur-sm"
+              className="absolute -bottom-10 right-4 left-4 md:left-auto md:-right-8 lg:bottom-12 lg:-right-12 max-w-sm bg-card p-6 md:p-8 rounded-3xl shadow-2xl border border-border/50 backdrop-blur-sm"
             >
               <Quote className="h-10 w-10 text-primary/30 mb-4" />
               <p className="text-foreground italic leading-relaxed text-lg">

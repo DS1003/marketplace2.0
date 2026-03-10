@@ -96,7 +96,7 @@ export function Testimonials() {
                 glareEnable={true}
                 glareMaxOpacity={0.05}
               >
-                <div className="group bg-card/40 backdrop-blur-md px-8 py-10 rounded-[2.5rem] border border-border/50 hover:border-primary/20 transition-all duration-700 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2 h-full relative overflow-hidden flex flex-col justify-between">
+                <div className="group bg-card/40 backdrop-blur-md px-6 py-8 md:px-8 md:py-10 rounded-[2.5rem] border border-border/50 hover:border-primary/20 transition-all duration-700 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2 h-full relative overflow-hidden flex flex-col justify-between">
                   {/* Subtle hover gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 

@@ -146,8 +146,7 @@ export function FeaturedCategories() {
                           className="max-w-[80%]"
                         >
                           <motion.h3
-                            className={`font-medium tracking-tight translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out ${index === 0 ? "text-4xl md:text-5xl" : "text-3xl"
-                              }`}
+                            className={`font-medium tracking-tight translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out text-[clamp(1.5rem,7vw,3rem)]`}
                           >
                             {category.name}
                           </motion.h3>

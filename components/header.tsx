@@ -54,7 +54,7 @@ export function Header() {
                 alt="Moomel"
                 width={120}
                 height={40}
-                className="h-8 lg:h-10"
+                className={cn("h-8 lg:h-10 transition-all duration-500", !isScrolled && "brightness-0 invert")}
                 style={{ width: 'auto', height: 'auto', maxHeight: '2.5rem' }}
               />
             </motion.div>
@@ -71,10 +71,16 @@ export function Header() {
               >
                 <Link
                   href={link.href}
-                  className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative group py-2"
+                  className={cn(
+                    "text-sm font-medium transition-colors relative group py-2",
+                    isScrolled ? "text-foreground/80 hover:text-primary" : "text-white/90 hover:text-white"
+                  )}
                 >
                   {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full rounded-full" />
+                  <span className={cn(
+                    "absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full rounded-full",
+                    isScrolled ? "bg-primary" : "bg-white"
+                  )} />
                 </Link>
               </motion.div>
             ))}
@@ -90,7 +96,10 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="hover:bg-secondary rounded-full"
+                className={cn(
+                  "rounded-full transition-colors",
+                  isScrolled ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
+                )}
               >
                 <Search className="h-5 w-5" />
                 <span className="sr-only">Search</span>
@@ -104,7 +113,10 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="hover:bg-secondary rounded-full"
+                className={cn(
+                  "rounded-full transition-colors",
+                  isScrolled ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
+                )}
               >
                 <User className="h-5 w-5" />
                 <span className="sr-only">Account</span>
@@ -118,14 +130,20 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="hover:bg-secondary relative rounded-full"
+                className={cn(
+                  "relative rounded-full transition-colors",
+                  isScrolled ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
+                )}
               >
                 <ShoppingBag className="h-5 w-5" />
                 <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.8, type: "spring", stiffness: 500 }}
-                  className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium"
+                  className={cn(
+                    "absolute -top-1 -right-1 h-5 w-5 rounded-full text-xs flex items-center justify-center font-medium",
+                    isScrolled ? "bg-primary text-primary-foreground" : "bg-white text-black"
+                  )}
                 >
                   0
                 </motion.span>
@@ -137,7 +155,10 @@ export function Header() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.55, duration: 0.4 }}
             >
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6 ml-2">
+              <Button className={cn(
+                "rounded-full px-6 ml-2 transition-all",
+                isScrolled ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-white hover:bg-white/90 text-black shadow-xl"
+              )}>
                 Sign In
               </Button>
             </motion.div>
@@ -152,7 +173,7 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden z-10 rounded-full"
+              className={cn("lg:hidden z-[60] rounded-full", isScrolled || isMenuOpen ? "text-foreground" : "text-white hover:bg-white/20")}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <AnimatePresence mode="wait">

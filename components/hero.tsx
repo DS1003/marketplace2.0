@@ -93,25 +93,25 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="max-w-4xl pt-20"
+            className="max-w-4xl pt-12 md:pt-20"
           >
             {/* Badge */}
-            <div className="mb-8 flex justify-center">
+            <div className="mb-4 md:mb-8 flex justify-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium tracking-wide text-white backdrop-blur-md shadow-lg"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 md:px-5 py-1.5 md:py-2 text-[10px] md:text-sm font-medium tracking-wide text-white backdrop-blur-md shadow-lg"
               >
-                <Sparkles className="h-4 w-4 text-white/90" />
+                <Sparkles className="h-3 w-3 md:h-4 md:w-4 text-white/90" />
                 {currentSlide.badge}
               </motion.div>
             </div>
 
             {/* Headers */}
-            <div className="flex flex-col gap-2 mb-8">
+            <div className="flex flex-col gap-2 mb-4 md:mb-8">
               <motion.h1
-                className="text-[clamp(2.3rem,9vw,5.5rem)] font-light tracking-tight text-white leading-[1.1] md:leading-[1.1]"
+                className="text-[clamp(2rem,11vw,5.5rem)] font-light tracking-tight text-white leading-[1.1] md:leading-[1.1]"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
@@ -123,7 +123,7 @@ export function Hero() {
 
             {/* Description */}
             <motion.p
-              className="mx-auto mb-12 max-w-2xl text-lg md:text-xl font-light leading-relaxed text-white/80"
+              className="mx-auto mb-8 md:mb-12 max-w-xl md:max-w-2xl text-sm md:text-xl font-light leading-relaxed text-white/80 px-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.7 }}
@@ -133,32 +133,34 @@ export function Hero() {
 
             {/* Actions */}
             <motion.div
-              className="flex flex-col gap-5 sm:flex-row justify-center items-center"
+              className="flex flex-col gap-3 md:gap-5 sm:flex-row justify-center items-center px-6"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9 }}
             >
-              <Magnet padding={40} magnetStrength={2}>
+              <div className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="group relative h-14 overflow-hidden rounded-full bg-white px-8 text-base md:text-lg font-medium text-black shadow-2xl transition-all hover:scale-105"
+                  className="group relative h-12 md:h-14 w-full sm:w-auto overflow-hidden rounded-full bg-white px-8 text-sm md:text-lg font-medium text-black shadow-2xl transition-all hover:scale-105"
                 >
-                  <span className="relative z-10 flex items-center">
+                  <span className="relative z-10 flex items-center justify-center">
                     {currentSlide.primaryCTA}
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-500 ease-out group-hover:translate-x-1" />
+                    <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 transition-transform duration-500 ease-out group-hover:translate-x-1" />
                   </span>
                 </Button>
-              </Magnet>
-              <Magnet padding={40} magnetStrength={3}>
+              </div>
+              <div className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="group h-14 rounded-full border border-white/30 bg-black/20 text-white px-8 text-base md:text-lg font-medium transition-all hover:bg-white hover:text-black backdrop-blur-md"
+                  className="group h-12 md:h-14 w-full sm:w-auto rounded-full border border-white/30 bg-white/5 text-white px-8 text-sm md:text-lg font-medium transition-all hover:bg-white hover:text-black backdrop-blur-md"
                 >
-                  <Play className="mr-2 h-5 w-5 transition-colors duration-500" />
-                  {currentSlide.secondaryCTA}
+                  <span className="flex items-center justify-center">
+                    <Play className="mr-2 h-4 w-4 md:h-5 md:w-5 transition-colors duration-500" />
+                    {currentSlide.secondaryCTA}
+                  </span>
                 </Button>
-              </Magnet>
+              </div>
             </motion.div>
           </motion.div>
         </AnimatePresence>

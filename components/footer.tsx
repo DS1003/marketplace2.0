@@ -10,7 +10,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const footerLinks = {
   marketplace: [
-    { label: "All Products", href: "/products" },
+    { label: "All Products", href: "/marketplace" },
     { label: "Categories", href: "/categories" },
     { label: "Best Sellers", href: "/best-sellers" },
     { label: "New Arrivals", href: "/new" },
@@ -102,11 +102,11 @@ export function Footer() {
                 alt="Moomel"
                 width={140}
                 height={45}
-                className="h-12 w-auto brightness-0 invert"
+                className="h-12 w-auto"
               />
             </Link>
             <p className="text-background/70 mt-6 max-w-xs leading-relaxed text-base">
-              Discover the beauty of Senegal through our curated marketplace of 
+              Discover the beauty of Senegal through our curated marketplace of
               natural, organic beauty products crafted by local artisans.
             </p>
             <div className="flex items-center gap-3 mt-8">

@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import NextImage from "next/image"
 import { ArrowUpRight, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { motion, useInView } from "framer-motion"
@@ -108,11 +108,12 @@ export function Founders() {
                   glareMaxOpacity={0.1}
                 >
                   <div className="relative w-full h-full bg-muted/20">
-                    <Image
+                    <NextImage
                       src={founder.image}
                       alt={founder.name}
                       fill
                       className="object-cover transition-all duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110 filter group-hover:contrast-[1.05]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     {/* Artistic overlay gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700" />

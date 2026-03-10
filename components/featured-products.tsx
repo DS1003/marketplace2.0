@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import NextImage from "next/image"
 import { Star, ShoppingBag, Heart, ArrowRight, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -126,11 +126,12 @@ export function FeaturedProducts() {
                 <Card className="bg-card/50 backdrop-blur-sm border border-border/50 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-700 overflow-hidden rounded-[2rem] h-full flex flex-col group-hover:-translate-y-2">
                   <div className="relative aspect-[4/5] overflow-hidden p-2">
                     <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden bg-muted/20">
-                      <Image
+                      <NextImage
                         src={product.image}
                         alt={product.name}
                         fill
                         className="object-cover transition-transform duration-1000 ease-[0.22,1,0.36,1] group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>

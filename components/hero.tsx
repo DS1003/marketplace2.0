@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
+import NextImage from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Magnet } from "@/components/ui/magnet"
@@ -69,7 +69,7 @@ export function Hero() {
           transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          <Image
+          <NextImage
             src={currentSlide.image}
             alt={currentSlide.title1}
             fill

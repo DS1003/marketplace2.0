@@ -89,6 +89,7 @@ export function Newsletter() {
                   <Input
                     type="email"
                     placeholder="Enter your email"
+                    aria-label="Email address for newsletter"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="h-14 rounded-full border-border/50 bg-background pl-12 pr-4 text-base shadow-sm transition-shadow focus:shadow-md"

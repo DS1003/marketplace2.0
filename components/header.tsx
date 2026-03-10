@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
+import { usePathname } from "next/navigation"
+import NextImage from "next/image"
 import Link from "next/link"
 import { Search, ShoppingBag, User, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -20,6 +21,10 @@ const navLinks = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const pathname = usePathname()
+  const isHomePage = pathname === "/"
+
+  const shouldBeTransparent = isHomePage && !isScrolled
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +41,7 @@ export function Header() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled
+        !shouldBeTransparent
           ? "bg-background/80 backdrop-blur-xl shadow-lg shadow-foreground/5 border-b border-border/50"
           : "bg-transparent"
       )}
@@ -44,21 +49,23 @@ export function Header() {
       <nav className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 z-10">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Image
-                src="/images/logo.png"
-                alt="Moomel"
-                width={120}
-                height={40}
-                className={cn("h-8 lg:h-10 transition-all duration-500", !isScrolled && "brightness-0 invert")}
-                style={{ width: 'auto', height: 'auto', maxHeight: '2.5rem' }}
-              />
-            </motion.div>
-          </Link>
+          <div className="flex items-center justify-start lg:flex-1">
+            <Link href="/" className="flex items-center gap-2 z-10">
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <NextImage
+                  src="/images/logo.png"
+                  alt="Moomel"
+                  width={120}
+                  height={40}
+                  className="h-8 lg:h-10 transition-all duration-500"
+                  style={{ width: 'auto', height: 'auto', maxHeight: '2.5rem' }}
+                />
+              </motion.div>
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
@@ -73,135 +80,144 @@ export function Header() {
                   href={link.href}
                   className={cn(
                     "text-sm font-medium transition-colors relative group py-2",
-                    isScrolled ? "text-foreground/80 hover:text-primary" : "text-white/90 hover:text-white"
+                    !shouldBeTransparent ? "text-foreground/80 hover:text-primary" : "text-white/90 hover:text-white"
                   )}
                 >
                   {link.label}
                   <span className={cn(
                     "absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full rounded-full",
-                    isScrolled ? "bg-primary" : "bg-white"
+                    !shouldBeTransparent ? "bg-primary" : "bg-white"
                   )} />
                 </Link>
               </motion.div>
             ))}
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 0.3 }}
-            >
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "rounded-full transition-colors",
-                  isScrolled ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
-                )}
+          {/* Right Section: Actions & Menu */}
+          <div className="flex items-center justify-end gap-2 lg:flex-1">
+            {/* Desktop Actions */}
+            <div className="hidden lg:flex items-center gap-2">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4, duration: 0.3 }}
               >
-                <Search className="h-5 w-5" />
-                <span className="sr-only">Search</span>
-              </Button>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.45, duration: 0.3 }}
-            >
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "rounded-full transition-colors",
-                  isScrolled ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
-                )}
-              >
-                <User className="h-5 w-5" />
-                <span className="sr-only">Account</span>
-              </Button>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, duration: 0.3 }}
-            >
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "relative rounded-full transition-colors",
-                  isScrolled ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
-                )}
-              >
-                <ShoppingBag className="h-5 w-5" />
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.8, type: "spring", stiffness: 500 }}
+                <Button
+                  variant="ghost"
+                  size="icon"
                   className={cn(
-                    "absolute -top-1 -right-1 h-5 w-5 rounded-full text-xs flex items-center justify-center font-medium",
-                    isScrolled ? "bg-primary text-primary-foreground" : "bg-white text-black"
+                    "rounded-full transition-colors",
+                    !shouldBeTransparent ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
                   )}
                 >
-                  0
-                </motion.span>
-                <span className="sr-only">Cart</span>
-              </Button>
-            </motion.div>
+                  <Search className="h-5 w-5" />
+                  <span className="sr-only">Search</span>
+                </Button>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.45, duration: 0.3 }}
+              >
+                <Link href="/account">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "rounded-full transition-colors",
+                      !shouldBeTransparent ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
+                    )}
+                  >
+                    <User className="h-5 w-5" />
+                    <span className="sr-only">Account</span>
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.3 }}
+              >
+                <Link href="/cart">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "relative rounded-full transition-colors",
+                      !shouldBeTransparent ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
+                    )}
+                  >
+                    <ShoppingBag className="h-5 w-5" />
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.8, type: "spring", stiffness: 500 }}
+                      className={cn(
+                        "absolute -top-1 -right-1 h-5 w-5 rounded-full text-xs flex items-center justify-center font-medium",
+                        !shouldBeTransparent ? "bg-primary text-primary-foreground" : "bg-white text-black"
+                      )}
+                    >
+                      0
+                    </motion.span>
+                    <span className="sr-only">Cart</span>
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.55, duration: 0.4 }}
+              >
+                <Link href="/account">
+                  <Button className={cn(
+                    "rounded-full px-6 ml-2 transition-all",
+                    !shouldBeTransparent ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-white hover:bg-white/90 text-black shadow-xl"
+                  )}>
+                    Sign In
+                  </Button>
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Mobile Menu Toggle */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.55, duration: 0.4 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.3 }}
             >
-              <Button className={cn(
-                "rounded-full px-6 ml-2 transition-all",
-                isScrolled ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-white hover:bg-white/90 text-black shadow-xl"
-              )}>
-                Sign In
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn("lg:hidden z-[60] rounded-full", !shouldBeTransparent || isMenuOpen ? "text-foreground" : "text-white hover:bg-white/20")}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <AnimatePresence mode="wait">
+                  {isMenuOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <X className="h-6 w-6" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Menu className="h-6 w-6" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <span className="sr-only">Toggle menu</span>
               </Button>
             </motion.div>
           </div>
-
-          {/* Mobile Menu Toggle */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.3 }}
-          >
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn("lg:hidden z-[60] rounded-full", isScrolled || isMenuOpen ? "text-foreground" : "text-white hover:bg-white/20")}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <AnimatePresence mode="wait">
-                {isMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <X className="h-6 w-6" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Menu className="h-6 w-6" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </motion.div>
         </div>
 
         {/* Mobile Navigation */}

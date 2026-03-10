@@ -1,0 +1,189 @@
+"use client"
+
+import { useState } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { motion } from "framer-motion"
+import {
+    User, Package, MapPin, CreditCard, Settings,
+    LogOut, Heart, ShoppingBag, ChevronRight, Star,
+    ShieldCheck, ArrowRight, MessageCircle, Clock, Award
+} from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { FadeContent } from "@/components/ui/fade-content"
+
+export default function AccountPage() {
+    const [activeTab, setActiveTab] = useState("orders")
+
+    return (
+        <div className="min-h-screen bg-[#FDFBF7]">
+            <Header />
+
+            <main className="pt-40 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
+
+                    {/* Left Side: Profile Sidebar */}
+                    <aside className="w-full lg:w-1/4 space-y-8">
+                        <Card className="border-none shadow-xl rounded-[3rem] overflow-hidden bg-white">
+                            <div className="p-10 flex flex-col items-center text-center space-y-6">
+                                <div className="relative w-32 h-32 rounded-full ring-4 ring-primary/10 ring-offset-4 overflow-hidden shadow-2xl group cursor-pointer">
+                                    <Image src="https://images.unsplash.com/photo-1531123414780-f74242c2b052?q=80&w=400" alt="Anta Diop" fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                                        <Settings className="w-6 h-6" />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <h2 className="text-2xl font-bold text-[#2D241E]">Anta Diop</h2>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground italic">Member since Feb 2026</p>
+                                </div>
+                                <div className="flex gap-4">
+                                    <Badge className="bg-[#2D241E] text-white">Silver Ritualist</Badge>
+                                    <div className="flex items-center gap-1 text-amber-500">
+                                        <Star className="w-4 h-4 fill-current" />
+                                        <span className="text-sm font-bold">450 pts</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-6 bg-stone-50 space-y-2">
+                                {[
+                                    { id: "orders", icon: Package, label: "Your Orders" },
+                                    { id: "wishlist", icon: Heart, label: "Your Wishlist" },
+                                    { id: "addresses", icon: MapPin, label: "Saved Addresses" },
+                                    { id: "payment", icon: CreditCard, label: "Payment Methods" },
+                                    { id: "settings", icon: Settings, label: "Account Settings" }
+                                ].map((item) => (
+                                    <Button
+                                        key={item.id}
+                                        variant="ghost"
+                                        className={`w-full justify-start h-12 rounded-2xl gap-4 px-6 text-sm font-bold uppercase tracking-widest transition-all \${activeTab === item.id ? 'bg-white text-primary shadow-sm border border-primary/5' : 'text-muted-foreground hover:bg-white hover:text-[#2D241E]'}`}
+                                        onClick={() => setActiveTab(item.id)}
+                                    >
+                                        <item.icon className="w-4 h-4" />
+                                        {item.label}
+                                    </Button>
+                                ))}
+
+                                <Separator className="my-4 bg-border/20" />
+
+                                <Button variant="ghost" className="w-full justify-start h-12 rounded-2xl gap-4 px-6 text-sm font-bold uppercase tracking-widest text-red-500 hover:bg-red-50 hover:text-red-600 transition-all">
+                                    <LogOut className="w-4 h-4" />
+                                    Secure Logout
+                                </Button>
+                            </div>
+                        </Card>
+
+                        {/* Impact Badge */}
+                        <div className="p-8 bg-[#2D241E] rounded-[2.5rem] text-white relative overflow-hidden group">
+                            <div className="relative z-10 space-y-4">
+                                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary"><Award className="w-6 h-6" /></div>
+                                <h3 className="text-xl font-bold italic">Artisan Impact</h3>
+                                <p className="text-xs text-white/50 leading-relaxed italic">
+                                    Your purchases have directly supported <strong>14 Senegalese families</strong> this month. Thank you for making a difference.
+                                </p>
+                                <Button variant="link" className="text-primary font-bold text-xs uppercase p-0 group">View Impact Report <ArrowRight className="w-3 h-3 ml-2 transition-transform group-hover:translate-x-1" /></Button>
+                            </div>
+                            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-1000" />
+                        </div>
+                    </aside>
+
+                    {/* Right Side: Content Area */}
+                    <div className="flex-1 w-full space-y-12">
+                        <FadeContent blur={true} duration={0.6}>
+                            {activeTab === "orders" && (
+                                <div className="space-y-10">
+                                    <div className="flex justify-between items-end pb-4 border-b border-border/40">
+                                        <h2 className="text-4xl font-bold text-[#2D241E]">Recent Orders</h2>
+                                        <Link href="/marketplace" className="text-sm font-bold text-primary flex items-center gap-2 hover:underline">
+                                            <ShoppingBag className="w-4 h-4" /> New Order
+                                        </Link>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        {[
+                                            { id: "#MOO-19412", date: "Mar 10, 2026", status: "Delivering", total: 112.62, items: 3, img: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=200" },
+                                            { id: "#MOO-18931", date: "Feb 15, 2026", status: "Delivered", total: 45.00, items: 1, img: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=200" }
+                                        ].map((order, idx) => (
+                                            <Card key={idx} className="border-none shadow-sm hover:shadow-xl bg-white rounded-[2.5rem] overflow-hidden transition-all duration-700 group cursor-pointer border border-transparent hover:border-primary/5">
+                                                <div className="p-8 md:p-10 flex flex-col md:flex-row gap-8 items-center">
+                                                    <div className="relative w-20 h-24 rounded-2xl overflow-hidden bg-muted flex-shrink-0">
+                                                        <Image src={order.img} alt="order" fill className="object-cover transition-transform group-hover:scale-110 duration-700" />
+                                                    </div>
+                                                    <div className="flex-1 space-y-2 text-center md:text-left">
+                                                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                                            <span className="text-lg font-bold text-[#2D241E]">{order.id}</span>
+                                                            <Badge className={`\${order.status === 'Delivering' ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'} uppercase font-bold text-[9px] h-5 tracking-widest`}>
+                                                                {order.status}
+                                                            </Badge>
+                                                        </div>
+                                                        <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center justify-center md:justify-start gap-2">
+                                                            <Clock className="w-3 h-3" /> Ordered {order.date}
+                                                        </p>
+                                                    </div>
+                                                    <div className="space-y-2 text-center md:text-right">
+                                                        <div className="text-xl font-light text-[#2D241E] underline decoration-primary/10 decoration-2 underline-offset-4">${order.total.toFixed(2)}</div>
+                                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{order.items} Items included</p>
+                                                    </div>
+                                                    <div className="md:pl-8 border-t md:border-t-0 md:border-l border-border/40 pt-6 md:pt-0 w-full md:w-auto">
+                                                        <Button variant="outline" className="w-full md:w-auto rounded-full border-[#2D241E] h-12 px-8 text-xs font-bold uppercase tracking-widest hover:bg-[#2D241E] hover:text-white transition-all group/btn">
+                                                            View Details <ChevronRight className="w-4 h-4 ml-2 transition-transform group-hover/btn:translate-x-1" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </Card>
+                                        ))}
+                                    </div>
+
+                                    <div className="p-10 bg-[#F6EBE1] rounded-[2.5rem] border border-[#E9E1D6] flex flex-col md:flex-row items-center gap-10">
+                                        <div className="p-6 bg-white rounded-3xl shadow-xl flex items-center justify-center text-primary group-hover:scale-105 transition-transform duration-500">
+                                            <MessageCircle className="w-10 h-10" />
+                                        </div>
+                                        <div className="space-y-4 text-center md:text-left">
+                                            <h3 className="text-2xl font-bold text-[#2D241E] italic">Need beauty advice?</h3>
+                                            <p className="text-sm text-muted-foreground leading-relaxed max-w-sm italic">
+                                                Our Senegalese ritual experts are available for personal consultation based on your purchase history.
+                                            </p>
+                                        </div>
+                                        <div className="md:ml-auto">
+                                            <Button className="rounded-full bg-[#2D241E] text-white hover:bg-black px-10 h-14 font-bold uppercase tracking-widest text-xs">
+                                                Start Consultation
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTab !== "orders" && (
+                                <div className="h-[600px] flex flex-col items-center justify-center text-center space-y-6">
+                                    <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center text-primary/30">
+                                        <ShieldCheck className="w-10 h-10" />
+                                    </div>
+                                    <h2 className="text-3xl font-bold text-[#2D241E]">Section coming soon.</h2>
+                                    <p className="text-muted-foreground max-w-sm italic leading-relaxed">
+                                        We are hand-crafting this experience to meet the highest standards of our community.
+                                        For now, explore our Marketplace for new rituals.
+                                    </p>
+                                    <Link href="/marketplace">
+                                        <Button variant="outline" className="rounded-full px-12 h-14 border-[#2D241E] text-[#2D241E] hover:bg-[#2D241E] hover:text-white transition-all font-bold uppercase tracking-widest text-xs">
+                                            Back to Marketplace <ArrowRight className="w-4 h-4 ml-2" />
+                                        </Button>
+                                    </Link>
+                                </div>
+                            )}
+                        </FadeContent>
+                    </div>
+                </div>
+            </main>
+
+            <Footer />
+        </div>
+    )
+}

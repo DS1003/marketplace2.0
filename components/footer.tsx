@@ -20,9 +20,9 @@ const footerLinks = {
     { label: "Deals", href: "/deals" },
   ],
   sellers: [
+    { label: "Our Sellers", href: "/sellers" },
     { label: "Become a Seller", href: "/sell" },
     { label: "Seller Dashboard", href: "/dashboard" },
-    { label: "Success Stories", href: "/stories" },
     { label: "Seller FAQ", href: "/seller-faq" },
   ],
   company: [

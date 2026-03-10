@@ -181,10 +181,10 @@ export function FeaturedProducts() {
                     </div>
 
                     <CardContent className="p-5 md:p-6 flex flex-col flex-grow">
-                      <div className="flex items-center gap-1.5 mb-2 md:mb-3 text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                      <Link href={`/sellers/${product.seller.toLowerCase().replace(/ /g, '-')}`} className="flex items-center gap-1.5 mb-2 md:mb-3 text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wider hover:text-primary transition-colors">
                         <ShieldCheck className="w-3 h-3 text-primary shrink-0" />
                         {product.seller}
-                      </div>
+                      </Link>
 
                       <h3 className="font-semibold text-base md:text-lg text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
                         {product.name}

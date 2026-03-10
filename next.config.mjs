@@ -14,6 +14,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'moomel.sn',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+      },
     ],
   },
 }

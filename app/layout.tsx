@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ScrollToTop } from '@/components/scroll-to-top'
+import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -62,6 +63,7 @@ export default function RootLayout({
     <html lang="en" className={plusJakartaSans.variable}>
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
+        <Toaster position="top-right" />
         <ScrollToTop />
         <Analytics />
       </body>

@@ -1,0 +1,186 @@
+"use client"
+
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
+import { motion, useInView } from "framer-motion"
+import { useRef } from "react"
+import { BlurText } from "@/components/ui/blur-text"
+import { FadeContent } from "@/components/ui/fade-content"
+import { TiltCard } from "@/components/ui/tilt-card"
+
+const categories = [
+  {
+    name: "Skincare",
+    description: "Natural creams & serums",
+    image: "/images/category-skincare.jpg",
+    href: "/categories/skincare",
+    count: 128,
+  },
+  {
+    name: "Haircare",
+    description: "Oils & treatments",
+    image: "/images/category-haircare.jpg",
+    href: "/categories/haircare",
+    count: 95,
+  },
+  {
+    name: "Natural Soaps",
+    description: "Handmade & organic",
+    image: "/images/category-soaps.jpg",
+    href: "/categories/soaps",
+    count: 76,
+  },
+  {
+    name: "Oils",
+    description: "Pure & essential",
+    image: "/images/category-oils.jpg",
+    href: "/categories/oils",
+    count: 64,
+  },
+  {
+    name: "Accessories",
+    description: "Beauty tools",
+    image: "/images/category-accessories.jpg",
+    href: "/categories/accessories",
+    count: 42,
+  },
+]
+
+export function FeaturedCategories() {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, amount: 0.15 })
+
+  return (
+    <section ref={ref} className="py-32 bg-background relative overflow-hidden">
+      {/* Background Elements */}
+      <motion.div
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.05, 0.1, 0.05],
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -right-40 top-0 h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(var(--primary-rgb),0.8),transparent_70%)] blur-[120px] pointer-events-none"
+      />
+
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.03, 0.08, 0.03],
+        }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute -left-20 bottom-20 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.8),transparent_70%)] blur-[100px] pointer-events-none"
+      />
+
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <FadeContent direction="up" delay={0}>
+            <span className="inline-block text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-4">
+              Curated Collections
+            </span>
+          </FadeContent>
+
+          <BlurText
+            text="Explore the elements of natural beauty"
+            className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-balance text-foreground mb-6"
+            animateBy="words"
+            delay={0.1}
+          />
+
+          <FadeContent direction="up" delay={0.3}>
+            <p className="text-muted-foreground text-lg font-light">
+              Elevate your ritual with pure, organic ingredients and authentic Senegalese craftsmanship.
+            </p>
+          </FadeContent>
+        </div>
+
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {categories.map((category, index) => (
+            <motion.div
+              key={category.name}
+              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.95, y: 30 }}
+              transition={{
+                duration: 0.8,
+                delay: index * 0.15,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className={index === 0 ? "md:col-span-2 md:row-span-2" : ""}
+            >
+              <Link href={category.href} className="block w-full h-full">
+                <TiltCard
+                  className="group relative overflow-hidden rounded-[2rem] w-full h-full border border-border/40 shadow-sm"
+                  maxTilt={5}
+                  scale={1.01}
+                  glareEnable={true}
+                  glareMaxOpacity={0.08}
+                >
+                  <div
+                    className={`relative w-full h-full overflow-hidden ${index === 0 ? "min-h-[400px] md:min-h-[600px]" : "min-h-[300px]"
+                      }`}
+                  >
+                    <Image
+                      src={category.image}
+                      alt={category.name}
+                      fill
+                      className="object-cover transition-all duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110 group-hover:blur-[2px]"
+                      sizes={index === 0 ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+                    />
+
+                    {/* Sophisticated Gradient Mask */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-700" />
+
+                    {/* Soft Vignette */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.4))]" />
+
+                    {/* Content */}
+                    <div className="absolute inset-0 p-8 md:p-10 flex flex-col justify-end text-white">
+                      <div className="flex items-end justify-between relative z-20">
+                        <motion.div
+                          initial={{ y: 0 }}
+                          whileHover={{ y: -5 }}
+                          transition={{ duration: 0.4, ease: "easeOut" }}
+                          className="max-w-[80%]"
+                        >
+                          <motion.h3
+                            className={`font-medium tracking-tight translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out ${index === 0 ? "text-4xl md:text-5xl" : "text-3xl"
+                              }`}
+                          >
+                            {category.name}
+                          </motion.h3>
+
+                          <div className="overflow-hidden">
+                            <motion.p className="text-white/80 mt-2 text-sm md:text-base font-light translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75">
+                              {category.description}
+                            </motion.p>
+                          </div>
+
+                          <motion.div className="flex items-center gap-3 mt-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
+                            <span className="w-8 h-[1px] bg-white/60" />
+                            <p className="text-white/90 text-xs font-medium tracking-wider uppercase">
+                              {category.count} Products
+                            </p>
+                          </motion.div>
+                        </motion.div>
+
+                        <motion.div
+                          whileHover={{ scale: 1.1, rotate: 45 }}
+                          transition={{ duration: 0.4, ease: "easeOut" }}
+                          className="h-14 w-14 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white group-hover:border-white transition-all duration-500 shadow-xl"
+                        >
+                          <ArrowUpRight className="h-6 w-6 text-white group-hover:text-black transition-colors duration-500" />
+                        </motion.div>
+                      </div>
+                    </div>
+                  </div>
+                </TiltCard>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

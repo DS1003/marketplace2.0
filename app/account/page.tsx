@@ -19,9 +19,80 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { FadeContent } from "@/components/ui/fade-content"
+import { LoginForm } from "@/components/auth/login-form"
+import { RegisterForm } from "@/components/auth/register-form"
+import { useSession } from "next-auth/react"
+import { logout } from "@/lib/actions/auth"
 
 export default function AccountPage() {
     const [activeTab, setActiveTab] = useState("orders")
+    const [authMode, setAuthMode] = useState<"login" | "register">("login")
+    const { data: session, status } = useSession()
+
+    if (status === "loading") {
+        return (
+            <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <NextImage src="/images/logo.png" alt="Moomel" width={150} height={50} className="animate-pulse" />
+                    <div className="flex items-center gap-2 text-stone-400 font-bold uppercase tracking-widest text-[10px]">
+                        <Clock className="w-4 h-4 animate-spin" /> Preparing Ritual...
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    if (!session) {
+        return (
+            <div className="min-h-screen bg-[#FDFBF7]">
+                <Header />
+                <main className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[80vh] flex items-center justify-center">
+                    <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                        <motion.div 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="hidden lg:block space-y-8"
+                        >
+                            <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden shadow-2xl">
+                                <NextImage 
+                                    src="https://images.unsplash.com/photo-1596462502278-27bfad85731d?q=80&w=800" 
+                                    alt="Moomel Rituals" 
+                                    fill 
+                                    className="object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-12 text-white">
+                                    <h2 className="text-4xl font-bold italic mb-4">The Ritual of Natural Selection</h2>
+                                    <p className="text-white/80 text-sm leading-relaxed italic max-w-xs">
+                                        Discover ancient beauty secrets preserved for modern spirits. Pure, organic, and directly from the heart of Senegal.
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white/50 backdrop-blur-xl p-10 lg:p-14 rounded-[3.5rem] shadow-xl border border-white"
+                        >
+                            <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as any)} className="w-full">
+                                <TabsList className="grid grid-cols-2 w-full max-w-[280px] mx-auto h-12 bg-stone-100/50 rounded-full p-1 mb-10">
+                                    <TabsTrigger value="login" className="rounded-full font-bold uppercase tracking-widest text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white">Sign In</TabsTrigger>
+                                    <TabsTrigger value="register" className="rounded-full font-bold uppercase tracking-widest text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white">Join Us</TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="login" className="mt-0">
+                                    <LoginForm />
+                                </TabsContent>
+                                <TabsContent value="register" className="mt-0">
+                                    <RegisterForm onSuccess={() => setAuthMode("login")} />
+                                </TabsContent>
+                            </Tabs>
+                        </motion.div>
+                    </div>
+                </main>
+                <Footer />
+            </div>
+        )
+    }
 
     return (
         <div className="min-h-screen bg-[#FDFBF7]">
@@ -35,13 +106,19 @@ export default function AccountPage() {
                         <Card className="border-none shadow-xl rounded-[3rem] overflow-hidden bg-white">
                             <div className="p-10 flex flex-col items-center text-center space-y-6">
                                 <div className="relative w-32 h-32 rounded-full ring-4 ring-primary/10 ring-offset-4 overflow-hidden shadow-2xl group cursor-pointer">
-                                    <NextImage src="https://images.unsplash.com/photo-1531123414780-f74242c2b052?q=80&w=400" alt="Anta Diop" fill className="object-cover transition-transform duration-700 group-hover:scale-110" sizes="128px" />
+                                    {session.user.image ? (
+                                        <NextImage src={session.user.image} alt={session.user.name || "User"} fill className="object-cover transition-transform duration-700 group-hover:scale-110" sizes="128px" />
+                                    ) : (
+                                        <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary text-4xl font-bold uppercase italic">
+                                            {session.user.name?.charAt(0) || "U"}
+                                        </div>
+                                    )}
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                                         <Settings className="w-6 h-6" />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <h2 className="text-2xl font-bold text-[#2D241E]">Anta Diop</h2>
+                                    <h2 className="text-2xl font-bold text-[#2D241E]">{session.user.name}</h2>
                                     <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground italic">Member since Feb 2026</p>
                                 </div>
                                 <div className="flex gap-4">
@@ -74,7 +151,11 @@ export default function AccountPage() {
 
                                 <Separator className="my-4 bg-border/20" />
 
-                                <Button variant="ghost" className="w-full justify-start h-12 rounded-2xl gap-4 px-6 text-sm font-bold uppercase tracking-widest text-red-500 hover:bg-red-50 hover:text-red-600 transition-all">
+                                <Button 
+                                    variant="ghost" 
+                                    onClick={() => logout()}
+                                    className="w-full justify-start h-12 rounded-2xl gap-4 px-6 text-sm font-bold uppercase tracking-widest text-red-500 hover:bg-red-50 hover:text-red-600 transition-all"
+                                >
                                     <LogOut className="w-4 h-4" />
                                     Secure Logout
                                 </Button>

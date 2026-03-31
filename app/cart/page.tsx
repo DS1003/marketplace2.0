@@ -17,45 +17,13 @@ import { Input } from "@/components/ui/input"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { FadeContent } from "@/components/ui/fade-content"
-
-// --- Mock Cart Items ---
-const initialCart = [
-    {
-        id: 1,
-        name: "Pure Shea Butter",
-        price: 24.99,
-        quantity: 1,
-        seller: "Koba Skin",
-        image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=400",
-        organic: true
-    },
-    {
-        id: 2,
-        name: "Baobab Oil Serum",
-        price: 38.50,
-        quantity: 2,
-        seller: "Senegal Beauty Co.",
-        image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400",
-        organic: true
-    }
-]
+import { useCart } from "@/providers/cart-provider"
 
 export default function CartPage() {
-    const [cartItems, setCartItems] = useState(initialCart)
+    const { items: cartItems, updateQuantity, removeItem, subtotal } = useCart()
     const [promoCode, setPromoCode] = useState("")
 
-    const updateQuantity = (id: number, delta: number) => {
-        setCartItems(cartItems.map(item =>
-            item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
-        ))
-    }
-
-    const removeItem = (id: number) => {
-        setCartItems(cartItems.filter(item => item.id !== id))
-    }
-
-    const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    const shipping = 5.00
+    const shipping = cartItems.length > 0 ? 5.00 : 0
     const tax = subtotal * 0.05
     const total = subtotal + shipping + tax
 

@@ -17,7 +17,7 @@ import { Slider } from "@/components/ui/slider"
 import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -25,11 +25,13 @@ import { Newsletter } from "@/components/newsletter"
 
 import { FadeContent } from "@/components/ui/fade-content"
 import { Magnet } from "@/components/ui/magnet"
+import { useCart } from "@/providers/cart-provider"
+import { toast } from "sonner"
 
 // --- Data ---
 const categories = ["All Products", "Skincare", "Haircare", "Natural Soaps", "Essential Oils", "Accessories"]
 
-const products = [
+const productsList = [
     {
         id: 1,
         name: "Pure Shea Butter",
@@ -40,6 +42,7 @@ const products = [
         location: "Dakar",
         image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=600&auto=format&fit=crop",
         organic: true,
+        category: "Skincare",
         description: "100% pure, unrefined shea butter sourced directly from Senegalese cooperatives. Perfect for intense hydration and skin repair."
     },
     {
@@ -52,6 +55,7 @@ const products = [
         location: "Thiès",
         image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600&auto=format&fit=crop",
         organic: true,
+        category: "Skincare",
         description: "Cold-pressed baobab oil rich in vitamins A, D, E, and F. A lightweight, fast-absorbing serum for a radiant complexion."
     },
     {
@@ -64,6 +68,7 @@ const products = [
         location: "Saint-Louis",
         image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600&auto=format&fit=crop",
         organic: true,
+        category: "Skincare",
         description: "Gentle pink clay infused with organic hibiscus powder. Cleanses pores and gently exfoliates for incredibly soft skin."
     },
     {
@@ -76,6 +81,7 @@ const products = [
         location: "Dakar",
         image: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=600&auto=format&fit=crop",
         organic: false,
+        category: "Natural Soaps",
         description: "Traditional handmade soap with cold-pressed neem oil. Ideal for problematic skin, providing deep cleansing and antimicrobial properties."
     },
     {
@@ -88,6 +94,7 @@ const products = [
         location: "Saint-Louis",
         image: "https://images.unsplash.com/photo-1629198688000-71f23e74567e?q=80&w=600&auto=format&fit=crop",
         organic: true,
+        category: "Essential Oils",
         description: "Nutrient-dense moringa oil that instantly absorbs. Protects skin barrier while providing an exceptional dewy glow."
     },
     {
@@ -100,6 +107,7 @@ const products = [
         location: "Thiès",
         image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600&auto=format&fit=crop",
         organic: true,
+        category: "Natural Soaps",
         description: "Authentic African black soap in a convenient liquid formula. Deeply clarifying for both face and body."
     }
 ]
@@ -114,7 +122,28 @@ export default function MarketplacePage() {
     const [activeCategory, setActiveCategory] = useState("All Products")
     const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false)
     const [priceRange, setPriceRange] = useState([0, 100])
-    const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null)
+    const [searchQuery, setSearchQuery] = useState("")
+    const [selectedProduct, setSelectedProduct] = useState<typeof productsList[0] | null>(null)
+    const { addItem } = useCart()
+
+    const filteredProducts = productsList.filter(product => {
+        const matchesCategory = activeCategory === "All Products" || product.category === activeCategory
+        const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1]
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             product.seller.toLowerCase().includes(searchQuery.toLowerCase())
+        return matchesCategory && matchesPrice && matchesSearch
+    })
+
+    const handleAddToCart = (product: any) => {
+        addItem({
+            id: product.id.toString(),
+            name: product.name,
+            price: product.price,
+            images: [product.image],
+            shop: { name: product.seller }
+        })
+        toast.success(`${product.name} added to your ritual bag.`)
+    }
 
     return (
         <div className="min-h-screen bg-background text-foreground">
@@ -141,6 +170,8 @@ export default function MarketplacePage() {
                             <Input
                                 placeholder="Search products..."
                                 className="w-full pl-11 md:pl-12 h-12 md:h-14 rounded-full border-border/50 bg-background/50 backdrop-blur-sm shadow-sm hover:border-primary/30 transition-colors text-sm md:text-base"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
                     </div>
@@ -285,7 +316,7 @@ export default function MarketplacePage() {
 
                     {/* 4️⃣ Sorting Options (Desktop) */}
                     <div className="hidden lg:flex items-center justify-between mb-8 pb-4 border-b border-border/40">
-                        <p className="text-sm text-muted-foreground font-medium">Showing {products.length} of 124 products</p>
+                        <p className="text-sm text-muted-foreground font-medium">Showing {filteredProducts.length} of {productsList.length} products</p>
                         <div className="flex items-center gap-3">
                             <span className="text-sm text-foreground font-medium">Sort by</span>
                             <Select defaultValue="popular">
@@ -305,7 +336,7 @@ export default function MarketplacePage() {
 
                     {/* 3️⃣ Product Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mb-12">
-                        {products.map((product, index) => (
+                        {filteredProducts.map((product, index) => (
                             <motion.div
                                 key={product.id}
                                 initial={{ opacity: 0, y: 30 }}
@@ -377,7 +408,11 @@ export default function MarketplacePage() {
                                                             <div className="mt-auto">
                                                                 <div className="text-3xl font-light mb-4">${product.price.toFixed(2)}</div>
                                                                 <div className="flex gap-3">
-                                                                    <Button className="flex-1 h-12 rounded-full text-base" size="lg">
+                                                                    <Button 
+                                                                        className="flex-1 h-12 rounded-full text-base" 
+                                                                        size="lg"
+                                                                        onClick={() => handleAddToCart(product)}
+                                                                    >
                                                                         <ShoppingBag className="w-4 h-4 mr-2" /> Add to Cart
                                                                     </Button>
                                                                     <Button variant="outline" size="icon" className="h-12 w-12 rounded-full border-border/50">
@@ -391,9 +426,12 @@ export default function MarketplacePage() {
                                             </DialogContent>
                                         </Dialog>
 
-                                        {/* Quick Add Overlay */}
+                                         {/* Quick Add Overlay */}
                                         <div className="absolute inset-x-4 bottom-4 translate-y-[200%] opacity-0 group-hover/card:translate-y-0 group-hover/card:opacity-100 transition-all duration-300 ease-out z-10 hidden md:block">
-                                            <Button className="w-full bg-white/90 hover:bg-white text-black backdrop-blur-md shadow-lg rounded-xl h-10 gap-2">
+                                            <Button 
+                                                onClick={() => handleAddToCart(product)}
+                                                className="w-full bg-white/90 hover:bg-white text-black backdrop-blur-md shadow-lg rounded-xl h-10 gap-2"
+                                            >
                                                 <ShoppingBag className="w-4 h-4" /> Quick Add
                                             </Button>
                                         </div>

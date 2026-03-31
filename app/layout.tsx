@@ -3,6 +3,8 @@ import { Plus_Jakarta_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ScrollToTop } from '@/components/scroll-to-top'
 import { Toaster } from '@/components/ui/sonner'
+import { SessionProvider } from '@/components/providers/session-provider'
+import { CartProvider } from '@/providers/cart-provider'
 import './globals.css'
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -60,9 +62,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={plusJakartaSans.variable}>
-      <body className="font-sans antialiased bg-background text-foreground">
-        {children}
+    <html lang="en" className={plusJakartaSans.variable} suppressHydrationWarning>
+      <body className="font-sans antialiased bg-background text-foreground" suppressHydrationWarning>
+        <SessionProvider>
+          <CartProvider>
+            {children}
+          </CartProvider>
+        </SessionProvider>
         <Toaster position="top-right" />
         <ScrollToTop />
         <Analytics />

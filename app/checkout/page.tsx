@@ -23,14 +23,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { FadeContent } from "@/components/ui/fade-content"
+import { useCart } from "@/providers/cart-provider"
 
 export default function CheckoutPage() {
+    const { items, totalItems } = useCart()
     const [step, setStep] = useState(1) // 1: Shipping, 2: Payment, 3: Success
 
-    // Simple state for totals (mocked)
-    const subtotal = 102.50
-    const shipping = 5.00
-    const tax = 5.12
+    const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    const shipping = items.length > 0 ? 5.00 : 0
+    const tax = subtotal * 0.05
     const total = subtotal + shipping + tax
 
     if (step === 3) {
@@ -284,25 +285,27 @@ export default function CheckoutPage() {
 
                                 {/* Mini item list */}
                                 <div className="space-y-6">
-                                    {[
-                                        { name: "Pure Shea Butter", price: 24.99, qty: 1, img: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=200" },
-                                        { name: "Baobab Oil Serum", price: 38.50, qty: 2, img: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=200" }
-                                    ].map((item, idx) => (
-                                        <div key={idx} className="flex gap-4 group">
+                                    {items.map((item, idx) => (
+                                        <div key={item.id} className="flex gap-4 group">
                                             <div className="relative w-16 h-20 rounded-xl overflow-hidden bg-muted flex-shrink-0">
-                                                <NextImage src={item.img} alt={item.name} fill className="object-cover transition-transform group-hover:scale-110 duration-700" />
+                                                <NextImage src={item.image || ""} alt={item.name} fill className="object-cover transition-transform group-hover:scale-110 duration-700" />
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex justify-between items-start">
                                                     <div className="space-y-1">
                                                         <h4 className="text-sm font-bold truncate pr-4">{item.name}</h4>
-                                                        <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Qty: {item.qty}</div>
+                                                        <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Qty: {item.quantity} pieces</div>
                                                     </div>
-                                                    <div className="text-sm font-light text-[#2D241E]">${(item.price * item.qty).toFixed(2)}</div>
+                                                    <div className="text-sm font-light text-[#2D241E]">${(item.price * item.quantity).toFixed(2)}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     ))}
+                                    {items.length === 0 && (
+                                        <div className="text-center py-6">
+                                            <p className="text-xs text-muted-foreground italic">Your bag is empty.</p>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <Separator className="bg-border/40" />

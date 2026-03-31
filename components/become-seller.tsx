@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { BlurText } from "@/components/ui/blur-text"
 import { FadeContent } from "@/components/ui/fade-content"
 import { Magnet } from "@/components/ui/magnet"
+import Link from "next/link"
 import { ArrowRight, Store, TrendingUp, Users, Sparkles } from "lucide-react"
 
 const benefits = [
@@ -77,21 +78,25 @@ export function BecomeSeller() {
             <FadeContent direction="up" delay={0.3}>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
                 <Magnet padding={50} magnetStrength={3}>
+                  <Link href="/become-seller">
+                    <Button
+                      size="lg"
+                      className="group h-14 rounded-full bg-primary px-8 text-lg font-semibold text-primary-foreground hover:bg-primary/90"
+                    >
+                      Join the Artisan Lab
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
+                </Magnet>
+                <Link href="/about">
                   <Button
                     size="lg"
-                    className="group h-14 rounded-full bg-primary px-8 text-lg font-semibold text-primary-foreground hover:bg-primary/90"
+                    variant="outline"
+                    className="h-14 rounded-full border-background/30 bg-transparent px-8 text-lg text-background hover:bg-background/10"
                   >
-                    Start Selling Today
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    Explore Ethos
                   </Button>
-                </Magnet>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="h-14 rounded-full border-background/30 bg-transparent px-8 text-lg text-background hover:bg-background/10"
-                >
-                  Learn More
-                </Button>
+                </Link>
               </div>
             </FadeContent>
           </div>

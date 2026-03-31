@@ -1,13 +1,35 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { usePathname } from "next/navigation"
+import { useState, useEffect, useCallback } from "react"
+import { usePathname, useRouter } from "next/navigation"
 import NextImage from "next/image"
 import Link from "next/link"
-import { Search, ShoppingBag, User, Menu, X, ChevronRight, Instagram, Facebook } from "lucide-react"
+import { Search, ShoppingBag, User, Menu, X, ChevronRight, Instagram, Facebook, Command as CommandIcon, LogOut, Settings, LayoutDashboard, Heart, Store } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useSession } from "next-auth/react"
+import { useCart } from "@/providers/cart-provider"
+import { logout } from "@/lib/actions/auth"
 import { motion, AnimatePresence } from "framer-motion"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command"
+import { NotificationBell } from "./notifications/NotificationBell"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -21,9 +43,14 @@ const navLinks = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
   const isHomePage = pathname === "/"
+  const { data: session } = useSession()
+  const { totalItems } = useCart()
 
+  const isScrolledValue = isHomePage ? isScrolled : true
   const shouldBeTransparent = isHomePage && !isScrolled
 
   useEffect(() => {
@@ -32,6 +59,22 @@ export function Header() {
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setIsSearchOpen((open) => !open)
+      }
+    }
+    document.addEventListener("keydown", down)
+    return () => document.removeEventListener("keydown", down)
+  }, [])
+
+  const runCommand = useCallback((command: () => void) => {
+    setIsSearchOpen(false)
+    command()
   }, [])
 
   return (
@@ -70,32 +113,64 @@ export function Header() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
-                >
-                  <Link
-                    href={link.href}
-                    className={cn(
-                      "text-sm font-medium transition-colors relative group py-2",
-                      !shouldBeTransparent ? "text-foreground/80 hover:text-primary" : "text-white/90 hover:text-white"
-                    )}
+              {navLinks.map((link, index) => {
+                const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
                   >
-                    {link.label}
-                    <span className={cn(
-                      "absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full rounded-full",
-                      !shouldBeTransparent ? "bg-primary" : "bg-white"
-                    )} />
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "text-sm font-medium transition-all relative group py-2 px-1",
+                        isActive 
+                          ? (!shouldBeTransparent ? "text-primary" : "text-white")
+                          : (!shouldBeTransparent ? "text-foreground/70 hover:text-primary" : "text-white/70 hover:text-white")
+                      )}
+                    >
+                      {link.label}
+                      <motion.span 
+                        layoutId="nav-underline"
+                        className={cn(
+                          "absolute bottom-0 left-0 h-0.5 rounded-full transition-all duration-300",
+                          isActive ? "w-full" : "w-0 group-hover:w-full",
+                          !shouldBeTransparent ? "bg-primary" : "bg-white"
+                        )} 
+                      />
+                    </Link>
+                  </motion.div>
+                )
+              })}
             </div>
 
             {/* Right Section: Actions & Menu */}
             <div className="flex items-center justify-end gap-2 lg:flex-1">
+              {/* Become a Seller CTA */}
+              {(!session?.user || session.user.role === "CUSTOMER") && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.35, duration: 0.4 }}
+                  className="hidden xl:block"
+                >
+                  <Link href="/become-seller">
+                    <Button 
+                      variant="ghost" 
+                      className={cn(
+                        "h-9 rounded-full px-4 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-primary/5 group",
+                        !shouldBeTransparent ? "text-primary" : "text-white hover:bg-white/10"
+                      )}
+                    >
+                      <Store className={cn("h-3.5 w-3.5 transition-transform group-hover:scale-110", !shouldBeTransparent ? "text-primary" : "text-white")} />
+                      Vendre sur Moomel
+                    </Button>
+                  </Link>
+                </motion.div>
+              )}
+
               {/* Desktop Actions */}
               <div className="hidden lg:flex items-center gap-2">
                 <motion.div
@@ -106,8 +181,9 @@ export function Header() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    onClick={() => setIsSearchOpen(true)}
                     className={cn(
-                      "rounded-full transition-colors",
+                      "rounded-full transition-all hover:scale-110 active:scale-95",
                       !shouldBeTransparent ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
                     )}
                   >
@@ -120,24 +196,13 @@ export function Header() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.45, duration: 0.3 }}
                 >
-                  <Link href="/account">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className={cn(
-                        "rounded-full transition-colors",
-                        !shouldBeTransparent ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
-                      )}
-                    >
-                      <User className="h-5 w-5" />
-                      <span className="sr-only">Account</span>
-                    </Button>
-                  </Link>
+                  <NotificationBell />
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.5, duration: 0.3 }}
+                  className="mr-2"
                 >
                   <Link href="/cart">
                     <Button
@@ -150,34 +215,143 @@ export function Header() {
                     >
                       <ShoppingBag className="h-5 w-5" />
                       <motion.span
-                        initial={{ scale: 0 }}
+                        key={totalItems}
+                        initial={{ scale: 0.8 }}
                         animate={{ scale: 1 }}
-                        transition={{ delay: 0.8, type: "spring", stiffness: 500 }}
                         className={cn(
-                          "absolute -top-1 -right-1 h-5 w-5 rounded-full text-xs flex items-center justify-center font-medium",
+                          "absolute -top-1 -right-1 h-5 w-5 rounded-full text-[10px] flex items-center justify-center font-bold shadow-xl shadow-primary/20",
                           !shouldBeTransparent ? "bg-primary text-primary-foreground" : "bg-white text-black"
                         )}
                       >
-                        0
+                        {totalItems}
                       </motion.span>
                       <span className="sr-only">Cart</span>
                     </Button>
                   </Link>
                 </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.55, duration: 0.4 }}
+                {session?.user ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 overflow-hidden ml-2 border border-border/50">
+                        <Avatar className="h-full w-full">
+                          <AvatarImage src={session.user.image || ""} alt={session.user.name || "User"} />
+                          <AvatarFallback className="bg-primary/10 text-primary uppercase font-bold text-xs">
+                            {session.user.name?.charAt(0) || "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-64 mt-2 rounded-[2rem] p-4 shadow-2xl border-none bg-background/95 backdrop-blur-xl" align="end" forceMount>
+                      <DropdownMenuLabel className="font-normal px-2 pb-4">
+                        <div className="flex flex-col space-y-1">
+                          <p className="text-sm font-bold leading-none">{session.user.name}</p>
+                          <p className="text-xs leading-none text-muted-foreground">{session.user.email}</p>
+                          {(session.user.role as string) === "SUPER_ADMIN" && (
+                            <span className="mt-2 inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold text-primary max-w-fit">
+                              SUPER ADMINISTRATOR
+                            </span>
+                          )}
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator className="bg-border/30 mx-2" />
+                      <div className="py-2">
+                        <DropdownMenuItem asChild className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-primary/5 group transition-all duration-300">
+                          <Link href="/account" className="flex items-center gap-3 w-full">
+                            <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                              <User className="h-4 w-4 text-primary" />
+                            </div>
+                            <span className="text-sm font-medium">My Profile</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-primary/5 group transition-all duration-300">
+                          <Link href="/account/wishlist" className="flex items-center gap-3 w-full">
+                            <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                              <Heart className="h-4 w-4 text-primary" />
+                            </div>
+                            <span className="text-sm font-medium">Wishlist</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        {((session.user.role as string) === "SUPER_ADMIN" || (session.user.role as string) === "SELLER") && (
+                          <DropdownMenuItem asChild className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-primary/5 group transition-all duration-300">
+                            <Link href={(session.user.role as string) === "SUPER_ADMIN" ? "/admin" : "/seller"} className="flex items-center gap-3 w-full">
+                              <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                                <LayoutDashboard className="h-4 w-4 text-primary" />
+                              </div>
+                              <span className="text-sm font-medium">{(session.user.role as string) === "SUPER_ADMIN" ? "Admin Panel" : "Seller Lab"}</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        )}
+                        <DropdownMenuItem asChild className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-primary/5 group transition-all duration-300">
+                          <Link href="/settings" className="flex items-center gap-3 w-full">
+                            <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                              <Settings className="h-4 w-4 text-primary" />
+                            </div>
+                            <span className="text-sm font-medium">Settings</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      </div>
+                      <DropdownMenuSeparator className="bg-border/30 mx-2" />
+                      <DropdownMenuItem 
+                        onClick={() => logout()}
+                        className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-destructive/10 text-destructive group transition-all duration-300 mt-2 hover:translate-x-1"
+                      >
+                        <div className="flex items-center gap-3 w-full capitalize">
+                          <div className="h-8 w-8 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive/20 transition-colors">
+                            <LogOut className="h-4 w-4" />
+                          </div>
+                          <span className="text-sm font-bold">Sign Out</span>
+                        </div>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.55, duration: 0.4 }}
+                  >
+                    <Link href="/account">
+                      <Button className={cn(
+                        "rounded-full px-6 ml-2 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/10",
+                        !shouldBeTransparent ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-white hover:bg-white/90 text-black"
+                      )}>
+                        Sign In
+                      </Button>
+                    </Link>
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Mobile Actions */}
+              <div className="flex lg:hidden items-center gap-1 mr-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsSearchOpen(true)}
+                  className={cn(
+                    "rounded-full h-9 w-9",
+                    !shouldBeTransparent ? "text-foreground" : "text-white"
+                  )}
                 >
-                  <Link href="/account">
-                    <Button className={cn(
-                      "rounded-full px-6 ml-2 transition-all",
-                      !shouldBeTransparent ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-white hover:bg-white/90 text-black shadow-xl"
-                    )}>
-                      Sign In
-                    </Button>
-                  </Link>
-                </motion.div>
+                  <Search className="h-5 w-5" />
+                  <span className="sr-only">Search</span>
+                </Button>
+                <Link href="/cart">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "relative rounded-full h-9 w-9",
+                      !shouldBeTransparent ? "text-foreground" : "text-white"
+                    )}
+                  >
+                    <ShoppingBag className="h-5 w-5" />
+                    <span className={cn(
+                      "absolute top-0 right-0 h-4 w-4 rounded-full text-[10px] flex items-center justify-center font-bold",
+                      !shouldBeTransparent ? "bg-primary text-primary-foreground" : "bg-white text-black"
+                    )}>0</span>
+                  </Button>
+                </Link>
               </div>
 
               {/* Mobile Menu Toggle */}
@@ -262,26 +436,32 @@ export function Header() {
 
               <div className="flex-1 overflow-y-auto py-8">
                 <div className="px-6 space-y-2">
-                  {navLinks.map((link, index) => (
-                    <motion.div
-                      key={link.href}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <Link
-                        href={link.href}
-                        className={cn(
-                          "flex items-center justify-between py-4 text-xl font-medium border-b border-border/30 last:border-none",
-                          pathname === link.href ? "text-primary" : "text-foreground"
-                        )}
-                        onClick={() => setIsMenuOpen(false)}
+                  {navLinks.map((link, index) => {
+                    const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
+                    return (
+                      <motion.div
+                        key={link.href}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
                       >
-                        {link.label}
-                        <ChevronRight className="h-5 w-5 opacity-30" />
-                      </Link>
-                    </motion.div>
-                  ))}
+                        <Link
+                          href={link.href}
+                          className={cn(
+                            "flex items-center justify-between py-4 text-xl font-semibold border-b border-border/30 last:border-none transition-all",
+                            isActive ? "text-primary translate-x-1" : "text-foreground hover:translate-x-1"
+                          )}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <span className="flex items-center gap-3">
+                            {isActive && <motion.div layoutId="active-dot" className="h-2 w-2 rounded-full bg-primary" />}
+                            {link.label}
+                          </span>
+                          <ChevronRight className={cn("h-5 w-5 transition-transform", isActive ? "text-primary opacity-100" : "opacity-30")} />
+                        </Link>
+                      </motion.div>
+                    )
+                  })}
                 </div>
 
                 <div className="mt-12 px-6">
@@ -303,8 +483,18 @@ export function Header() {
               </div>
 
               <div className="p-8 border-t border-border/50 bg-secondary/10">
-                <Button className="w-full h-14 rounded-2xl bg-[#2D241E] text-white hover:bg-black font-bold uppercase tracking-widest text-xs mb-6">
-                  Sign In to Account
+                {(!session?.user || session.user.role === "CUSTOMER") && (
+                  <Link href="/become-seller" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full h-14 rounded-2xl bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-[9px] mb-4 flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
+                      <Store className="h-4 w-4" /> Devenir Artisan
+                    </Button>
+                  </Link>
+                )}
+                <Button 
+                  onClick={() => !session?.user ? router.push("/account") : logout()}
+                  className="w-full h-14 rounded-2xl bg-[#2D241E] text-white hover:bg-black font-bold uppercase tracking-widest text-[10px] mb-6"
+                >
+                  {!session?.user ? "Sign In to Account" : "Sign Out"}
                 </Button>
                 <div className="flex justify-center gap-6">
                   <div className="h-10 w-10 rounded-full bg-white border border-border/50 flex items-center justify-center text-muted-foreground"><Instagram className="h-5 w-5" /></div>
@@ -315,6 +505,39 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <CommandDialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+        <CommandInput placeholder="Search products, categories, sellers..." />
+        <CommandList className="max-h-[70vh]">
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem onSelect={() => runCommand(() => router.push("/marketplace"))}>
+              <ShoppingBag className="mr-2 h-4 w-4" />
+              <span>Browse All Products</span>
+            </CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/categories"))}>
+              <Menu className="mr-2 h-4 w-4" />
+              <span>View Categories</span>
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Popular Categories">
+            <CommandItem onSelect={() => runCommand(() => router.push("/categories/clothing"))}>Clothing</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/categories/jewelry"))}>Jewelry</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/categories/home"))}>Home Decor</CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Settings">
+            <CommandItem onSelect={() => runCommand(() => router.push("/account"))}>
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+              <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                <span className="text-xs">⌘</span>P
+              </kbd>
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
     </>
   )
 }

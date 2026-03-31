@@ -11,6 +11,8 @@ import { BlurText } from "@/components/ui/blur-text"
 import { FadeContent } from "@/components/ui/fade-content"
 import { SpotlightCard } from "@/components/ui/spotlight-card"
 import { Magnet } from "@/components/ui/magnet"
+import { useCart } from "@/providers/cart-provider"
+import { toast } from "sonner"
 
 const products = [
   {
@@ -63,6 +65,18 @@ export function FeaturedProducts() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const { addItem } = useCart()
+
+  const handleAddToCart = (product: any) => {
+    addItem({
+        id: product.id.toString(),
+        name: product.name,
+        price: product.price,
+        images: [product.image],
+        shop: { name: product.seller }
+    })
+    toast.success(`${product.name} added to your ritual bag.`)
+  }
 
   return (
     <section ref={ref} className="py-20 md:py-32 bg-secondary/5 relative overflow-hidden">
@@ -170,7 +184,10 @@ export function FeaturedProducts() {
                               exit={{ y: "100%", opacity: 0 }}
                               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                             >
-                              <Button className="w-full bg-foreground text-background hover:bg-primary hover:text-primary-foreground backdrop-blur-md rounded-xl py-6 shadow-xl transition-colors duration-300 group/btn">
+                              <Button 
+                                onClick={() => handleAddToCart(product)}
+                                className="w-full bg-foreground text-background hover:bg-primary hover:text-primary-foreground backdrop-blur-md rounded-xl py-6 shadow-xl transition-colors duration-300 group/btn"
+                              >
                                 <ShoppingBag className="h-4 w-4 mr-2" />
                                 <span className="font-medium tracking-wide">Quick Add</span>
                               </Button>
@@ -213,7 +230,12 @@ export function FeaturedProducts() {
                             </span>
                           )}
                         </div>
-                        <Button size="icon" variant="ghost" className="md:hidden h-9 w-9 rounded-full bg-primary/10 text-primary">
+                        <Button 
+                          size="icon" 
+                          variant="ghost" 
+                          className="md:hidden h-9 w-9 rounded-full bg-primary/10 text-primary"
+                          onClick={() => handleAddToCart(product)}
+                        >
                           <ShoppingBag className="h-4 w-4" />
                         </Button>
                       </div>

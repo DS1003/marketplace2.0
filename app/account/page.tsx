@@ -26,7 +26,9 @@ import { useSession } from "next-auth/react"
 import { logout } from "@/lib/actions/auth"
 import { formatPrice } from "@/lib/utils"
 
-export default function AccountPage() {
+import { Suspense } from "react"
+
+function AccountPageContent() {
     const searchParams = useSearchParams()
     const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "orders")
     const [authMode, setAuthMode] = useState<"login" | "register">("login")
@@ -365,5 +367,17 @@ export default function AccountPage() {
 
             <Footer />
         </div>
+    )
+}
+
+export default function AccountPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">
+                <div className="h-12 w-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+            </div>
+        }>
+            <AccountPageContent />
+        </Suspense>
     )
 }

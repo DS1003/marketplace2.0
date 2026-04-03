@@ -52,7 +52,7 @@ export default function ProductPage() {
             
             if (res.success && res.data) {
                 setProduct(res.data)
-                setIsLiked(!!res.data.isWishlisted)
+                setIsLiked(!!(res.data as any).isWishlisted)
                 // Fetch related products
                 const relatedRes = await getRelatedProducts(id, res.data.categoryId)
                 if (relatedRes.success) {

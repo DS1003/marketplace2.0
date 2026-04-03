@@ -23,11 +23,11 @@ export async function getPublicProducts() {
         category: true,
         wishlistedBy: {
           select: { id: true }
-        },
+        } as any,
         reviews: {
           select: { rating: true }
-        }
-      },
+        } as any
+      } as any,
       orderBy: {
         createdAt: "desc"
       }
@@ -111,8 +111,8 @@ export async function getProductById(id: string) {
         category: true,
         reviews: {
           select: { rating: true }
-        }
-      }
+        } as any
+      } as any
     })
     if (!product) return { success: false, error: "Product not found" }
     
@@ -191,8 +191,8 @@ export async function getProductFullDetails(id: string) {
         category: true,
         wishlistedBy: {
           select: { id: true }
-        }
-      }
+        } as any
+      } as any
     })
 
     if (!product) return { success: false, error: "Product not found" }

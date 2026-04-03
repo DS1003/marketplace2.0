@@ -31,7 +31,9 @@ import { toast } from "sonner"
 import { useSession } from "next-auth/react"
 import { formatPrice } from "@/lib/utils"
 
-export default function CheckoutPage() {
+import { Suspense } from "react"
+
+function CheckoutPageContent() {
     const { items, totalItems, clearCart } = useCart()
     const { data: session } = useSession()
     const router = useRouter()
@@ -409,5 +411,17 @@ export default function CheckoutPage() {
 
             <Footer />
         </div>
+    )
+}
+
+export default function CheckoutPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">
+                <div className="h-12 w-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+            </div>
+        }>
+            <CheckoutPageContent />
+        </Suspense>
     )
 }

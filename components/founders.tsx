@@ -39,7 +39,7 @@ export function Founders() {
   const isInView = useInView(ref, { once: true, amount: 0.15 })
 
   return (
-    <section ref={ref} className="py-32 bg-background overflow-hidden relative border-t border-border/30">
+    <section ref={ref} className="py-20 bg-background overflow-hidden relative border-t border-border/30">
       {/* Background Element */}
       <motion.div
         animate={{

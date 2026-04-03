@@ -53,7 +53,7 @@ export function FeaturedCategories() {
   const isInView = useInView(ref, { once: true, amount: 0.15 })
 
   return (
-    <section ref={ref} className="py-20 md:py-32 bg-background relative overflow-hidden">
+    <section ref={ref} className="py-12 md:py-20 bg-background relative overflow-hidden">
       {/* Background Elements */}
       <motion.div
         animate={{

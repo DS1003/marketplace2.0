@@ -93,7 +93,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="max-w-4xl pt-12 md:pt-20"
+            className="max-w-4xl pt-10 md:pt-16"
           >
             {/* Badge */}
             <div className="mb-4 md:mb-8 flex justify-center">

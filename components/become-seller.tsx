@@ -32,7 +32,7 @@ export function BecomeSeller() {
   const isInView = useInView(ref, { once: true, amount: 0.3 })
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-foreground py-24 lg:py-32">
+    <section ref={ref} className="relative overflow-hidden bg-foreground py-16 md:py-24">
       {/* Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,165,116,0.15),transparent_50%)]" />

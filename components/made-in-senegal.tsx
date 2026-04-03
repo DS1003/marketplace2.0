@@ -22,7 +22,7 @@ export function MadeInSenegal() {
   const cardY = useTransform(scrollYProgress, [0, 1], [100, -50])
 
   return (
-    <section ref={ref} className="py-32 bg-background overflow-hidden relative">
+    <section ref={ref} className="py-20 bg-background overflow-hidden relative">
       {/* Background Element */}
       <motion.div
         animate={{

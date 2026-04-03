@@ -28,7 +28,7 @@ export function Newsletter() {
   }
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-secondary/50 py-24 lg:py-32">
+    <section ref={ref} className="relative overflow-hidden bg-secondary/50 py-16 md:py-24">
       {/* Background Elements */}
       <motion.div
         animate={{

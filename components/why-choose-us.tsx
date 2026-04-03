@@ -39,7 +39,7 @@ export function WhyChooseUs() {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section ref={ref} className="py-32 bg-secondary/30 overflow-hidden relative">
+    <section ref={ref} className="py-16 md:py-24 bg-secondary/30 overflow-hidden relative">
       {/* Background Element */}
       <motion.div
         animate={{

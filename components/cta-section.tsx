@@ -17,7 +17,7 @@ export function CTASection() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"])
 
   return (
-    <section ref={ref} className="py-32 relative overflow-hidden">
+    <section ref={ref} className="py-20 relative overflow-hidden">
       {/* Background with parallax */}
       <motion.div
         style={{ y: backgroundY }}

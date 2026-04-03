@@ -41,7 +41,7 @@ export function Testimonials() {
   const isInView = useInView(ref, { once: true, amount: 0.15 })
 
   return (
-    <section ref={ref} className="py-32 bg-secondary/5 overflow-hidden relative border-t border-border/30">
+    <section ref={ref} className="py-20 bg-secondary/5 overflow-hidden relative border-t border-border/30">
       {/* Background Elements */}
       <motion.div
         animate={{

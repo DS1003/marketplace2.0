@@ -94,7 +94,7 @@ export default function MarketplaceClient({ initialProducts, initialSellers }: {
             <Header />
 
             {/* 1️⃣ Marketplace Header */}
-            <section className="pt-24 pb-8 md:pt-32 md:pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <section className="pt-20 pb-6 md:pt-28 md:pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <FadeContent blur={true} duration={0.8}>
                     <div className="flex flex-col items-center text-center mb-8 md:mb-10">
                         <Badge variant="outline" className="mb-4 border-primary/20 bg-primary/5 text-primary text-[10px] md:text-xs">
@@ -139,7 +139,7 @@ export default function MarketplaceClient({ initialProducts, initialSellers }: {
             {/* Separator */}
             <div className="max-w-7xl mx-auto px-4"><Separator className="opacity-50" /></div>
 
-            <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
+            <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
 
                 {/* Mobile Filters Toggle */}
                 <div className="lg:hidden flex items-center justify-between mb-4">
@@ -405,7 +405,7 @@ export default function MarketplaceClient({ initialProducts, initialSellers }: {
                     </div>
 
                     {/* 6️⃣ Pagination / Load More */}
-                    <div className="flex justify-center mb-16">
+                    <div className="flex justify-center mb-12">
                         <Magnet padding={40} magnetStrength={2}>
                             <Button variant="outline" size="lg" className="rounded-full px-8 h-12 border-border/50 bg-background hover:bg-primary/5 hover:text-primary transition-all">
                                 Charger plus de produits <ChevronDown className="w-4 h-4 ml-2" />
@@ -417,7 +417,7 @@ export default function MarketplaceClient({ initialProducts, initialSellers }: {
             </section>
 
             {/* 7️⃣ Featured Sellers Section */}
-            <section className="bg-primary/5 py-20 px-4 sm:px-6 lg:px-8 border-y border-border/40">
+            <section className="bg-primary/5 py-12 px-4 sm:px-6 lg:px-8 border-y border-border/40">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex justify-between items-end mb-10">
                         <div>
@@ -458,7 +458,7 @@ export default function MarketplaceClient({ initialProducts, initialSellers }: {
             </section>
 
             {/* 8️⃣ Trust Section */}
-            <section className="py-16 px-4 bg-background border-b border-border/40">
+            <section className="py-10 px-4 bg-background border-b border-border/40">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x-0 md:divide-x divide-border/40 font-jakarta">
                         <div className="flex flex-col items-center text-center px-4">

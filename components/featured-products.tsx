@@ -104,7 +104,7 @@ export function FeaturedProducts({
   }
 
   return (
-    <section ref={ref} className="py-20 md:py-32 bg-secondary/5 relative overflow-hidden">
+    <section ref={ref} className="py-12 md:py-24 bg-secondary/5 relative overflow-hidden">
       {/* Background soft glowing orb */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb),0.03),transparent_70%)] pointer-events-none" />
 
@@ -267,7 +267,7 @@ export function FeaturedProducts({
         </div>
       </div>
 
-      <div className="mt-20 md:mt-32 border-t border-border/10 pt-20">
+      <div className="mt-12 md:mt-20 border-t border-border/10 pt-12">
         {/* Decorative divider */}
       </div>
     </section>

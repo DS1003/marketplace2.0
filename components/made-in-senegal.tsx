@@ -66,7 +66,7 @@ export function MadeInSenegal() {
             >
               <Quote className="h-10 w-10 text-primary/30 mb-4" />
               <p className="text-foreground italic leading-relaxed text-lg">
-                &quot;Every product tells a story of tradition, love, and the rich heritage of Senegal.&quot;
+                &quot;Chaque produit raconte une histoire de tradition, d&apos;amour et l&apos;héritage riche du Sénégal.&quot;
               </p>
               <div className="flex items-center gap-4 mt-6 pt-6 border-t border-border">
                 <motion.div
@@ -84,7 +84,7 @@ export function MadeInSenegal() {
                 </motion.div>
                 <div>
                   <p className="font-semibold text-foreground">Aminata Diallo</p>
-                  <p className="text-sm text-muted-foreground">Founder, Fatou Natural</p>
+                  <p className="text-sm text-muted-foreground">Fondatrice, Fatou Natural</p>
                 </div>
               </div>
             </motion.div>
@@ -102,12 +102,12 @@ export function MadeInSenegal() {
           <div className="space-y-8">
             <FadeContent direction="up" delay={0}>
               <span className="inline-block text-sm font-medium text-primary tracking-widest uppercase">
-                Our Story
+                Notre Histoire
               </span>
             </FadeContent>
 
             <BlurText
-              text="Made with Love in Senegal"
+              text="Fait avec Amour au Sénégal"
               className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight"
               animateBy="words"
               delay={0.08}
@@ -115,16 +115,15 @@ export function MadeInSenegal() {
 
             <FadeContent direction="up" delay={0.2}>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Moomel connects you directly with talented Senegalese artisans who craft
-                premium organic beauty products using ancestral techniques passed down
-                through generations.
+                Moomel vous connecte directement avec des artisans sénégalais talentueux qui fabriquent des produits 
+                de beauté bio premium en utilisant des techniques ancestrales transmises de génération en génération.
               </p>
             </FadeContent>
 
             <FadeContent direction="up" delay={0.3}>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Every purchase supports local communities, empowers women entrepreneurs,
-                and celebrates the rich beauty traditions of West Africa.
+                Chaque achat soutient les communautés locales, valorise les femmes entrepreneures et célèbre les 
+                riches traditions de beauté de l&apos;Afrique de l&apos;Ouest.
               </p>
             </FadeContent>
 
@@ -132,9 +131,9 @@ export function MadeInSenegal() {
             <FadeContent direction="up" delay={0.4}>
               <div className="grid grid-cols-3 gap-8 py-8 border-y border-border">
                 {[
-                  { value: "150+", label: "Local Artisans" },
-                  { value: "100%", label: "Natural Ingredients" },
-                  { value: "50+", label: "Communities" },
+                  { value: "150+", label: "Artisans Locaux" },
+                  { value: "100%", label: "Ingrédients Naturels" },
+                  { value: "50+", label: "Communautés" },
                 ].map((stat, index) => (
                   <motion.div
                     key={stat.label}
@@ -155,7 +154,7 @@ export function MadeInSenegal() {
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-primary-foreground group rounded-full px-8"
                 >
-                  Meet Our Artisans
+                  Rencontrer nos Artisans
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
               </Magnet>

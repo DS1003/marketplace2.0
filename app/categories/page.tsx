@@ -16,39 +16,39 @@ import { FadeContent } from "@/components/ui/fade-content"
 const mainCategories = [
     {
         id: "skincare",
-        name: "Skincare",
-        description: "Nourishing formulas for a radiant, healthy complexion.",
+        name: "Soins du Visage",
+        description: "Des formules nourrissantes pour un teint éclatant et sain.",
         icon: Sparkles,
         color: "bg-amber-50",
         image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=800&auto=format&fit=crop",
-        subcategories: ["Serums", "Moisturizers", "Cleansers", "Masks"]
+        subcategories: ["Sérums", "Hydratants", "Nettoyants", "Masques"]
     },
     {
         id: "haircare",
-        name: "Haircare",
-        description: "Revitalize your hair with the power of African plants.",
+        name: "Soins Capillaires",
+        description: "Revitalisez vos cheveux grâce à la puissance des plantes africaines.",
         icon: Wind,
         color: "bg-emerald-50",
         image: "https://images.unsplash.com/photo-1527799822340-47baf0d46a46?q=80&w=800&auto=format&fit=crop",
-        subcategories: ["Oils", "Shampoos", "Conditioners", "Scalp Care"]
+        subcategories: ["Huiles", "Shampooings", "Après-shampooings", "Cuir Chevelu"]
     },
     {
         id: "bodycare",
-        name: "Body Care",
-        description: "Pure indulgence for your skin from head to toe.",
+        name: "Soins du Corps",
+        description: "Une pure indulgence pour votre peau, de la tête aux pieds.",
         icon: Droplets,
         color: "bg-rose-50",
         image: "https://images.unsplash.com/photo-1552046122-03184de85ec0?q=80&w=800&auto=format&fit=crop",
-        subcategories: ["Soaps", "Body Butters", "Exfoliants", "Oils"]
+        subcategories: ["Savons", "Beurres Corporels", "Exfoliants", "Huiles"]
     },
     {
         id: "wellness",
-        name: "Wellness",
-        description: "Essential oils and accessories for mindful living.",
+        name: "Bien-être",
+        description: "Huiles essentielles et accessoires pour un mode de vie conscient.",
         icon: Leaf,
         color: "bg-stone-50",
         image: "https://images.unsplash.com/photo-1602928321679-560bb453f190?q=80&w=800&auto=format&fit=crop",
-        subcategories: ["Essential Oils", "Diffusers", "Herbal Teas"]
+        subcategories: ["Huiles Essentielles", "Diffuseurs", "Tisanes"]
     }
 ]
 
@@ -62,13 +62,13 @@ export default function CategoriesPage() {
                 <FadeContent blur={true} duration={0.8}>
                     <div className="flex flex-col items-center text-center mb-16">
                         <Badge variant="outline" className="mb-4 border-primary/20 bg-primary/5 text-primary">
-                            Browse Collections
+                            Parcourir les Collections
                         </Badge>
                         <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                            Shop by Category
+                            Acheter par Catégorie
                         </h1>
                         <p className="text-muted-foreground text-lg max-w-2xl">
-                            Explore our curated selection of premium beauty and wellness products, organized to help you find exactly what your ritual needs.
+                            Explorez notre sélection méticuleuse de produits de beauté et de bien-être haut de gamme, organisée pour vous aider à trouver exactement ce dont votre rituel a besoin.
                         </p>
                     </div>
                 </FadeContent>
@@ -115,7 +115,7 @@ export default function CategoriesPage() {
                                         </div>
 
                                         <Button className="bg-white text-black hover:bg-white/90 rounded-full px-8 h-12 flex items-center gap-2 group/btn">
-                                            Explore Collection <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                                            Explorer la Collection <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
                                         </Button>
                                     </div>
                                 </Card>
@@ -129,15 +129,15 @@ export default function CategoriesPage() {
             <section className="bg-primary/5 py-24 px-4 sm:px-6 lg:px-8 border-y border-border/40 overflow-hidden">
                 <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
                     <div className="lg:w-1/2 space-y-8">
-                        <Badge variant="outline" className="border-primary/20 bg-primary/10 text-primary">Seasonal Focus</Badge>
-                        <h2 className="text-4xl md:text-5xl font-bold font-jakarta text-[#1A1A1A]">Skin Radiance Ritual</h2>
+                        <Badge variant="outline" className="border-primary/20 bg-primary/10 text-primary">Focus de Saison</Badge>
+                        <h2 className="text-4xl md:text-5xl font-bold font-jakarta text-[#1A1A1A]">Rituel Éclat de la Peau</h2>
                         <p className="text-lg text-muted-foreground leading-relaxed">
-                            Discover our award-winning combination of Baobab serum and Hibiscus rose water, designed to deeply hydrate and brighten your complexion using only the purest Senegalese botanicals.
+                            Découvrez notre combinaison primée de sérum de Baobab et d&apos;eau de rose d&apos;Hibiscus, conçue pour hydrater en profondeur et illuminer votre teint en utilisant uniquement les plantes sénégalaises les plus pures.
                         </p>
                         <div className="flex items-center gap-4 pt-4">
-                            <Button size="lg" className="rounded-full px-8 bg-[#2D3436] hover:bg-[#1A1A1A] text-white">Shop the Ritual</Button>
+                            <Button size="lg" className="rounded-full px-8 bg-[#2D3436] hover:bg-[#1A1A1A] text-white">Acheter le Rituel</Button>
                             <Button size="lg" variant="ghost" className="rounded-full group">
-                                Learn More <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                                En savoir plus <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                             </Button>
                         </div>
                     </div>
@@ -167,8 +167,8 @@ export default function CategoriesPage() {
                                     <Leaf className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <div className="text-sm font-bold">100% Organic</div>
-                                    <div className="text-xs text-muted-foreground">Certified Sourced</div>
+                                    <div className="text-sm font-bold">100% Biologique</div>
+                                    <div className="text-xs text-muted-foreground">Source Certifiée</div>
                                 </div>
                             </motion.div>
                         </motion.div>
@@ -179,14 +179,14 @@ export default function CategoriesPage() {
             {/* Grid of smaller categories or ingredients */}
             <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold mb-4">Shop by Ingredient</h2>
-                    <p className="text-muted-foreground">The soul of our formulas, sourced from sustainable Senegalese cooperatives.</p>
+                    <h2 className="text-3xl font-bold mb-4">Acheter par Ingrédient</h2>
+                    <p className="text-muted-foreground">L&apos;âme de nos formules, sourcée auprès de coopératives sénégalaises durables.</p>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
                     {[
-                        { name: "Shea Butter", icon: "✨" },
-                        { name: "Baobab Oil", icon: "💧" },
+                        { name: "Beurre de Karité", icon: "✨" },
+                        { name: "Huile de Baobab", icon: "💧" },
                         { name: "Moringa", icon: "🌿" },
                         { name: "Hibiscus", icon: "🌺" },
                         { name: "Neem", icon: "🍃" },

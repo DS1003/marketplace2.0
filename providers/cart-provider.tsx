@@ -8,7 +8,8 @@ export interface CartItem {
     price: number
     quantity: number
     image: string
-    shopName?: string
+    seller?: string
+    organic?: boolean
 }
 
 interface CartContextType {
@@ -59,9 +60,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 id: product.id,
                 name: product.name,
                 price: product.price,
-                quantity: 1,
-                image: product.images?.[0] || "",
-                shopName: product.shop?.name || "Artisan Lab"
+                quantity: product.quantity || 1,
+                image: product.image || (product.images?.[0] || ""),
+                seller: product.shop?.name || product.seller || "Artisan Lab",
+                organic: product.organic || true
             }]
         })
     }, [])

@@ -8,6 +8,7 @@ import {
     Check, X, SlidersHorizontal,
     ShoppingBag, Store, Globe, ShieldCheck
 } from "lucide-react"
+import Link from "next/link"
 import NextImage from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -175,7 +176,7 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                                             </div>
 
                                             {/* Actions */}
-                                            {shop.status === 'PENDING' && (
+                                            {shop.status === 'PENDING' ? (
                                                 <div className="flex flex-row lg:flex-col gap-2 w-full lg:w-auto pt-6 lg:pt-0 lg:pl-8 lg:border-l border-zinc-100">
                                                     <Button
                                                         disabled={isPending}
@@ -191,6 +192,12 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                                                         className="flex-1 h-10 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 font-bold uppercase tracking-widest text-[8px] transition-all"
                                                     >
                                                         <X className="mr-2 h-3.5 w-3.5" /> Deny
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-row lg:flex-col gap-2 w-full lg:w-auto pt-6 lg:pt-0 lg:pl-8 lg:border-l border-zinc-100 items-center justify-center">
+                                                    <Button asChild variant="outline" className="w-full h-10 rounded-xl font-bold uppercase tracking-widest text-[10px]">
+                                                        <Link href={`/admin/sellers/${shop.id}`}>Gérer la Boutique</Link>
                                                     </Button>
                                                 </div>
                                             )}

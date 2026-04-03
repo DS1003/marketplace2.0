@@ -8,17 +8,9 @@ export default auth((req) => {
   const { nextUrl } = req
 
   const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth")
-  const isPublicRoute = ["/", "/marketplace", "/about", "/contact", "/become-seller", "/sell"].includes(nextUrl.pathname) || nextUrl.pathname.startsWith("/categories") || nextUrl.pathname.startsWith("/product")
-  const isAuthRoute = ["/account"].includes(nextUrl.pathname)
+  const isPublicRoute = ["/", "/marketplace", "/about", "/contact", "/become-seller", "/sell", "/account"].includes(nextUrl.pathname) || nextUrl.pathname.startsWith("/categories") || nextUrl.pathname.startsWith("/product") || nextUrl.pathname.startsWith("/account")
 
   if (isApiAuthRoute) return
-
-  if (isAuthRoute) {
-    if (isLoggedIn) {
-      return Response.redirect(new URL("/", nextUrl))
-    }
-    return
-  }
 
   // Add protection for admin/seller routes if needed
   if (!isLoggedIn && !isPublicRoute) {

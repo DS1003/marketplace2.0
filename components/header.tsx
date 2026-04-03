@@ -32,11 +32,11 @@ import {
 import { NotificationBell } from "./notifications/NotificationBell"
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/marketplace", label: "Marketplace" },
-  { href: "/categories", label: "Categories" },
-  { href: "/sellers", label: "Sellers" },
-  { href: "/about", label: "About" },
+  { href: "/", label: "Accueil" },
+  { href: "/marketplace", label: "Marché" },
+  { href: "/categories", label: "Catégories" },
+  { href: "/sellers", label: "Artisans" },
+  { href: "/about", label: "À propos" },
   { href: "/contact", label: "Contact" },
 ]
 
@@ -201,6 +201,25 @@ export function Header() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.48, duration: 0.3 }}
+                >
+                  <Link href="/account/wishlist">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={cn(
+                        "rounded-full transition-all hover:scale-110 active:scale-95",
+                        !shouldBeTransparent ? "hover:bg-secondary text-foreground" : "text-white hover:bg-white/20"
+                      )}
+                    >
+                      <Heart className="h-5 w-5" />
+                      <span className="sr-only">Favoris</span>
+                    </Button>
+                  </Link>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.5, duration: 0.3 }}
                   className="mr-2"
                 >
@@ -225,7 +244,7 @@ export function Header() {
                       >
                         {totalItems}
                       </motion.span>
-                      <span className="sr-only">Cart</span>
+                      <span className="sr-only">Panier</span>
                     </Button>
                   </Link>
                 </motion.div>
@@ -248,7 +267,7 @@ export function Header() {
                           <p className="text-xs leading-none text-muted-foreground">{session.user.email}</p>
                           {(session.user.role as string) === "SUPER_ADMIN" && (
                             <span className="mt-2 inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold text-primary max-w-fit">
-                              SUPER ADMINISTRATOR
+                              SUPER ADMINISTRATEUR
                             </span>
                           )}
                         </div>
@@ -260,7 +279,7 @@ export function Header() {
                             <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                               <User className="h-4 w-4 text-primary" />
                             </div>
-                            <span className="text-sm font-medium">My Profile</span>
+                            <span className="text-sm font-medium">Mon Profil</span>
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-primary/5 group transition-all duration-300">
@@ -268,7 +287,7 @@ export function Header() {
                             <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                               <Heart className="h-4 w-4 text-primary" />
                             </div>
-                            <span className="text-sm font-medium">Wishlist</span>
+                            <span className="text-sm font-medium">Favoris</span>
                           </Link>
                         </DropdownMenuItem>
                         {((session.user.role as string) === "SUPER_ADMIN" || (session.user.role as string) === "SELLER") && (
@@ -277,16 +296,16 @@ export function Header() {
                               <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                                 <LayoutDashboard className="h-4 w-4 text-primary" />
                               </div>
-                              <span className="text-sm font-medium">{(session.user.role as string) === "SUPER_ADMIN" ? "Admin Panel" : "Seller Lab"}</span>
-                            </Link>
-                          </DropdownMenuItem>
+                            <span className="text-sm font-medium">{(session.user.role as string) === "SUPER_ADMIN" ? "Panel Admin" : "Espace Artisan"}</span>
+                          </Link>
+                        </DropdownMenuItem>
                         )}
                         <DropdownMenuItem asChild className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-primary/5 group transition-all duration-300">
-                          <Link href="/settings" className="flex items-center gap-3 w-full">
+                          <Link href="/account?tab=settings" className="flex items-center gap-3 w-full">
                             <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                               <Settings className="h-4 w-4 text-primary" />
                             </div>
-                            <span className="text-sm font-medium">Settings</span>
+                            <span className="text-sm font-medium">Paramètres</span>
                           </Link>
                         </DropdownMenuItem>
                       </div>
@@ -299,7 +318,7 @@ export function Header() {
                           <div className="h-8 w-8 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive/20 transition-colors">
                             <LogOut className="h-4 w-4" />
                           </div>
-                          <span className="text-sm font-bold">Sign Out</span>
+                          <span className="text-sm font-bold">Déconnexion</span>
                         </div>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -315,7 +334,7 @@ export function Header() {
                         "rounded-full px-6 ml-2 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/10",
                         !shouldBeTransparent ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-white hover:bg-white/90 text-black"
                       )}>
-                        Sign In
+                        Se Connecter
                       </Button>
                     </Link>
                   </motion.div>
@@ -336,6 +355,19 @@ export function Header() {
                   <Search className="h-5 w-5" />
                   <span className="sr-only">Search</span>
                 </Button>
+                <Link href="/account/wishlist">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "rounded-full h-9 w-9",
+                      !shouldBeTransparent ? "text-foreground" : "text-white"
+                    )}
+                  >
+                    <Heart className="h-5 w-5" />
+                    <span className="sr-only">Favoris</span>
+                  </Button>
+                </Link>
                 <Link href="/cart">
                   <Button
                     variant="ghost"
@@ -465,27 +497,38 @@ export function Header() {
                 </div>
 
                 <div className="mt-12 px-6">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-6">Quick Actions</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-6">Actions Rapides</p>
                   <div className="grid grid-cols-2 gap-4">
                     <Link href="/account" className="flex flex-col items-center justify-center p-6 bg-secondary/30 rounded-3xl gap-3" onClick={() => setIsMenuOpen(false)}>
                       <User className="h-6 w-6 text-primary" />
-                      <span className="text-xs font-bold uppercase tracking-tight">Account</span>
+                      <span className="text-xs font-bold uppercase tracking-tight">Compte</span>
                     </Link>
                     <Link href="/cart" className="flex flex-col items-center justify-center p-6 bg-secondary/30 rounded-3xl gap-3" onClick={() => setIsMenuOpen(false)}>
                       <div className="relative">
                         <ShoppingBag className="h-6 w-6 text-primary" />
                         <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold">0</span>
                       </div>
-                      <span className="text-xs font-bold uppercase tracking-tight">Cart</span>
+                      <span className="text-xs font-bold uppercase tracking-tight">Panier</span>
                     </Link>
                   </div>
                 </div>
               </div>
 
               <div className="p-8 border-t border-border/50 bg-secondary/10">
+                {((session?.user?.role as string) === "SUPER_ADMIN" || (session?.user?.role as string) === "SELLER") && (
+                  <Link 
+                    href={(session?.user?.role as string) === "SUPER_ADMIN" ? "/admin" : "/seller"} 
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Button className="w-full h-14 rounded-2xl bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-[10px] mb-4 flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
+                      <LayoutDashboard className="h-4 w-4" /> 
+                      {(session?.user?.role as string) === "SUPER_ADMIN" ? "Panel Admin" : "Lab des Artisans"}
+                    </Button>
+                  </Link>
+                )}
                 {(!session?.user || session.user.role === "CUSTOMER") && (
                   <Link href="/become-seller" onClick={() => setIsMenuOpen(false)}>
-                    <Button className="w-full h-14 rounded-2xl bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-[9px] mb-4 flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
+                    <Button className="w-full h-14 rounded-2xl bg-[#2D241E]/10 text-[#2D241E] hover:bg-[#2D241E]/20 font-bold uppercase tracking-widest text-[9px] mb-4 flex items-center justify-center gap-2">
                       <Store className="h-4 w-4" /> Devenir Artisan
                     </Button>
                   </Link>
@@ -494,7 +537,7 @@ export function Header() {
                   onClick={() => !session?.user ? router.push("/account") : logout()}
                   className="w-full h-14 rounded-2xl bg-[#2D241E] text-white hover:bg-black font-bold uppercase tracking-widest text-[10px] mb-6"
                 >
-                  {!session?.user ? "Sign In to Account" : "Sign Out"}
+                  {!session?.user ? "Se Connecter" : "Déconnexion"}
                 </Button>
                 <div className="flex justify-center gap-6">
                   <div className="h-10 w-10 rounded-full bg-white border border-border/50 flex items-center justify-center text-muted-foreground"><Instagram className="h-5 w-5" /></div>
@@ -507,30 +550,30 @@ export function Header() {
       </AnimatePresence>
 
       <CommandDialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
-        <CommandInput placeholder="Search products, categories, sellers..." />
+        <CommandInput placeholder="Rechercher des produits, catégories, artisans..." />
         <CommandList className="max-h-[70vh]">
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>Aucun résultat trouvé.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             <CommandItem onSelect={() => runCommand(() => router.push("/marketplace"))}>
               <ShoppingBag className="mr-2 h-4 w-4" />
-              <span>Browse All Products</span>
+              <span>Parcourir tous les produits</span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => router.push("/categories"))}>
               <Menu className="mr-2 h-4 w-4" />
-              <span>View Categories</span>
+              <span>Voir les catégories</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Popular Categories">
-            <CommandItem onSelect={() => runCommand(() => router.push("/categories/clothing"))}>Clothing</CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push("/categories/jewelry"))}>Jewelry</CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push("/categories/home"))}>Home Decor</CommandItem>
+          <CommandGroup heading="Catégories populaires">
+            <CommandItem onSelect={() => runCommand(() => router.push("/marketplace?category=Skincare"))}>Soins du Visage</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/marketplace?category=Haircare"))}>Soins Capillaires</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/marketplace?category=Oils"))}>Huiles Naturelles</CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Settings">
+          <CommandGroup heading="Paramètres">
             <CommandItem onSelect={() => runCommand(() => router.push("/account"))}>
               <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+              <span>Profil</span>
               <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
                 <span className="text-xs">⌘</span>P
               </kbd>

@@ -193,9 +193,7 @@ const sections = [
         content: (
             <div className="space-y-6">
                 <div className="flex gap-4 flex-wrap">
-                    <div className="px-6 py-3 bg-primary/5 rounded-2xl border border-primary/10 font-black text-primary">$ USD</div>
-                    <div className="px-6 py-3 bg-primary/5 rounded-2xl border border-primary/10 font-black text-primary">€ EUR</div>
-                    <div className="px-6 py-3 bg-primary/5 rounded-2xl border border-primary/10 font-black text-primary">FCFA</div>
+                    <div className="px-6 py-3 bg-primary/10 rounded-2xl border border-primary/20 font-black text-primary">FCFA (XOF)</div>
                 </div>
                 <p>Les prix sont fixés par les vendeurs. La marketplace applique une commission de pourcentage incluse dans le prix final payé par l’acheteur.</p>
                 <p className="font-bold underline decoration-primary decoration-4 underline-offset-8">Les frais de livraison sont calculés automatiquement et affichés avant la validation du panier.</p>

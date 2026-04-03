@@ -1,0 +1,15 @@
+[
+  'account',
+  'session',
+  'user',
+  'verificationToken',
+  'shop',
+  'notification',
+  'category',
+  'product',
+  'order',
+  'orderItem',
+  'wallet',
+  'review',
+  '$parent'
+]

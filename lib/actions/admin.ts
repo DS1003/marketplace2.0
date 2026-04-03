@@ -208,3 +208,40 @@ export async function getAllUsers() {
       orderBy: { createdAt: 'desc' }
   })
 }
+
+export async function getShopById(id: string) {
+    const session = await auth()
+    if (!session || (session.user.role as string) !== "SUPER_ADMIN") {
+        throw new Error("Unauthorized")
+    }
+
+    return prisma.shop.findUnique({
+        where: { id },
+        include: {
+            owner: true,
+            products: {
+                include: { category: true },
+                orderBy: { createdAt: 'desc' }
+            }
+        }
+    })
+}
+
+export async function toggleProductStatus(productId: string) {
+    const session = await auth()
+    if (!session || (session.user.role as string) !== "SUPER_ADMIN") {
+        throw new Error("Unauthorized")
+    }
+
+    const product = await prisma.product.findUnique({ where: { id: productId } })
+    if (!product) throw new Error("Product not found")
+
+    const newStatus = product.status === "ACTIVE" ? "SUSPENDED" : "ACTIVE"
+    const updated = await prisma.product.update({
+        where: { id: productId },
+        data: { status: newStatus }
+    })
+
+    revalidatePath(`/admin/sellers/${product.shopId}`)
+    return { success: true, status: newStatus }
+}

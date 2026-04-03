@@ -14,17 +14,17 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Moomel | Natural Beauty from Senegal',
-  description: 'Discover premium organic beauty products made in Senegal. Natural skincare, haircare, and cosmetics from local entrepreneurs.',
+  title: 'Moomel | Beauté Naturelle du Sénégal',
+  description: 'Découvrez des produits de beauté bio haut de gamme fabriqués au Sénégal. Soins du visage, soins capillaires et cosmétiques naturels d&apos;entrepreneurs locaux.',
   generator: 'v0.app',
-  keywords: ['beauty', 'organic', 'natural', 'Senegal', 'skincare', 'cosmetics', 'African beauty'],
+  keywords: ['beauté', 'bio', 'naturel', 'Sénégal', 'soins', 'cosmétiques', 'beauté africaine'],
   metadataBase: new URL('https://moomel.sn'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Moomel | Natural Beauty from Senegal',
-    description: 'Discover premium organic beauty products made in Senegal.',
+    title: 'Moomel | Beauté Naturelle du Sénégal',
+    description: 'Découvrez des produits de beauté bio haut de gamme fabriqués au Sénégal.',
     url: 'https://moomel.sn',
     siteName: 'Moomel',
     images: [
@@ -32,16 +32,16 @@ export const metadata: Metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Moomel - Natural Beauty from Senegal',
+        alt: 'Moomel - Beauté Naturelle du Sénégal',
       },
     ],
-    locale: 'en_US',
+    locale: 'fr_FR',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Moomel | Natural Beauty from Senegal',
-    description: 'Premium organic beauty products from local Senegalese entrepreneurs.',
+    title: 'Moomel | Beauté Naturelle du Sénégal',
+    description: 'Produits de beauté bio haut de gamme d&apos;entrepreneurs sénégalais.',
     images: ['/images/og-image.jpg'],
   },
   icons: {
@@ -62,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={plusJakartaSans.variable} suppressHydrationWarning>
+    <html lang="fr" className={plusJakartaSans.variable} suppressHydrationWarning>
       <body className="font-sans antialiased bg-background text-foreground" suppressHydrationWarning>
         <SessionProvider>
           <CartProvider>

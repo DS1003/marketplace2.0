@@ -15,24 +15,24 @@ const testimonials = [
     location: "Paris, France",
     avatar: "/images/founder-1.jpg",
     rating: 5,
-    text: "The shea butter from Moomel is absolutely incredible. My skin has never felt so soft and nourished. I love supporting local artisans!",
-    product: "Pure Shea Butter",
+    text: "Le beurre de karité de Moomel est absolument incroyable. Ma peau n'a jamais été aussi douce et nourrie. J'adore soutenir les artisans locaux !",
+    product: "Beurre de Karité Pur",
   },
   {
     name: "Aicha Mbaye",
-    location: "Dakar, Senegal",
+    location: "Dakar, Sénégal",
     avatar: "/images/founder-2.jpg",
     rating: 5,
-    text: "Finally, a platform that celebrates our beautiful Senegalese beauty traditions. The quality is exceptional and delivery was fast.",
-    product: "Baobab Hair Oil",
+    text: "Enfin une plateforme qui célèbre nos belles traditions de beauté sénégalaises. La qualité est exceptionnelle et la livraison a été rapide.",
+    product: "Huile de Baobab Cheveux",
   },
   {
     name: "Emma Wilson",
-    location: "London, UK",
+    location: "Londres, UK",
     avatar: "/images/founder-3.jpg",
     rating: 5,
-    text: "I discovered Moomel through a friend and now I can't stop ordering! The African black soap has transformed my skincare routine.",
-    product: "African Black Soap",
+    text: "J'ai découvert Moomel grâce à une amie et maintenant je ne peux plus m'arrêter de commander ! Le savon noir africain a transformé ma routine.",
+    product: "Savon Noir Africain",
   },
 ]
 
@@ -57,12 +57,12 @@ export function Testimonials() {
         <div className="text-center mb-24 max-w-3xl mx-auto">
           <FadeContent direction="up" delay={0}>
             <span className="inline-block text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-4">
-              Community Voices
+              Les Voix de la Communauté
             </span>
           </FadeContent>
 
           <BlurText
-            text="Loved by Our Customers"
+            text="Adoré par nos Clients"
             className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-balance text-foreground mb-6"
             animateBy="words"
             delay={0.1}
@@ -70,7 +70,7 @@ export function Testimonials() {
 
           <FadeContent direction="up" delay={0.3}>
             <p className="text-muted-foreground text-lg font-light">
-              Read authentic experiences from our growing community of beauty enthusiasts around the world.
+              Découvrez les expériences authentiques de notre communauté d&apos;adeptes de la beauté à travers le monde.
             </p>
           </FadeContent>
         </div>

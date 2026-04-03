@@ -6,76 +6,101 @@ import { Star, ShoppingBag, Heart, ArrowRight, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion, useInView, AnimatePresence } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { BlurText } from "@/components/ui/blur-text"
 import { FadeContent } from "@/components/ui/fade-content"
 import { SpotlightCard } from "@/components/ui/spotlight-card"
 import { Magnet } from "@/components/ui/magnet"
+import { usePathname, useRouter } from "next/navigation"
 import { useCart } from "@/providers/cart-provider"
 import { toast } from "sonner"
+import { formatPrice, cn } from "@/lib/utils"
+import { toggleWishlist } from "@/lib/actions/wishlist"
+import { useSession } from "next-auth/react"
 
-const products = [
-  {
-    id: 1,
-    name: "Pure Shea Butter",
-    price: 24.99,
-    originalPrice: 29.99,
-    rating: 4.9,
-    reviews: 124,
-    image: "/images/product-1.jpg",
-    seller: "Fatou Natural",
-    badge: "Best Seller",
-  },
-  {
-    id: 2,
-    name: "Baobab Facial Oil",
-    price: 34.99,
-    originalPrice: null,
-    rating: 4.8,
-    reviews: 89,
-    image: "/images/product-2.jpg",
-    seller: "Senegal Oils",
-    badge: "New Arrival",
-  },
-  {
-    id: 3,
-    name: "African Black Soap",
-    price: 12.99,
-    originalPrice: 15.99,
-    rating: 4.7,
-    reviews: 256,
-    image: "/images/product-3.jpg",
-    seller: "Dakar Organics",
-    badge: null,
-  },
-  {
-    id: 4,
-    name: "Moringa Hair Serum",
-    price: 28.99,
-    originalPrice: null,
-    rating: 4.9,
-    reviews: 67,
-    image: "/images/product-4.jpg",
-    seller: "Natural Glow",
+export function FeaturedProducts({ 
+  initialProducts, 
+  limit = 4, 
+  title = "Essentiels Premium",
+  subtitle = "Une sélection de nos coups de cœur biologiques parmi les collections de luxe africaines.",
+  hideHeader = false
+}: { 
+  initialProducts: any[], 
+  limit?: number | null, 
+  title?: string | null,
+  subtitle?: string | null,
+  hideHeader?: boolean
+}) {
+  const pathname = usePathname()
+  const router = useRouter()
+  const products = (limit ? initialProducts.slice(0, limit) : initialProducts).map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    originalPrice: p.price * 1.2, // mock original price
+    rating: p.avgRating || 0,
+    reviews: p.reviewCount || 0,
+    image: p.images?.[0] || "/images/product-1.jpg",
+    seller: p.shop?.name || "Premium Artisan",
     badge: "Trending",
-  },
-]
-
-export function FeaturedProducts() {
+  }))
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
-  const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [wishlistIds, setWishlistIds] = useState<string[]>([])
+  const [isLoadingWishlist, setIsLoadingWishlist] = useState<string | null>(null)
+  const { data: session } = useSession()
   const { addItem } = useCart()
+
+  // Sync wishlistIds with props whenever initialProducts change
+  useEffect(() => {
+    if (initialProducts) {
+      const ids = initialProducts.filter((p: any) => p.isWishlisted).map((p: any) => p.id)
+      setWishlistIds(ids)
+    }
+  }, [initialProducts])
 
   const handleAddToCart = (product: any) => {
     addItem({
         id: product.id.toString(),
         name: product.name,
         price: product.price,
-        images: [product.image],
-        shop: { name: product.seller }
+        image: product.image,
+        seller: product.seller,
+        organic: true
     })
-    toast.success(`${product.name} added to your ritual bag.`)
+    toast.success(`${product.name} ajouté à votre rituel.`)
+  }
+
+  const handleToggleWishlist = async (productId: string, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    if (!session) {
+        toast.error("Vous devez être connecté pour ajouter en favori.")
+        router.push("/account")
+        return
+    }
+
+    setIsLoadingWishlist(productId)
+    try {
+        const result = await toggleWishlist(productId)
+        if (result.success) {
+            if (result.isWishlisted) {
+                setWishlistIds(prev => [...prev, productId])
+                toast.success("Ajouté à vos favoris")
+            } else {
+                setWishlistIds(prev => prev.filter(id => id !== productId))
+                toast.success("Retiré de vos favoris")
+            }
+        } else {
+            toast.error(result.error)
+        }
+    } catch (error) {
+        toast.error("Une erreur est survenue")
+    } finally {
+        setIsLoadingWishlist(null)
+    }
   }
 
   return (
@@ -85,63 +110,58 @@ export function FeaturedProducts() {
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
+        {!hideHeader && (
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
           <div className="max-w-2xl px-2">
             <FadeContent direction="up" delay={0}>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary mb-4 md:mb-6">
                 <Star className="w-3 h-3 md:w-4 md:h-4" />
-                <span className="text-[10px] md:text-xs font-semibold uppercase tracking-wider">Curated Selection</span>
+                <span className="text-[10px] md:text-xs font-semibold uppercase tracking-wider">Sélection Exclusive</span>
               </div>
             </FadeContent>
 
-            <BlurText
-              text="Premium Essentials"
-              className="text-[clamp(2rem,10vw,4rem)] md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground"
-              animateBy="words"
-              delay={0.08}
-            />
+            {title && (
+              <BlurText
+                text={title}
+                className="text-[clamp(2rem,10vw,4rem)] md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground"
+                animateBy="words"
+                delay={0.08}
+              />
+            )}
 
-            <FadeContent direction="up" delay={0.2}>
-              <p className="text-muted-foreground mt-4 text-sm md:text-lg font-light max-w-lg">
-                Handpicked organic favorites from our luxury African beauty collections.
-              </p>
-            </FadeContent>
+            {subtitle && (
+              <FadeContent direction="up" delay={0.2}>
+                <p className="text-muted-foreground mt-4 text-sm md:text-lg font-light max-w-lg">
+                  {subtitle}
+                </p>
+              </FadeContent>
+            )}
           </div>
 
           <FadeContent direction="left" delay={0.3} className="hidden md:block">
             <Magnet padding={40} magnetStrength={3}>
-              <Button variant="ghost" className="group rounded-full px-6 hover:bg-primary/5 hover:text-primary transition-colors text-base font-medium">
-                View All Products
+              <Button variant="ghost" className="group rounded-full px-6 hover:bg-primary/5 hover:text-primary transition-colors text-base font-medium" onClick={() => router.push('/marketplace')}>
+                Voir tous les produits
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Magnet>
           </FadeContent>
         </div>
+        )}
 
         {/* Products Grid / Mobile Carousel */}
         <div className="relative group/carousel">
-          <div className="flex overflow-x-auto pb-8 pt-2 gap-6 snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-visible md:snap-none md:gap-x-8 md:gap-y-12">
-            {products.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{
-                  duration: 0.8,
-                  delay: index * 0.15,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                onMouseEnter={() => setHoveredId(product.id)}
-                onMouseLeave={() => setHoveredId(null)}
-                className="relative group min-w-[280px] sm:min-w-0 snap-center first:ml-4 last:mr-4 md:first:ml-0 md:last:mr-0"
-              >
-                <SpotlightCard
-                  className="h-full rounded-[2rem]"
-                  spotlightColor="rgba(var(--primary-rgb), 0.1)"
-                >
-                  <Card className="bg-card/50 backdrop-blur-sm border border-border/50 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-700 overflow-hidden rounded-[2rem] h-full flex flex-col group-hover:md:-translate-y-2">
-                    <div className="relative aspect-[4/5] overflow-hidden p-2">
-                      <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden bg-muted/20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+            {products.map((product, idx) => (
+              <FadeContent key={product.id} direction="up" delay={0.1 * (idx + 1)}>
+                <SpotlightCard className="group relative bg-background border border-border/50 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
+                  <Card className="border-none bg-transparent shadow-none">
+                    <div 
+                      className="relative aspect-[4/5] overflow-hidden bg-secondary/20"
+                      onMouseEnter={() => setHoveredId(product.id)}
+                      onMouseLeave={() => setHoveredId(null)}
+                    >
+                      <Link href={`/product/${product.id}`} className="block h-full">
                         <NextImage
                           src={product.image}
                           alt={product.name}
@@ -150,7 +170,7 @@ export function FeaturedProducts() {
                           sizes="(max-width: 640px) 280px, (max-width: 1024px) 50vw, 25vw"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-500" />
-                      </div>
+                      </Link>
 
                       {product.badge && (
                         <motion.div
@@ -166,13 +186,20 @@ export function FeaturedProducts() {
                       <motion.button
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{
-                          opacity: (hoveredId === product.id) || (typeof window !== 'undefined' && window.innerWidth < 768) ? 1 : 0,
-                          scale: (hoveredId === product.id) || (typeof window !== 'undefined' && window.innerWidth < 768) ? 1 : 0.8,
+                          opacity: 1,
+                          scale: 1,
                         }}
                         whileHover={{ scale: 1.1 }}
-                        className="absolute top-5 right-5 md:top-6 md:right-6 h-9 w-9 md:h-10 md:w-10 rounded-full bg-background/80 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:bg-background hover:text-red-500 border border-border/50 shadow-sm text-foreground/70"
+                        disabled={isLoadingWishlist === product.id}
+                        onClick={(e) => handleToggleWishlist(product.id, e)}
+                        className={cn(
+                            "absolute top-5 right-5 md:top-6 md:right-6 h-9 w-9 md:h-10 md:w-10 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-300 border border-border/50 shadow-sm z-20",
+                            wishlistIds.includes(product.id) 
+                                ? "bg-primary text-primary-foreground border-primary" 
+                                : "bg-background/80 text-foreground/70 hover:bg-background hover:text-red-500"
+                        )}
                       >
-                        <Heart className="h-4 w-4" />
+                        <Heart className={cn("h-4 w-4", wishlistIds.includes(product.id) && "fill-current")} />
                       </motion.button>
 
                       <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6 overflow-hidden hidden md:block">
@@ -189,7 +216,7 @@ export function FeaturedProducts() {
                                 className="w-full bg-foreground text-background hover:bg-primary hover:text-primary-foreground backdrop-blur-md rounded-xl py-6 shadow-xl transition-colors duration-300 group/btn"
                               >
                                 <ShoppingBag className="h-4 w-4 mr-2" />
-                                <span className="font-medium tracking-wide">Quick Add</span>
+                                <span className="font-medium tracking-wide">Ajout Rapide</span>
                               </Button>
                             </motion.div>
                           )}
@@ -197,63 +224,51 @@ export function FeaturedProducts() {
                       </div>
                     </div>
 
-                    <CardContent className="p-5 md:p-6 flex flex-col flex-grow">
-                      <Link href={`/sellers/${product.seller.toLowerCase().replace(/ /g, '-')}`} className="flex items-center gap-1.5 mb-2 md:mb-3 text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wider hover:text-primary transition-colors">
-                        <ShieldCheck className="w-3 h-3 text-primary shrink-0" />
-                        {product.seller}
-                      </Link>
-
-                      <h3 className="font-semibold text-base md:text-lg text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
-                        {product.name}
-                      </h3>
-
-                      <div className="flex items-center gap-1.5 mt-2">
-                        <div className="flex -space-x-[1px]">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`h-2.5 w-2.5 md:h-3 md:w-3 ${i < Math.floor(product.rating) ? "fill-primary text-primary" : "fill-muted text-muted"}`} />
-                          ))}
+                    <CardContent className="p-6 md:p-8">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="space-y-1">
+                          <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-primary">{product.seller}</p>
+                          <Link href={`/product/${product.id}`}>
+                            <h3 className="text-base md:text-xl font-bold tracking-tight text-foreground line-clamp-1 hover:text-primary transition-colors cursor-pointer">{product.name}</h3>
+                          </Link>
                         </div>
-                        <span className="text-[10px] md:text-xs font-semibold text-foreground ml-1">{product.rating}</span>
-                        <span className="text-[9px] md:text-[10px] text-muted-foreground uppercase tracking-wider">
-                          ({product.reviews})
-                        </span>
+                        <div className="text-right">
+                          <p className="text-base md:text-lg font-bold text-foreground">{formatPrice(product.price)}</p>
+                        </div>
                       </div>
 
-                      <div className="mt-auto pt-4 md:pt-6 flex items-center justify-between">
-                        <div className="flex items-baseline gap-2 md:gap-3">
-                          <span className="text-lg md:text-xl font-semibold tracking-tight text-foreground">
-                            ${product.price}
+                      <div className="flex items-center justify-between mt-6">
+                        <div className="flex items-center gap-1.5 mt-2">
+                          <div className="flex items-center">
+                            {[1, 2, 3, 4, 5].map((s) => (
+                              <Star 
+                                key={s} 
+                                className={`h-2.5 w-2.5 md:h-3 md:w-3 ${s <= Math.round(product.rating) ? "fill-primary text-primary" : "fill-muted text-muted"}`} 
+                              />
+                            ))}
+                          </div>
+                          <span className="text-[10px] md:text-xs font-semibold text-foreground ml-1">{product.rating.toFixed(1)}</span>
+                          <span className="text-[9px] md:text-[10px] text-muted-foreground uppercase tracking-wider">
+                            ({product.reviews})
                           </span>
-                          {product.originalPrice && (
-                            <span className="text-xs md:text-sm font-medium text-muted-foreground line-through decoration-muted-foreground/50">
-                              ${product.originalPrice}
-                            </span>
-                          )}
                         </div>
-                        <Button 
-                          size="icon" 
-                          variant="ghost" 
-                          className="md:hidden h-9 w-9 rounded-full bg-primary/10 text-primary"
-                          onClick={() => handleAddToCart(product)}
-                        >
-                          <ShoppingBag className="h-4 w-4" />
-                        </Button>
+
+                        <div className="flex gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/20" />
+                          <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-muted-foreground">En Stock</span>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
                 </SpotlightCard>
-              </motion.div>
+              </FadeContent>
             ))}
           </div>
-
-          <div className="flex lg:hidden justify-center mt-6">
-            <Link href="/marketplace">
-              <Button variant="outline" className="rounded-full px-8 h-12 border-border/50 text-sm font-bold uppercase tracking-widest">
-                View All Collection
-              </Button>
-            </Link>
-          </div>
         </div>
+      </div>
+
+      <div className="mt-20 md:mt-32 border-t border-border/10 pt-20">
+        {/* Decorative divider */}
       </div>
     </section>
   )

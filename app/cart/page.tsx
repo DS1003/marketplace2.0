@@ -18,13 +18,14 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { FadeContent } from "@/components/ui/fade-content"
 import { useCart } from "@/providers/cart-provider"
+import { formatPrice } from "@/lib/utils"
 
 export default function CartPage() {
     const { items: cartItems, updateQuantity, removeItem, subtotal } = useCart()
     const [promoCode, setPromoCode] = useState("")
 
-    const shipping = cartItems.length > 0 ? 5.00 : 0
-    const tax = subtotal * 0.05
+    const shipping = cartItems.length > 0 ? 2500 : 0
+    const tax = Math.round(subtotal * 0.05)
     const total = subtotal + shipping + tax
 
     if (cartItems.length === 0) {
@@ -35,13 +36,13 @@ export default function CartPage() {
                     <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
                         <ShoppingBag className="w-10 h-10" />
                     </div>
-                    <h1 className="text-4xl font-bold text-[#2D241E]">Your cart is empty</h1>
+                    <h1 className="text-4xl font-bold text-[#2D241E]">Votre panier est vide</h1>
                     <p className="text-muted-foreground max-w-md italic">
-                        Discover our premium selection of organic Senegalese beauty rituals and start your journey today.
+                        Découvrez notre sélection premium de rituels de beauté sénégalais bio et commencez votre voyage dès aujourd'hui.
                     </p>
                     <Link href="/marketplace">
                         <Button size="lg" className="rounded-full px-12 h-14 text-lg bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 transition-all active:scale-95 group">
-                            Browse Marketplace <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                            Parcourir le Marché <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                         </Button>
                     </Link>
                 </main>
@@ -60,8 +61,8 @@ export default function CartPage() {
                     {/* Left Side: Cart Items */}
                     <div className="w-full lg:w-[65%] space-y-12">
                         <div className="flex items-center justify-between pb-6 border-b border-border/40">
-                            <h1 className="text-4xl font-bold tracking-tight text-[#2D241E]">Ritual Shopping Bag</h1>
-                            <span className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{cartItems.length} items</span>
+                            <h1 className="text-4xl font-bold tracking-tight text-[#2D241E]">Panier Ritual</h1>
+                            <span className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{cartItems.length} article{cartItems.length > 1 ? 's' : ''}</span>
                         </div>
 
                         <div className="space-y-8">
@@ -83,17 +84,17 @@ export default function CartPage() {
                                             <div className="flex justify-between items-start gap-4">
                                                 <div className="space-y-1">
                                                     <span className="text-[10px] font-bold uppercase tracking-widest text-primary italic">{item.seller}</span>
-                                                    <Link href={`/product/\${item.id}`} className="text-xl font-bold text-[#2D241E] hover:text-primary transition-colors block">
+                                                    <Link href={`/product/${item.id}`} className="text-xl font-bold text-[#2D241E] hover:text-primary transition-colors block">
                                                         {item.name}
                                                     </Link>
                                                     {item.organic && (
                                                         <div className="flex items-center gap-1 text-[10px] font-bold text-green-700 grayscale hover:grayscale-0 transition-all">
-                                                            <Leaf className="w-3 h-3" /> 100% Organic
+                                                            <Leaf className="w-3 h-3" /> 100% Bio
                                                         </div>
                                                     )}
                                                 </div>
                                                 <div className="text-xl font-light text-[#2D241E] underline decoration-primary/20 decoration-2 underline-offset-4">
-                                                    ${(item.price * item.quantity).toFixed(2)}
+                                                    {formatPrice(item.price * item.quantity)}
                                                 </div>
                                             </div>
 
@@ -106,10 +107,10 @@ export default function CartPage() {
 
                                                 <div className="flex gap-4">
                                                     <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-red-500 rounded-full text-xs font-bold uppercase tracking-widest gap-2 py-5" onClick={() => removeItem(item.id)}>
-                                                        <Trash2 className="w-4 h-4" /> Remove
+                                                        <Trash2 className="w-4 h-4" /> Supprimer
                                                     </Button>
                                                     <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10 rounded-full text-xs font-bold uppercase tracking-widest gap-2 py-5 px-6">
-                                                        <Heart className="w-4 h-4" /> Save
+                                                        <Heart className="w-4 h-4" /> Sauvegarder
                                                     </Button>
                                                 </div>
                                             </div>
@@ -121,21 +122,21 @@ export default function CartPage() {
 
                         <div className="pt-10 space-y-6">
                             <Link href="/marketplace" className="inline-flex items-center gap-2 text-sm font-bold text-[#2D241E] hover:text-primary transition-colors">
-                                <ArrowLeft className="w-4 h-4" /> Keep Exploring Marketplace
+                                <ArrowLeft className="w-4 h-4" /> Continuer mes achats
                             </Link>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
                                 <div className="flex items-center gap-4 p-6 bg-white border border-[#E9E1D6] rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><ShieldCheck className="w-5 h-5" /></div>
-                                    <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Secure Payment</span>
+                                    <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Paiement Sécurisé</span>
                                 </div>
                                 <div className="flex items-center gap-4 p-6 bg-white border border-[#E9E1D6] rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><Truck className="w-5 h-5" /></div>
-                                    <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Fast Logistics</span>
+                                    <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Logistique Rapide</span>
                                 </div>
                                 <div className="flex items-center gap-4 p-6 bg-white border border-[#E9E1D6] rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><CornerDownLeft className="w-5 h-5" /></div>
-                                    <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Easy Returns</span>
+                                    <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Retours Faciles</span>
                                 </div>
                             </div>
                         </div>
@@ -145,48 +146,48 @@ export default function CartPage() {
                     <aside className="w-full lg:w-[35%] lg:sticky lg:top-32">
                         <Card className="border-none shadow-2xl rounded-[3rem] overflow-hidden bg-white">
                             <div className="p-10 space-y-10">
-                                <h2 className="text-2xl font-bold text-[#2D241E]">Ritual Summary</h2>
+                                <h2 className="text-2xl font-bold text-[#2D241E]">Résumé Ritual</h2>
 
                                 <div className="space-y-6">
                                     <div className="flex justify-between text-muted-foreground text-sm font-medium">
-                                        <span>Subtotal</span>
-                                        <span className="text-[#2D241E] italic underline decoration-primary/10 decoration-2 underline-offset-4">${subtotal.toFixed(2)}</span>
+                                        <span>Sous-total</span>
+                                        <span className="text-[#2D241E] italic underline decoration-primary/10 decoration-2 underline-offset-4">{formatPrice(subtotal)}</span>
                                     </div>
                                     <div className="flex justify-between text-muted-foreground text-sm font-medium">
-                                        <div className="flex items-center gap-1.5">Shipping <HelpCircle className="w-3.5 h-3.5 opacity-50" /></div>
-                                        <span className="text-[#2D241E] italic decoration-primary/10 underline-offset-4 decoration-2 underline">${shipping.toFixed(2)}</span>
+                                        <div className="flex items-center gap-1.5">Livraison <HelpCircle className="w-3.5 h-3.5 opacity-50" /></div>
+                                        <span className="text-[#2D241E] italic decoration-primary/10 underline-offset-4 decoration-2 underline">{formatPrice(shipping)}</span>
                                     </div>
                                     <div className="flex justify-between text-muted-foreground text-sm font-medium">
                                         <span>Taxes (5%)</span>
-                                        <span className="text-[#2D241E] italic decoration-primary/10 underline-offset-4 decoration-2 underline">${tax.toFixed(2)}</span>
+                                        <span className="text-[#2D241E] italic decoration-primary/10 underline-offset-4 decoration-2 underline">{formatPrice(tax)}</span>
                                     </div>
                                     <Separator className="bg-border/40" />
                                     <div className="flex justify-between items-end text-[#2D241E]">
-                                        <span className="text-lg font-bold italic tracking-tighter uppercase">Total Amount</span>
-                                        <span className="text-4xl font-light tracking-tighter decoration-primary/20 underline underline-offset-8">${total.toFixed(2)}</span>
+                                        <span className="text-lg font-bold italic tracking-tighter uppercase">Montant Total</span>
+                                        <span className="text-4xl font-light tracking-tighter decoration-primary/20 underline underline-offset-8">{formatPrice(total)}</span>
                                     </div>
                                 </div>
 
                                 <div className="space-y-4">
                                     <div className="relative group">
                                         <Input
-                                            placeholder="Promotion Code"
+                                            placeholder="Code Promo"
                                             value={promoCode}
                                             onChange={(e) => setPromoCode(e.target.value)}
                                             className="h-14 rounded-2xl bg-[#FDFBF7] border-[#E9E1D6] pr-20 text-sm font-medium focus:ring-primary/20 transition-all duration-500 group-hover:bg-white"
                                         />
-                                        <Button variant="ghost" size="sm" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-xl text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary/5 transition-all">Apply</Button>
+                                        <Button variant="ghost" size="sm" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-xl text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary/5 transition-all">Appliquer</Button>
                                     </div>
                                 </div>
 
                                 <div className="space-y-4 pt-10">
                                     <Link href="/checkout">
                                         <Button className="w-full h-16 rounded-2xl bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 text-lg font-bold gap-3 transition-transform active:scale-95 group">
-                                            Enter Checkout <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                                            Valider la commande <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                                         </Button>
                                     </Link>
                                     <div className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground font-bold tracking-widest uppercase">
-                                        <Info className="w-3 h-3" /> Secure Ritual Protected by SSL
+                                        <Info className="w-3 h-3" /> Ritual Sécurisé protégé par SSL
                                     </div>
                                 </div>
                             </div>
@@ -206,12 +207,12 @@ export default function CartPage() {
                             className="mt-8 p-10 bg-[#2D241E] rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group border border-[#2D241E] hover:border-primary/50 transition-all duration-700"
                         >
                             <div className="relative z-10 space-y-4">
-                                <h3 className="text-xl font-bold italic">Perfect for you</h3>
+                                <h3 className="text-xl font-bold italic">Parfait pour vous</h3>
                                 <p className="text-white/60 text-sm leading-relaxed">
-                                    Our <span className="text-primary italic">Baobab Serum</span> is the perfect companion to your Shea Butter ritual. Add it now and get <strong>10% off</strong> on your entire bag.
+                                    Notre <span className="text-primary italic">Sérum Baobab</span> est le compagnon idéal de votre rituel au Beurre de Karité. Ajoutez-le maintenant et profitez de <strong>10% de réduction</strong> sur l'ensemble de votre panier.
                                 </p>
                                 <Button variant="outline" className="rounded-full border-white/20 text-white hover:bg-white hover:text-black mt-4 h-10 px-6 text-xs uppercase tracking-widest font-bold">
-                                    Add + $38.50
+                                    Ajouter + {formatPrice(15000)}
                                 </Button>
                             </div>
                             {/* Decorative Pattern */}

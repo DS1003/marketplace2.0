@@ -20,13 +20,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { href: "/admin", label: "Overview", icon: LayoutDashboard },
-  { href: "/admin/sellers", label: "Sellers", icon: Store },
-  { href: "/admin/products", label: "Products", icon: Package },
-  { href: "/admin/orders", label: "Orders", icon: ShoppingBag },
-  { href: "/admin/users", label: "Customers", icon: Users },
+  { href: "/admin", label: "Vue d'ensemble", icon: LayoutDashboard },
+  { href: "/admin/sellers", label: "Artisans", icon: Store },
+  { href: "/admin/products", label: "Produits", icon: Package },
+  { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
+  { href: "/admin/users", label: "Clients", icon: Users },
   { href: "/admin/messages", label: "Messages", icon: MessageCircle },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/settings", label: "Paramètres", icon: Settings },
 ]
 
 export default async function AdminLayout({
@@ -50,7 +50,7 @@ export default async function AdminLayout({
           </div>
           <div>
             <h1 className="text-lg font-bold tracking-tight text-white italic">Moomel</h1>
-            <p className="text-[9px] text-zinc-500 uppercase tracking-widest font-semibold">Super Admin</p>
+            <p className="text-[9px] text-zinc-500 uppercase tracking-widest font-semibold">Super Administrateur</p>
           </div>
         </div>
 
@@ -80,12 +80,12 @@ export default async function AdminLayout({
               </Avatar>
               <div className="min-w-0">
                 <p className="text-xs font-bold text-white truncate">{session.user.name}</p>
-                <p className="text-[9px] uppercase tracking-wider text-zinc-500">Administrator</p>
+                <p className="text-[9px] uppercase tracking-wider text-zinc-500">Administrateur</p>
               </div>
             </div>
             <Link href="/api/auth/signout" className="block w-full">
               <Button variant="ghost" className="w-full justify-start h-9 rounded-xl gap-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-400/5 text-[11px] font-medium px-2">
-                <LogOut className="h-3.5 w-3.5" /> Sign Out
+                <LogOut className="h-3.5 w-3.5" /> Déconnexion
               </Button>
             </Link>
           </div>
@@ -97,11 +97,11 @@ export default async function AdminLayout({
         {/* Top Header - Slimmer */}
         <header className="h-16 bg-white/70 backdrop-blur-md border-b border-zinc-200/50 flex items-center justify-between px-6 sticky top-0 z-30">
           <div className="flex items-center gap-4 flex-1">
-            <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest hidden md:block">Management</h2>
+            <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest hidden md:block">Gestion</h2>
             <div className="relative group max-w-sm w-full mx-4">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
               <input 
-                placeholder="Search..." 
+                placeholder="Rechercher..." 
                 className="bg-zinc-100/50 border-none rounded-lg h-9 pl-10 pr-4 text-[13px] font-medium focus:ring-1 focus:ring-primary/30 transition-all w-full"
               />
             </div>
@@ -114,7 +114,7 @@ export default async function AdminLayout({
             </Button>
             <div className="h-8 w-px bg-zinc-200 mx-1" />
             <div className="flex items-center gap-2 pl-1 cursor-pointer group">
-              <span className="text-[13px] font-semibold text-zinc-700 hidden sm:block">Support</span>
+              <span className="text-[13px] font-semibold text-zinc-700 hidden sm:block">Assistance</span>
               <div className="h-8 w-8 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-primary/5 group-hover:text-primary transition-colors">
                  <MessageCircle className="h-4 w-4" />
               </div>

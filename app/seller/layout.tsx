@@ -11,7 +11,8 @@ import {
   Sparkles,
   MessageCircle,
   Activity,
-  Plus
+  Plus,
+  Wallet
 } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
@@ -21,11 +22,13 @@ import { HeaderSearch } from "@/components/admin/header-search"
 import { logout } from "@/lib/actions/auth"
 
 const sellerNavItems = [
-  { href: "/seller", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/seller/products", label: "My Products", icon: Package },
-  { href: "/seller/orders", label: "Shop Orders", icon: ShoppingBag },
-  { href: "/seller/analytics", label: "Performance", icon: Activity },
-  { href: "/seller/settings", label: "Lab Settings", icon: Settings },
+  { href: "/seller", label: "Tableau de bord", icon: LayoutDashboard },
+  { href: "/seller/wallet", label: "Portefeuille", icon: Wallet },
+  { href: "/seller/messages", label: "Messagerie", icon: MessageCircle },
+  { href: "/seller/products", label: "Mes Créations", icon: Package },
+  { href: "/seller/orders", label: "Commandes", icon: ShoppingBag },
+  { href: "/seller/analytics", label: "Performances", icon: Activity },
+  { href: "/seller/settings", label: "Paramètres", icon: Settings },
 ]
 
 export default async function SellerLayout({
@@ -40,54 +43,58 @@ export default async function SellerLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-[#FDFCFB] text-slate-900">
-      {/* Sidebar - High Fidelity Artisan Lab */}
-      <aside className="w-64 border-r border-zinc-100 bg-white flex flex-col sticky top-0 h-screen z-40 shrink-0 transition-all duration-500">
-        <div className="p-8 pb-10 flex flex-col items-center">
-            <Link href="/" className="group flex items-center gap-2 mb-8">
-                <ChevronLeft className="h-4 w-4 text-slate-300 group-hover:text-primary group-hover:-translate-x-1 transition-all" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-800">Exit Lab</span>
+    <div className="flex min-h-screen bg-[#F9FAFB] text-slate-800 font-sans antialiased overflow-x-hidden">
+      {/* Sidebar - Artisan Laboratory (Deep Slate/Teal Theme) */}
+      <aside className="w-60 fixed inset-y-0 bg-[#0F172A] text-slate-400 overflow-hidden shadow-2xl border-r border-white/5 z-50 flex flex-col transition-all duration-300">
+          <div className="p-5 flex flex-col items-start gap-4">
+            <Link href="/" className="group flex items-center gap-2">
+                <ChevronLeft className="h-3 w-3 text-slate-500 group-hover:text-[#0D9488] transition-all" />
+                <span className="text-[8px] font-black uppercase tracking-widest text-slate-600 group-hover:text-slate-400">Sortir</span>
             </Link>
-            <div className="h-14 w-14 rounded-2xl bg-slate-900 flex items-center justify-center text-primary shadow-xl shadow-slate-900/10 mb-4 group hover:rotate-3 transition-transform">
-                <Store className="h-6 w-6" />
+            <div className="flex items-center gap-2.5">
+              <div className="h-7 w-7 rounded-lg bg-[#0D9488] flex items-center justify-center shadow-lg shadow-teal-500/20">
+                <Store className="h-3.5 w-3.5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-sm font-black tracking-tight text-white uppercase italic leading-none">Moomel</h1>
+                <p className="text-[8px] text-[#0D9488] uppercase tracking-[0.2em] font-black mt-0.5">Artisan Lab</p>
+              </div>
             </div>
-            <h2 className="text-sm font-bold text-slate-800 tracking-tight">Artisan Lab</h2>
-            <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mt-1 italic">Merchant Space</p>
         </div>
 
-        <nav className="flex-1 px-4 space-y-1">
+        <nav className="flex-1 px-3 mt-4 space-y-0.5 overflow-y-auto custom-scrollbar">
           {sellerNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all group",
-                "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                "flex items-center gap-3 px-3 py-2 rounded-xl text-[12px] font-bold transition-all group",
+                "hover:bg-white/5 hover:text-white"
               )}
             >
-              <div className="h-8 w-8 rounded-lg bg-slate-100 text-slate-400 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                <item.icon className="h-4 w-4" />
+              <div className="h-7 w-7 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-[#0D9488]/10 group-hover:text-[#0D9488] transition-colors">
+                <item.icon className="h-3.5 w-3.5" />
               </div>
-              <span className="text-[13px] font-bold tracking-tight">{item.label}</span>
+              <span className="flex-1 tracking-tight text-slate-400 group-hover:text-slate-200">{item.label}</span>
             </Link>
           ))}
         </nav>
 
-        <div className="p-4 border-t border-zinc-50">
-           <div className="bg-slate-50 rounded-2xl p-4 space-y-4">
+        <div className="p-3">
+           <div className="bg-white/[0.03] rounded-2xl p-4 space-y-3 border border-white/5">
               <div className="flex items-center gap-3">
-                 <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                    <AvatarImage src={session.user.image || ""} />
-                    <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">{session.user.name?.charAt(0)}</AvatarFallback>
+                 <Avatar className="h-8 w-8 rounded-xl ring-1 ring-white/10">
+                    <AvatarImage src={session.user.image || ""} className="rounded-xl" />
+                    <AvatarFallback className="bg-[#0D9488]/20 text-[#0D9488] text-[10px] font-black">{session.user.name?.charAt(0)}</AvatarFallback>
                  </Avatar>
-                 <div className="flex flex-col min-w-0">
-                    <span className="text-[12px] font-bold text-slate-800 truncate">{session.user.name}</span>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Active Artisan</span>
+                 <div className="min-w-0">
+                    <p className="text-[11px] font-black text-white truncate leading-none mb-1">{session.user.name}</p>
+                    <p className="text-[7px] uppercase tracking-[0.2em] text-[#0D9488] font-black">Grade Artisan</p>
                  </div>
               </div>
               <form action={async () => { "use server"; await logout(); }}>
-                <Button variant="ghost" className="w-full justify-start h-9 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-all font-bold uppercase tracking-widest text-[9px] px-3">
-                   <LogOut className="mr-2 h-3.5 w-3.5" /> Sign Out
+                <Button variant="ghost" className="w-full justify-start h-8 rounded-lg gap-2 text-slate-500 hover:text-rose-400 hover:bg-rose-400/5 text-[9px] font-black uppercase tracking-widest px-2 shadow-none border-none">
+                   <LogOut className="h-3 w-3" /> Quitter
                 </Button>
               </form>
            </div>
@@ -95,23 +102,28 @@ export default async function SellerLayout({
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        <header className="h-24 flex items-center justify-between px-10 bg-white/70 backdrop-blur-xl sticky top-0 z-30 border-b border-zinc-50 gap-10">
-           <div className="flex-1 max-w-xl">
-              <HeaderSearch placeholder="Search your ritual records..." />
+      <main className="flex-1 lg:pl-60 flex flex-col min-w-0">
+        <header className="h-14 bg-white/40 backdrop-blur-md border-b border-zinc-200/50 flex items-center justify-between px-8 sticky top-0 z-30">
+           <div className="flex items-center gap-6 flex-1">
+              <h2 className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hidden lg:block">System Status: <span className="text-teal-500">Active</span></h2>
+              <div className="relative group max-w-xs w-full">
+                <HeaderSearch placeholder="Rechercher..." />
+              </div>
            </div>
            
            <div className="flex items-center gap-4">
               <Link href="/seller/products/new">
-                <Button className="h-12 rounded-2xl bg-primary text-white font-bold uppercase tracking-widest text-[9px] px-8 shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
-                    <Plus className="mr-2 h-4 w-4" /> Initialiser Rituel
+                <Button className="h-8 rounded-lg bg-[#0D9488] text-white font-black uppercase tracking-widest text-[8px] px-5 shadow-lg shadow-teal-500/10 hover:translate-y-[-1px] transition-all border-none">
+                    <Plus className="mr-1.5 h-3 w-3" /> Nouveau Rituel
                 </Button>
               </Link>
            </div>
         </header>
-        <div className="flex-1 p-10 max-w-[1400px] mx-auto w-full">
-          {children}
-        </div>
+        <section className="p-3 md:p-4 bg-[#F9FAFB] flex-1 flex flex-col overflow-hidden">
+          <div className="w-full flex-1 flex flex-col">
+            {children}
+          </div>
+        </section>
       </main>
     </div>
   )

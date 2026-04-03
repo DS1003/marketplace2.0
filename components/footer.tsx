@@ -12,31 +12,31 @@ import { ChevronDown } from "lucide-react"
 import { useState } from "react"
 
 const footerLinks = {
-  marketplace: [
-    { label: "All Products", href: "/marketplace" },
-    { label: "Categories", href: "/categories" },
-    { label: "Best Sellers", href: "/best-sellers" },
-    { label: "New Arrivals", href: "/new" },
-    { label: "Deals", href: "/deals" },
+  marché: [
+    { label: "Tous les produits", href: "/marketplace" },
+    { label: "Catégories", href: "/categories" },
+    { label: "Meilleures ventes", href: "/best-sellers" },
+    { label: "Nouveautés", href: "/new" },
+    { label: "Promotions", href: "/deals" },
   ],
-  sellers: [
-    { label: "Our Sellers", href: "/sellers" },
-    { label: "Become a Seller", href: "/sell" },
-    { label: "Seller Dashboard", href: "/seller/dashboard" },
-    { label: "Seller FAQ", href: "/seller-faq" },
+  artisans: [
+    { label: "Nos Artisans", href: "/sellers" },
+    { label: "Devenir Vendeur", href: "/sell" },
+    { label: "Tableau de bord", href: "/seller/dashboard" },
+    { label: "FAQ Vendeur", href: "/seller-faq" },
   ],
-  company: [
-    { label: "About Us", href: "/about" },
-    { label: "Our Mission", href: "/mission" },
-    { label: "Careers", href: "/careers" },
-    { label: "Press", href: "/press" },
+  entreprise: [
+    { label: "À propos", href: "/about" },
+    { label: "Notre Mission", href: "/mission" },
+    { label: "Carrières", href: "/careers" },
+    { label: "Presse", href: "/press" },
     { label: "Contact", href: "/contact" },
   ],
   support: [
-    { label: "Help Center", href: "/help" },
-    { label: "Shipping Info", href: "/shipping" },
-    { label: "Returns", href: "/returns" },
-    { label: "Track Order", href: "/track" },
+    { label: "Centre d'aide", href: "/help" },
+    { label: "Livraison", href: "/shipping" },
+    { label: "Retours", href: "/returns" },
+    { label: "Suivi de commande", href: "/track" },
   ],
 }
 
@@ -63,10 +63,10 @@ export function Footer() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left">
               <h3 className="text-3xl font-bold text-background">
-                Subscribe to Our Newsletter
+                Inscrivez-vous à notre Newsletter
               </h3>
               <p className="text-background/70 mt-3 text-lg">
-                Get updates on new products, exclusive deals, and beauty tips.
+                Recevez des mises à jour sur les nouveaux produits, des offres exclusives et des conseils beauté.
               </p>
             </div>
             <div className="flex w-full lg:w-auto gap-3">
@@ -74,13 +74,13 @@ export function Footer() {
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-background/50" />
                 <Input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Entrez votre email"
                   className="pl-12 py-6 bg-background/10 border-background/20 text-background placeholder:text-background/50 focus:border-primary rounded-xl text-base"
                 />
               </div>
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shrink-0 rounded-xl px-6 py-6">
-                  Subscribe
+                  S'abonner
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </motion.div>
@@ -111,8 +111,8 @@ export function Footer() {
               />
             </Link>
             <p className="text-background/70 mt-6 max-w-xs leading-relaxed text-base">
-              Discover the beauty of Senegal through our curated marketplace of
-              natural, organic beauty products crafted by local artisans.
+              Découvrez la beauté du Sénégal à travers notre marché de
+              soins naturels et biologiques, fabriqués par des artisans locaux.
             </p>
             <div className="flex items-center gap-3 mt-8">
               {socialLinks.map((social, index) => (
@@ -168,7 +168,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-background/70 max-w-sm mx-auto leading-relaxed text-sm font-light">
-              Premium organic beauty products crafted by local Senegalese artisans.
+              Produits de beauté bio haut de gamme fabriqués par des artisans sénégalais locaux.
             </p>
             <div className="flex items-center justify-center gap-4">
               {socialLinks.map((social) => (
@@ -219,16 +219,16 @@ export function Footer() {
       >
         <div className="container mx-auto px-4 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
-            <p>&copy; {new Date().getFullYear()} Moomel. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Moomel. Tous droits réservés.</p>
             <div className="flex items-center gap-8">
               <Link href="/privacy" className="hover:text-background transition-colors">
-                Privacy Policy
+                Politique de confidentialité
               </Link>
               <Link href="/terms" className="hover:text-background transition-colors">
-                Terms of Service
+                Conditions d'utilisation
               </Link>
               <Link href="/cookies" className="hover:text-background transition-colors">
-                Cookie Policy
+                Politique de cookies
               </Link>
             </div>
           </div>

@@ -68,7 +68,7 @@ export function Newsletter() {
         </FadeContent>
 
         <BlurText
-          text="Stay in the Loop"
+          text="Restez Informés"
           className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl"
           animateBy="words"
           delay={0.08}
@@ -76,7 +76,7 @@ export function Newsletter() {
 
         <FadeContent direction="up" delay={0.2}>
           <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground">
-            Get exclusive access to new products, special offers, and beauty tips from Senegal delivered straight to your inbox.
+            Recevez un accès exclusif aux nouveaux produits, des offres spéciales et des conseils de beauté du Sénégal directement dans votre boîte mail.
           </p>
         </FadeContent>
 
@@ -88,8 +88,8 @@ export function Newsletter() {
                   <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     type="email"
-                    placeholder="Enter your email"
-                    aria-label="Email address for newsletter"
+                    placeholder="Entrez votre e-mail"
+                    aria-label="Adresse e-mail pour la newsletter"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="h-14 rounded-full border-border/50 bg-background pl-12 pr-4 text-base shadow-sm transition-shadow focus:shadow-md"
@@ -106,11 +106,11 @@ export function Newsletter() {
                     {isSubscribed ? (
                       <>
                         <Check className="mr-2 h-5 w-5" />
-                        Subscribed
+                        Abonné
                       </>
                     ) : (
                       <>
-                        Subscribe
+                        S&apos;abonner
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </>
                     )}
@@ -124,7 +124,7 @@ export function Newsletter() {
         <FadeContent direction="up" delay={0.4}>
           <div className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span>Join 10,000+ beauty enthusiasts</span>
+            <span>Rejoignez plus de 10 000 passionnés de beauté</span>
           </div>
         </FadeContent>
       </div>

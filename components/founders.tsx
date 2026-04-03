@@ -14,21 +14,21 @@ const founders = [
   {
     name: "Aminata Diallo",
     brand: "Fatou Natural",
-    story: "Creating organic skincare from traditional Senegalese recipes passed down through generations.",
+    story: "Crée des soins bio à partir de recettes traditionnelles sénégalaises transmises de génération en génération.",
     image: "/images/founder-1.jpg",
     products: 24,
   },
   {
     name: "Mariama Sow",
     brand: "Dakar Organics",
-    story: "Handcrafting African black soap using ancestral methods and pure local ingredients.",
+    story: "Fabrique à la main du savon noir africain selon des méthodes ancestrales et des ingrédients locaux purs.",
     image: "/images/founder-2.jpg",
     products: 18,
   },
   {
     name: "Awa Ndiaye",
     brand: "Senegal Oils",
-    story: "Extracting premium oils from baobab, moringa, and other native plants.",
+    story: "Extrait des huiles premium de baobab, de moringa et d'autres plantes indigènes.",
     image: "/images/founder-3.jpg",
     products: 15,
   },
@@ -56,12 +56,12 @@ export function Founders() {
           <div className="max-w-2xl">
             <FadeContent direction="up" delay={0}>
               <span className="inline-block text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-6">
-                Meet The Artisans
+                Rencontrer les Artisanes
               </span>
             </FadeContent>
 
             <BlurText
-              text="The Visionaries Behind The Beauty"
+              text="Les Visionnaires derrière la Beauté"
               className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-foreground"
               animateBy="words"
               delay={0.1}
@@ -69,7 +69,7 @@ export function Founders() {
 
             <FadeContent direction="up" delay={0.3}>
               <p className="text-muted-foreground mt-6 text-lg font-light leading-relaxed">
-                Discover the passionate entrepreneurs preserving Senegalese heritage through exquisite, sustainable beauty creations.
+                Découvrez les entrepreneuses passionnées qui préservent l&apos;héritage sénégalais à travers des créations de beauté durables.
               </p>
             </FadeContent>
           </div>
@@ -77,7 +77,7 @@ export function Founders() {
           <FadeContent direction="left" delay={0.4}>
             <Magnet padding={40} magnetStrength={3}>
               <Button variant="ghost" className="group rounded-full px-6 hover:bg-primary/5 hover:text-primary transition-colors text-base font-medium">
-                View All Founders
+                Voir toutes les fondatrices
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-500 group-hover:translate-x-2" />
               </Button>
             </Magnet>
@@ -148,7 +148,7 @@ export function Founders() {
                 </p>
                 <div className="mt-6 inline-flex items-center gap-3 text-sm font-medium tracking-wide uppercase text-primary">
                   <span className="w-8 h-[1px] bg-primary/60" />
-                  {founder.products} exclusive products
+                  {founder.products} produits exclusifs
                 </div>
               </div>
             </motion.div>

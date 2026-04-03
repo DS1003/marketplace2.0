@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { FadeContent } from "@/components/ui/fade-content"
+import { formatPrice } from "@/lib/utils"
 
 // --- Data ---
 const sellerData = {
@@ -42,7 +43,7 @@ const sellerData = {
             id: 1,
             name: "Pure Shea Butter - Gold Reserve",
             description: "Our signature whipped shea butter, multi-filtered for 48 hours for an unparalleled velvet texture.",
-            price: 45.00,
+            price: 27500,
             image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=800"
         }
     },
@@ -68,7 +69,7 @@ const sellerData = {
             id: 2,
             name: "Premium Baobab Oil Serum",
             description: "Cold-pressed within 24 hours of harvest to preserve maximum nutrient density.",
-            price: 55.00,
+            price: 35000,
             image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800"
         }
     },
@@ -93,7 +94,7 @@ const sellerData = {
             id: 3,
             name: "Hibiscus & Clay Ritual Mask",
             description: "A deeply purifying mask that revitalizes tired skin using ancient Senegalese clay recipes.",
-            price: 38.00,
+            price: 22500,
             image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=800"
         }
     }
@@ -105,22 +106,22 @@ const fullSellerData: any = {
 
 const allProducts = [
     // Koba Skin
-    { id: 1, name: "Pure Shea Butter", price: 24.99, rating: 4.9, reviews: 128, sellerId: "koba-skin", category: "Creams", image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=600", organic: true },
-    { id: 4, name: "Neem Healing Soap", price: 12.00, rating: 4.9, reviews: 210, sellerId: "koba-skin", category: "Cleansers", image: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=600", organic: false },
-    { id: 6, name: "Deep Cleansing Butter", price: 28.50, rating: 4.6, reviews: 189, sellerId: "koba-skin", category: "Creams", image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600", organic: true },
-    { id: 7, name: "Desert Rose Mist", price: 19.99, rating: 5.0, reviews: 45, sellerId: "koba-skin", category: "Toners", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600", organic: true },
+    { id: 1, name: "Pure Shea Butter", price: 15500, rating: 4.9, reviews: 128, sellerId: "koba-skin", category: "Creams", image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=600", organic: true },
+    { id: 4, name: "Neem Healing Soap", price: 7500, rating: 4.9, reviews: 210, sellerId: "koba-skin", category: "Cleansers", image: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=600", organic: false },
+    { id: 6, name: "Deep Cleansing Butter", price: 18500, rating: 4.6, reviews: 189, sellerId: "koba-skin", category: "Creams", image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600", organic: true },
+    { id: 7, name: "Desert Rose Mist", price: 12500, rating: 5.0, reviews: 45, sellerId: "koba-skin", category: "Toners", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600", organic: true },
 
     // Baobab Essence
-    { id: 2, name: "Baobab Oil Serum", price: 38.50, rating: 4.8, reviews: 94, sellerId: "baobab-essence", category: "Oils", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600", organic: true },
-    { id: 8, name: "Age-Defying Baobab Jam", price: 42.00, rating: 4.9, reviews: 32, sellerId: "baobab-essence", category: "Creams", image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?q=80&w=600", organic: true },
-    { id: 9, name: "Radiance Fruit Mask", price: 29.99, rating: 4.7, reviews: 78, sellerId: "baobab-essence", category: "Masks", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600", organic: true },
-    { id: 10, name: "Superseed Night Oil", price: 54.00, rating: 5.0, reviews: 12, sellerId: "baobab-essence", category: "Oils", image: "https://images.unsplash.com/photo-1629198688000-71f23e74567e?q=80&w=600", organic: true },
+    { id: 2, name: "Baobab Oil Serum", price: 23500, rating: 4.8, reviews: 94, sellerId: "baobab-essence", category: "Oils", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600", organic: true },
+    { id: 8, name: "Age-Defying Baobab Jam", price: 25000, rating: 4.9, reviews: 32, sellerId: "baobab-essence", category: "Creams", image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?q=80&w=600", organic: true },
+    { id: 9, name: "Radiance Fruit Mask", price: 17500, rating: 4.7, reviews: 78, sellerId: "baobab-essence", category: "Masks", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600", organic: true },
+    { id: 10, name: "Superseed Night Oil", price: 32000, rating: 5.0, reviews: 12, sellerId: "baobab-essence", category: "Oils", image: "https://images.unsplash.com/photo-1629198688000-71f23e74567e?q=80&w=600", organic: true },
 
     // Arona Naturals
-    { id: 3, name: "Hibiscus Clay Mask", price: 32.00, rating: 4.7, reviews: 65, sellerId: "arona-naturals", category: "Masks", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600", organic: true },
-    { id: 5, name: "Moringa Glow Oil", price: 45.00, rating: 4.9, reviews: 55, sellerId: "arona-naturals", category: "Oils", image: "https://images.unsplash.com/photo-1629198688000-71f23e74567e?q=80&w=600", organic: true },
-    { id: 11, name: "Saint-Louis Floral Water", price: 22.50, rating: 4.8, reviews: 91, sellerId: "arona-naturals", category: "Toners", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600", organic: true },
-    { id: 12, name: "Exfoliating Coffee Scrub", price: 18.00, rating: 4.6, reviews: 140, sellerId: "arona-naturals", category: "Scrubs", image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=600", organic: false }
+    { id: 3, name: "Hibiscus Clay Mask", price: 18500, rating: 4.7, reviews: 65, sellerId: "arona-naturals", category: "Masks", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600", organic: true },
+    { id: 5, name: "Moringa Glow Oil", price: 29000, rating: 4.9, reviews: 55, sellerId: "arona-naturals", category: "Oils", image: "https://images.unsplash.com/photo-1629198688000-71f23e74567e?q=80&w=600", organic: true },
+    { id: 11, name: "Saint-Louis Floral Water", price: 12500, rating: 4.8, reviews: 91, sellerId: "arona-naturals", category: "Toners", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600", organic: true },
+    { id: 12, name: "Exfoliating Coffee Scrub", price: 15000, rating: 4.6, reviews: 140, sellerId: "arona-naturals", category: "Scrubs", image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=600", organic: false }
 ]
 
 export default function SellerShopPage() {
@@ -271,7 +272,7 @@ export default function SellerShopPage() {
                             </p>
                         </div>
                         <div className="flex items-center gap-6">
-                            <div className="text-4xl md:text-5xl font-bold text-primary">${seller.featuredProduct.price.toFixed(2)}</div>
+                            <div className="text-4xl md:text-5xl font-bold text-primary">{formatPrice(seller.featuredProduct.price)}</div>
                             <Button size="lg" className="bg-white text-[#2D241E] hover:bg-primary hover:text-white rounded-full h-16 px-10 text-xl font-bold transition-all shadow-xl">
                                 <ShoppingBag className="w-6 h-6 mr-3" /> Get it Now
                             </Button>
@@ -365,7 +366,7 @@ export default function SellerShopPage() {
                                         </div>
                                         <h3 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2">{product.name}</h3>
                                         <div className="mt-auto pt-4 flex items-center justify-between">
-                                            <span className="text-2xl font-bold text-primary">${product.price.toFixed(2)}</span>
+                                            <span className="text-2xl font-bold text-primary">{formatPrice(product.price)}</span>
                                             <Badge variant="outline" className="text-[10px] font-bold border-primary/10">{product.reviews} reviews</Badge>
                                         </div>
                                     </CardContent>

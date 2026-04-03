@@ -12,18 +12,18 @@ import { ArrowRight, Store, TrendingUp, Users, Sparkles } from "lucide-react"
 const benefits = [
   {
     icon: Store,
-    title: "Your Own Store",
-    description: "Create and customize your digital storefront",
+    title: "Votre Propre Boutique",
+    description: "Créez et personnalisez votre vitrine digitale",
   },
   {
     icon: Users,
-    title: "Global Reach",
-    description: "Connect with customers worldwide",
+    title: "Portée Mondiale",
+    description: "Connectez-vous avec des clients du monde entier",
   },
   {
     icon: TrendingUp,
-    title: "Grow Your Brand",
-    description: "Analytics and tools to scale your business",
+    title: "Développez Votre Marque",
+    description: "Analyses et outils pour faire croître votre entreprise",
   },
 ]
 
@@ -58,12 +58,12 @@ export function BecomeSeller() {
             <FadeContent direction="up" delay={0}>
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm text-primary">
                 <Sparkles className="h-4 w-4" />
-                Join Our Community
+                Rejoignez Notre Communauté
               </div>
             </FadeContent>
 
             <BlurText
-              text="Become a Seller"
+              text="Devenir Vendeur"
               className="mb-4 text-4xl font-bold tracking-tight text-background sm:text-5xl lg:text-6xl"
               animateBy="words"
               delay={0.08}
@@ -71,7 +71,7 @@ export function BecomeSeller() {
 
             <FadeContent direction="up" delay={0.2}>
               <p className="mb-8 text-lg text-background/70 lg:text-xl">
-                Share your natural beauty products with the world. Join hundreds of Senegalese entrepreneurs already growing their businesses on Moomel.
+                Partagez vos produits de beauté naturels avec le monde entier. Rejoignez des centaines d&apos;entrepreneurs sénégalais qui développent déjà leur activité sur Moomel.
               </p>
             </FadeContent>
 
@@ -83,7 +83,7 @@ export function BecomeSeller() {
                       size="lg"
                       className="group h-14 rounded-full bg-primary px-8 text-lg font-semibold text-primary-foreground hover:bg-primary/90"
                     >
-                      Join the Artisan Lab
+                      Rejoignez le Lab des Artisans
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
@@ -94,7 +94,7 @@ export function BecomeSeller() {
                     variant="outline"
                     className="h-14 rounded-full border-background/30 bg-transparent px-8 text-lg text-background hover:bg-background/10"
                   >
-                    Explore Ethos
+                    Explorer Notre Éthique
                   </Button>
                 </Link>
               </div>

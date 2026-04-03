@@ -12,36 +12,36 @@ import { TiltCard } from "@/components/ui/tilt-card"
 
 const categories = [
   {
-    name: "Skincare",
-    description: "Natural creams & serums",
+    name: "Soins Visage",
+    description: "Crèmes et sérums naturels",
     image: "/images/category-skincare.jpg",
     href: "/categories/skincare",
     count: 128,
   },
   {
-    name: "Haircare",
-    description: "Oils & treatments",
+    name: "Soins Cheveux",
+    description: "Huiles et traitements",
     image: "/images/category-haircare.jpg",
     href: "/categories/haircare",
     count: 95,
   },
   {
-    name: "Natural Soaps",
-    description: "Handmade & organic",
+    name: "Savons Naturels",
+    description: "Artisanaux et biologiques",
     image: "/images/category-soaps.jpg",
     href: "/categories/soaps",
     count: 76,
   },
   {
-    name: "Oils",
-    description: "Pure & essential",
+    name: "Huiles",
+    description: "Pures et essentielles",
     image: "/images/category-oils.jpg",
     href: "/categories/oils",
     count: 64,
   },
   {
-    name: "Accessories",
-    description: "Beauty tools",
+    name: "Accessoires",
+    description: "Outils de beauté",
     image: "/images/category-accessories.jpg",
     href: "/categories/accessories",
     count: 42,
@@ -78,12 +78,12 @@ export function FeaturedCategories() {
         <div className="text-center mb-20 max-w-3xl mx-auto">
           <FadeContent direction="up" delay={0}>
             <span className="inline-block text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-4">
-              Curated Collections
+              Collections Sélectionnées
             </span>
           </FadeContent>
 
           <BlurText
-            text="Explore the elements of natural beauty"
+            text="Explorez les éléments de la beauté naturelle"
             className="text-[clamp(1.75rem,8vw,3.5rem)] md:text-5xl lg:text-6xl font-light tracking-tight text-balance text-foreground mb-6"
             animateBy="words"
             delay={0.1}
@@ -91,7 +91,7 @@ export function FeaturedCategories() {
 
           <FadeContent direction="up" delay={0.3}>
             <p className="text-muted-foreground text-sm md:text-lg font-light px-4 md:px-0">
-              Elevate your ritual with pure, organic ingredients and authentic Senegalese craftsmanship.
+              Sublimez votre rituel avec des ingrédients purs, biologiques et un savoir-faire sénégalais authentique.
             </p>
           </FadeContent>
         </div>
@@ -160,7 +160,7 @@ export function FeaturedCategories() {
                           <motion.div className="flex items-center gap-3 mt-4 md:opacity-70 group-hover:opacity-100 transition-opacity duration-300">
                             <span className="w-6 md:w-8 h-[1px] bg-white/60" />
                             <p className="text-white/90 text-[10px] md:text-xs font-medium tracking-wider uppercase">
-                              {category.count} Products
+                              {category.count} Produits
                             </p>
                           </motion.div>
                         </motion.div>

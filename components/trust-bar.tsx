@@ -7,23 +7,23 @@ import { Leaf, MapPin, Shield, Truck } from "lucide-react"
 const trustItems = [
   {
     icon: Leaf,
-    title: "100% Natural",
-    description: "Pure organic ingredients",
+    title: "100% Naturel",
+    description: "Ingrédients bio et purs",
   },
   {
     icon: MapPin,
-    title: "Made in Senegal",
-    description: "Supporting local artisans",
+    title: "Fait au Sénégal",
+    description: "Soutien aux artisans locaux",
   },
   {
     icon: Shield,
-    title: "Secure Payments",
-    description: "Protected transactions",
+    title: "Paiements Sécurisés",
+    description: "Transactions protégées",
   },
   {
     icon: Truck,
-    title: "Fast Delivery",
-    description: "Worldwide shipping",
+    title: "Livraison Rapide",
+    description: "Expédition nationale & inter",
   },
 ]
 

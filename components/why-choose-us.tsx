@@ -10,27 +10,27 @@ import { SpotlightCard } from "@/components/ui/spotlight-card"
 const features = [
   {
     icon: Leaf,
-    title: "100% Natural",
+    title: "100% Naturel",
     description:
-      "All products are made with pure, organic ingredients sourced directly from nature.",
+      "Tous nos produits sont fabriqués avec des ingrédients purs et biologiques sourcés directement dans la nature.",
   },
   {
     icon: Heart,
-    title: "Support Local",
+    title: "Soutien Local",
     description:
-      "Every purchase directly supports Senegalese artisans and local communities.",
+      "Chaque achat soutient directement les artisans sénégalais et les communautés locales.",
   },
   {
     icon: Shield,
-    title: "Quality Assured",
+    title: "Qualité Garantie",
     description:
-      "Rigorous quality control ensures you receive only the finest products.",
+      "Un contrôle qualité rigoureux garantit que vous ne recevez que les meilleurs produits.",
   },
   {
     icon: Truck,
-    title: "Fast Delivery",
+    title: "Livraison Rapide",
     description:
-      "Reliable shipping with careful packaging to preserve product quality.",
+      "Une expédition fiable avec un emballage soigné pour préserver la qualité des produits.",
   },
 ]
 
@@ -55,12 +55,12 @@ export function WhyChooseUs() {
         <div className="text-center mb-20">
           <FadeContent direction="up" delay={0}>
             <span className="inline-block text-sm font-medium text-primary tracking-widest uppercase mb-4">
-              Why Moomel
+              Pourquoi Moomel
             </span>
           </FadeContent>
           
           <BlurText
-            text="Why Choose Us"
+            text="Pourquoi Nous Choisir"
             className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance"
             animateBy="words"
             delay={0.08}
@@ -68,7 +68,7 @@ export function WhyChooseUs() {
           
           <FadeContent direction="up" delay={0.2}>
             <p className="text-muted-foreground mt-6 max-w-2xl mx-auto text-lg">
-              We&apos;re committed to bringing you the best of Senegalese beauty
+              Nous nous engageons à vous apporter le meilleur de la beauté sénégalaise.
             </p>
           </FadeContent>
         </div>

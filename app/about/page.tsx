@@ -14,23 +14,23 @@ import { Newsletter } from "@/components/newsletter"
 const values = [
     {
         icon: Leaf,
-        title: "100% Organic",
-        description: "Every ingredient we source is grown without synthetic pesticides or fertilizers, preserving the integrity of the soil and the plant."
+        title: "100% Biologique",
+        description: "Chaque ingrédient que nous sourçons est cultivé sans pesticides ni engrais synthétiques, préservant l'intégrité du sol et de la plante."
     },
     {
         icon: Shield,
-        title: "Ethically Sourced",
-        description: "We work directly with cooperatives in Senegal to ensure fair wages and sustainable harvesting practices that protect our local forests."
+        title: "Sourcing Éthique",
+        description: "Nous travaillons directement avec des coopératives au Sénégal pour garantir des salaires équitables et des pratiques de récolte durables."
     },
     {
         icon: Heart,
-        title: "Community Growth",
-        description: "A portion of every sale is reinvested into local entrepreneurship and educational initiatives for our partner artisans."
+        title: "Impact Communautaire",
+        description: "Une partie de chaque vente est réinvestie dans l'entrepreneuriat local et les initiatives éducatives pour nos artisans partenaires."
     },
     {
         icon: Award,
-        title: "Premium Quality",
-        description: "Our standards meet the highest international luxury skincare benchmarks, proving the exceptional efficacy of African botanicals."
+        title: "Qualité Premium",
+        description: "Nos standards répondent aux critères les plus élevés du luxe international, prouvant l'efficacité exceptionnelle des plantes africaines."
     }
 ]
 
@@ -63,33 +63,33 @@ export default function AboutPage() {
                                 <div className="bg-[#F6EBE1] p-10 rounded-full w-48 h-48 flex items-center justify-center text-center shadow-lg border border-primary/10 transition-transform hover:scale-105 duration-500">
                                     <div className="flex flex-col items-center">
                                         <span className="text-4xl font-bold text-primary">100%</span>
-                                        <span className="text-xs font-bold uppercase tracking-tight text-[#7B5B3F]">Organic Ingredients</span>
+                                        <span className="text-xs font-bold uppercase tracking-tight text-[#7B5B3F]">Ingrédients Bio</span>
                                     </div>
                                 </div>
                             </motion.div>
                         </div>
 
                         <div className="lg:w-1/2 space-y-8">
-                            <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary">Our Story</Badge>
+                            <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary">Notre Histoire</Badge>
                             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-[#2D241E] leading-tight">
-                                Authentic <br />
-                                Beauty <span className="italic text-primary font-medium">Redefined.</span>
+                                La Beauté <br />
+                                Authentique <span className="italic text-primary font-medium">Redéfinie.</span>
                             </h1>
                             <p className="text-xl text-muted-foreground leading-relaxed">
-                                Moomel was born from a simple realization: the finest beauty secrets of the world were already present in our own soil, waiting to be shared with the world in a way that respects the land and its people.
+                                Moomel est né d&apos;un constat simple : les plus grands secrets de beauté du monde étaient déjà présents dans notre propre terre, n&apos;attendant que d&apos;être partagés avec le monde dans le respect de l&apos;environnement et des populations.
                             </p>
                             <div className="space-y-4 pt-4">
                                 <div className="flex items-center gap-4 text-sm font-bold text-[#2D241E] uppercase tracking-widest">
                                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                         <Globe className="w-6 h-6" />
                                     </div>
-                                    Founded in Dakar, Senegal
+                                    Fondé à Dakar, Sénégal
                                 </div>
                                 <div className="flex items-center gap-4 text-sm font-bold text-[#2D241E] uppercase tracking-widest">
                                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                         <Leaf className="w-6 h-6" />
                                     </div>
-                                    100% Botanical Formulations
+                                    Formulations 100% Botaniques
                                 </div>
                             </div>
                         </div>
@@ -102,17 +102,17 @@ export default function AboutPage() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
                         <div className="space-y-8">
-                            <h2 className="text-4xl font-bold text-[#2D241E] leading-snug lg:max-w-md">Our Mission is to empower local creators.</h2>
+                            <h2 className="text-4xl font-bold text-[#2D241E] leading-snug lg:max-w-md">Notre Mission est de valoriser les créateurs locaux.</h2>
                             <p className="text-lg text-muted-foreground leading-loose">
-                                We curate the best Senegalese organic beauty brands, providing them with a platform that meets global standards of luxury and sustainability.
-                                Moomel is a marketplace that fosters a holistic connection between the conscious consumer and the artisan.
+                                Nous sélectionnons les meilleures marques de beauté bio sénégalaises, leur offrant une plateforme qui répond aux standards mondiaux de luxe et de durabilité.
+                                Moomel est une place de marché qui favorise une connexion holistique entre le consommateur conscient et l&apos;artisan.
                             </p>
                             <div className="flex flex-col gap-4">
                                 {[
-                                    "Supporting 10+ local cooperatives",
-                                    "Ensuring 100% price transparency",
-                                    "Carbon neutral shipping by 2027",
-                                    "Direct impact reinvestment programs"
+                                    "Soutien à plus de 10 coopératives locales",
+                                    "Garantie de 100% de transparence des prix",
+                                    "Livraison neutre en carbone d'ici 2027",
+                                    "Programmes de réinvestissement à impact direct"
                                 ].map(item => (
                                     <div key={item} className="flex items-center gap-3">
                                         <CheckCircle2 className="w-5 h-5 text-green-600" />
@@ -138,8 +138,8 @@ export default function AboutPage() {
             {/* Core Values Grid */}
             <section className="py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="text-center mb-24 space-y-4">
-                    <Badge className="bg-primary/10 text-primary border-primary/20">Our Principles</Badge>
-                    <h2 className="text-4xl md:text-5xl font-bold text-[#2D241E]">What we stand for.</h2>
+                    <Badge className="bg-primary/10 text-primary border-primary/20">Nos Principes</Badge>
+                    <h2 className="text-4xl md:text-5xl font-bold text-[#2D241E]">Ce que nous défendons.</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -168,31 +168,31 @@ export default function AboutPage() {
             <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#2D241E] text-white">
                 <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-16">
                     <div className="max-w-xl space-y-6">
-                        <h2 className="text-4xl md:text-5xl font-bold italic">The Purity Guarantee.</h2>
+                        <h2 className="text-4xl md:text-5xl font-bold italic">La Garantie de Pureté.</h2>
                         <p className="text-white/70 text-lg leading-relaxed">
-                            Every product listed on Moomel goes through a rigorous vetting process to ensure it matches our commitment to 100% botanical ingredients and ethical production.
+                            Chaque produit répertorié sur Moomel passe par un processus de vérification rigoureux pour s&apos;assurer qu&apos;il correspond à notre engagement envers des ingrédients 100% botaniques et une production éthique.
                         </p>
                         <Button size="lg" className="rounded-full bg-white text-black hover:bg-white/90 gap-2 font-bold px-10 h-14 text-lg group">
-                            View Our Standards <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                            Voir nos Standards <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                         </Button>
                     </div>
 
                     <div className="grid grid-cols-2 gap-8 w-full max-w-md">
                         <div className="p-8 border border-white/10 rounded-3xl text-center space-y-4 hover:border-white/40 transition-colors">
                             <div className="text-3xl font-bold text-primary">A+</div>
-                            <div className="text-xs uppercase font-bold tracking-widest text-white/50">Ingredient Grade</div>
+                            <div className="text-xs uppercase font-bold tracking-widest text-white/50">Qualité Ingrédients</div>
                         </div>
                         <div className="p-8 border border-white/10 rounded-3xl text-center space-y-4 hover:border-white/40 transition-colors">
                             <Sparkles className="w-10 h-10 text-primary mx-auto" />
-                            <div className="text-xs uppercase font-bold tracking-widest text-white/50">Bio-Certified</div>
+                            <div className="text-xs uppercase font-bold tracking-widest text-white/50">Certifié Bio</div>
                         </div>
                         <div className="p-8 border border-white/10 rounded-3xl text-center space-y-4 hover:border-white/40 transition-colors">
                             <div className="text-3xl font-bold text-primary">12+</div>
-                            <div className="text-xs uppercase font-bold tracking-widest text-white/50">Vetted Brands</div>
+                            <div className="text-xs uppercase font-bold tracking-widest text-white/50">Marques Approuvées</div>
                         </div>
                         <div className="p-8 border border-white/10 rounded-3xl text-center space-y-4 hover:border-white/40 transition-colors">
                             <Shield className="w-10 h-10 text-primary mx-auto" />
-                            <div className="text-xs uppercase font-bold tracking-widest text-white/50">Tested Rituals</div>
+                            <div className="text-xs uppercase font-bold tracking-widest text-white/50">Rituels Testés</div>
                         </div>
                     </div>
                 </div>

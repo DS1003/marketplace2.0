@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation"
 import { 
   Plus, X, Image as ImageIcon, CheckCircle2, 
   Leaf, Info, AlertCircle, ChevronLeft, Save,
-  UploadCloud, Loader2
+  UploadCloud, Loader2, Zap, ArrowRight,
+  TrendingUp, Package
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -23,12 +24,13 @@ import {
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
-import { createProduct, uploadImage } from "@/lib/actions/seller"
+import { createProduct, updateProduct, uploadImage } from "@/lib/actions/seller"
+import { cn } from "@/lib/utils"
 
-export default function ProductForm({ categories }: { categories: any[] }) {
+export default function ProductForm({ categories, initialData }: { categories: any[], initialData?: any }) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [images, setImages] = useState<string[]>([])
+  const [images, setImages] = useState<string[]>(initialData?.images || [])
   const [isUploading, setIsUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -43,16 +45,22 @@ export default function ProductForm({ categories }: { categories: any[] }) {
         price: parseFloat(formData.get("price") as string),
         categoryId: formData.get("categoryId") as string,
         images: images,
-        stock: parseInt(formData.get("inventory") as string) || 0
+        stock: parseInt(formData.get("inventory") as string) || 0,
+        status: formData.get("status") === "on" ? "ACTIVE" : "SUSPENDED"
     }
 
     try {
-        await createProduct(data)
-        toast.success("Votre création a été ajoutée avec succès.")
+        if (initialData) {
+            await updateProduct(initialData.id, data)
+            toast.success("Mise à jour effectuée avec succès.")
+        } else {
+            await createProduct(data)
+            toast.success("Votre création a été ajoutée avec succès.")
+        }
         router.push("/seller/products")
         router.refresh()
     } catch (error) {
-        toast.error("Échec de la publication du rituel. Veuillez réessayer.")
+        toast.error("Une erreur s'est produite. Veuillez réessayer.")
     } finally {
         setIsLoading(false)
     }
@@ -65,7 +73,7 @@ export default function ProductForm({ categories }: { categories: any[] }) {
     setIsUploading(true)
     for (let i = 0; i < files.length; i++) {
         if (images.length + i >= 5) {
-            toast.error("Vous pouvez sélectionner un maximum de 5 images.")
+            toast.error("Maximum 5 images autorisées.")
             break
         }
         const file = files[i]
@@ -87,53 +95,82 @@ export default function ProductForm({ categories }: { categories: any[] }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Left: Essential Sensory Info */}
-        <div className="lg:col-span-2 space-y-10">
-          <Card className="border-none shadow-2xl shadow-black/5 bg-white/50 backdrop-blur-xl rounded-[2.5rem] overflow-hidden">
-            <CardContent className="p-10 space-y-8">
-                <div className="space-y-4">
-                    <Label className="text-[10px] font-bold text-[#2D241E] uppercase tracking-[0.3em] ml-4">Nom de la Création</Label>
+    <form onSubmit={handleSubmit} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-10">
+      <div className="flex items-center gap-2 mb-8">
+          <Button 
+            type="button" 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => router.back()}
+            className="h-9 w-9 rounded-xl hover:bg-slate-100"
+          >
+            <ChevronLeft className="w-4 h-4 text-slate-400" />
+          </Button>
+          <div>
+            <h1 className="text-xl font-black text-slate-800 uppercase tracking-tight">
+                {initialData ? "Modifier le Rituel" : "Nouveau Rituel"}
+            </h1>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic flex items-center gap-2 mt-0.5">
+                <Zap className="w-2.5 h-2.5 text-teal-600" /> Identification du flux artisanal dans le protocole Moomel.
+            </p>
+          </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left: Product Details */}
+        <div className="lg:col-span-2 space-y-6">
+          <Card className="border-none shadow-sm bg-white rounded-[1.5rem] overflow-hidden">
+            <CardContent className="p-8 space-y-6">
+                <div className="space-y-2.5">
+                    <Label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2 flex items-center gap-2">
+                        <CheckCircle2 className="w-3 h-3 text-teal-600" /> Désignation de la Création
+                    </Label>
                     <Input 
                         name="name" 
                         required 
+                        defaultValue={initialData?.name}
                         placeholder="ex: Essence Eclat de Baobab" 
-                        className="h-16 px-8 rounded-2xl border-none bg-white shadow-xl shadow-black/5 font-light text-lg text-[#2D241E]"
+                        className="h-12 px-6 rounded-xl border border-zinc-100 bg-slate-50 font-black text-[12px] text-slate-800 uppercase tracking-widest placeholder:text-slate-200"
                     />
                 </div>
 
                 <div className="space-y-4">
-                    <Label className="text-[10px] font-bold text-[#2D241E] uppercase tracking-[0.3em] ml-4">Description Narrative</Label>
+                    <Label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2 flex items-center gap-2">
+                        <TrendingUp className="w-3 h-3 text-teal-600" /> Description Narrative
+                    </Label>
                     <Textarea 
                         name="description" 
                         required 
-                        placeholder="Racontez l'histoire et l'âme de cette création..."
-                        className="min-h-[200px] px-8 py-6 rounded-3xl border-none bg-white shadow-xl shadow-black/5 font-light text-[#2D241E] resize-none text-base"
+                        defaultValue={initialData?.description}
+                        placeholder="Racontez l'âme et la composition de ce rituel..."
+                        className="min-h-[160px] px-6 py-5 rounded-2xl border border-zinc-100 bg-white font-bold text-slate-700 text-[12px] resize-none focus:ring-1 focus:ring-teal-500/10 placeholder:text-slate-200"
                     />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                        <Label className="text-[10px] font-bold text-[#2D241E] uppercase tracking-[0.3em] ml-4">Prix de Vente (FCFA)</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <div className="space-y-2.5">
+                        <Label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2 flex items-center gap-2">
+                            Valeur Commerciale (FCFA)
+                        </Label>
                         <Input 
                             name="price" 
                             type="number" 
                             step="0.01" 
                             required 
+                            defaultValue={initialData?.price}
                             placeholder="0.00" 
-                            className="h-16 px-8 rounded-2xl border-none bg-white shadow-xl shadow-black/5 font-light text-lg"
+                            className="h-12 px-6 rounded-xl border border-zinc-100 bg-slate-50 font-black text-[12px] text-teal-600"
                         />
                     </div>
-                    <div className="space-y-4">
-                        <Label className="text-[10px] font-bold text-[#2D241E] uppercase tracking-[0.3em] ml-4">Catégorie</Label>
-                        <Select name="categoryId" required>
-                            <SelectTrigger className="h-16 px-8 rounded-2xl border-none bg-white shadow-xl shadow-black/5 font-light">
-                                <SelectValue placeholder="Sélectionner une catégorie" />
+                    <div className="space-y-2.5">
+                        <Label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Ségment Catégoriel</Label>
+                        <Select name="categoryId" defaultValue={initialData?.categoryId} required>
+                            <SelectTrigger className="h-12 px-6 rounded-xl border border-zinc-100 bg-slate-50 font-black text-[10px] uppercase tracking-widest">
+                                <SelectValue placeholder="Choisir" />
                             </SelectTrigger>
-                            <SelectContent className="rounded-2xl border-none shadow-2xl p-2">
+                            <SelectContent className="rounded-xl p-1 border-zinc-100">
                                 {categories.map((cat) => (
-                                    <SelectItem key={cat.id} value={cat.id} className="rounded-xl py-3 focus:bg-[#2D241E]/5">
+                                    <SelectItem key={cat.id} value={cat.id} className="rounded-lg py-2 focus:bg-slate-50 text-[10px] font-black uppercase tracking-widest">
                                         {cat.name}
                                     </SelectItem>
                                 ))}
@@ -144,15 +181,15 @@ export default function ProductForm({ categories }: { categories: any[] }) {
             </CardContent>
           </Card>
 
-          {/* Visual Manifestation Section */}
-          <Card className="border-none shadow-2xl shadow-black/5 bg-white/50 backdrop-blur-xl rounded-[2.5rem] p-10 space-y-8">
+          {/* Media Section */}
+          <Card className="border-none shadow-sm bg-white rounded-[1.5rem] p-8 space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                     <Label className="text-[10px] font-bold text-[#2D241E] uppercase tracking-[0.3em]">Héritage Visuel</Label>
-                     <p className="text-xs text-muted-foreground font-light mt-1">Ajoutez jusqu'à 5 images de haute qualité.</p>
+                     <Label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Manifestation Visuelle</Label>
+                     <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-1">Images haute définition requises (Format 1:1 idéal).</p>
                 </div>
-                <Badge variant="outline" className="rounded-full border-[#2D241E]/10 bg-[#2D241E]/5 text-[#2D241E]">
-                   <ImageIcon className="w-3 h-3 mr-1" /> {images.length} / 5
+                <Badge className="rounded-lg bg-slate-50 text-slate-400 border border-zinc-100 px-2 py-0.5 text-[9px] font-black">
+                   {images.length} / 5
                 </Badge>
             </div>
 
@@ -167,104 +204,106 @@ export default function ProductForm({ categories }: { categories: any[] }) {
 
             <div 
                 onClick={() => !isUploading && images.length < 5 && fileInputRef.current?.click()}
-                className={`w-full h-32 border-2 border-dashed rounded-3xl flex flex-col items-center justify-center transition-colors group ${
-                  images.length >= 5 ? 'border-gray-200 cursor-not-allowed opacity-50' : 'border-[#2D241E]/30 cursor-pointer hover:bg-white/80 hover:border-[#2D241E]/60 bg-white/40 shadow-inner'
-                }`}
+                className={cn(
+                    "w-full h-24 border border-dashed rounded-2xl flex flex-col items-center justify-center transition-all group",
+                    images.length >= 5 ? 'border-zinc-50 cursor-not-allowed opacity-20' : 'border-zinc-200 cursor-pointer hover:bg-slate-50 hover:border-teal-500/30'
+                )}
             >
                 {isUploading ? (
-                    <div className="flex flex-col items-center opacity-70">
-                        <Loader2 className="h-8 w-8 text-[#2D241E] animate-spin mb-3" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#2D241E]">Synchronisation en cours...</span>
+                    <div className="flex flex-col items-center">
+                        <Loader2 className="h-5 w-5 text-teal-600 animate-spin mb-2" />
+                        <span className="text-[8px] font-black uppercase tracking-widest text-teal-600">Uploading Signal...</span>
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center opacity-50 group-hover:opacity-100 transition-opacity">
-                        <UploadCloud className="h-8 w-8 text-[#2D241E] mb-3" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#2D241E]">Parcourir ou Déposer</span>
+                    <div className="flex flex-col items-center opacity-40 group-hover:opacity-100 transition-opacity">
+                        <UploadCloud className="h-6 w-6 text-slate-400 mb-2 group-hover:text-teal-600" />
+                        <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-500 group-hover:text-teal-600">Lier des images</span>
                     </div>
                 )}
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-5 gap-3">
                 <AnimatePresence>
                     {images.map((img, idx) => (
                         <motion.div 
                             key={idx}
-                            initial={{ opacity: 0, scale: 0.8 }}
+                            initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-xl shadow-black/10 group ring-1 ring-black/5"
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            className="relative aspect-square rounded-xl overflow-hidden bg-white border border-zinc-100 group shadow-sm"
                         >
-                            <img src={img} alt="Product preview" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                            <div className="absolute inset-0 bg-[#2D241E]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <img src={img} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                 <Button 
                                     type="button" 
                                     size="icon" 
                                     variant="ghost" 
                                     onClick={(e) => { e.stopPropagation(); removeImage(idx); }}
-                                    className="text-white hover:text-rose-400 hover:bg-white/20 rounded-full h-10 w-10 transition-transform active:scale-90"
+                                    className="text-white hover:text-white hover:bg-rose-500 rounded-lg h-7 w-7 transition-all"
                                 >
-                                    <X className="h-5 w-5" />
+                                    <X className="h-3.5 w-3.5" />
                                 </Button>
                             </div>
                         </motion.div>
                     ))}
-                    {images.length === 0 && (
-                        <div className="col-span-full py-4 text-center">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground opacity-50">Aucune image sélectionnée</span>
+                    {Array.from({ length: 5 - images.length }).map((_, i) => (
+                        <div key={`empty-${i}`} className="aspect-square rounded-xl bg-slate-50 border border-transparent flex items-center justify-center">
+                            <ImageIcon className="w-4 h-4 text-slate-100" />
                         </div>
-                    )}
+                    ))}
                 </AnimatePresence>
             </div>
           </Card>
         </div>
 
-        {/* Right: Technical Metadata */}
-        <div className="space-y-8">
-            <Card className="border-none shadow-2xl shadow-black/5 bg-[#2D241E] text-white rounded-[2.5rem] p-8 space-y-6">
-                <div className="space-y-4">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.3em] opacity-40">Statut & Visibilité</h4>
-                    <div className="flex items-center justify-between p-5 rounded-2xl border border-white/10 bg-white/5 transition-colors hover:bg-white/10">
-                        <div className="space-y-1">
-                            <p className="text-sm font-bold">Boutique Publique</p>
-                            <p className="text-[10px] opacity-60 font-light">Visible par la communauté Moomel</p>
+        {/* Right: Management Data */}
+        <div className="space-y-6">
+            <Card className="border-none shadow-sm bg-[#0F172A] text-white rounded-[1.5rem] p-6 space-y-6 relative overflow-hidden">
+                {/* Background Accent */}
+                <div className="absolute -top-10 -right-10 w-24 h-24 bg-teal-500/10 blur-3xl rounded-full" />
+                
+                <div className="space-y-4 relative z-10">
+                    <div className="flex items-center gap-2 pb-2 border-b border-white/5 font-black uppercase tracking-[0.2em] text-[9px] text-teal-400">
+                        <CheckCircle2 className="w-3 h-3" /> État du Protocole
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5">
+                        <div>
+                            <p className="text-[11px] font-black uppercase tracking-tight">Accessibilité</p>
+                            <p className="text-[8px] opacity-40 font-bold uppercase tracking-widest mt-0.5">Visibilité Moomel</p>
                         </div>
-                        <Switch className="data-[state=checked]:bg-emerald-500" defaultChecked />
+                        <Switch name="status" defaultChecked={initialData?.status !== "SUSPENDED"} className="data-[state=checked]:bg-teal-500" />
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 opacity-50">
+                        <div>
+                            <p className="text-[11px] font-black uppercase tracking-tight">Certification Bio</p>
+                            <p className="text-[8px] opacity-40 font-bold uppercase tracking-widest mt-0.5">Preuve Moomel Req.</p>
+                        </div>
+                        <Switch disabled className="data-[state=checked]:bg-teal-500" />
                     </div>
                 </div>
 
-                <div className="space-y-4">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.3em] opacity-40">Validation Artisanale</h4>
-                    <div className="flex items-center justify-between p-5 rounded-2xl border border-white/10 bg-white/5 transition-colors hover:bg-white/10">
-                        <div className="space-y-1 flex items-center gap-2">
-                            <Leaf className="h-4 w-4 text-emerald-400" />
-                            <div>
-                                <p className="text-sm font-bold">Certification Bio</p>
-                                <p className="text-[10px] opacity-60 font-light">Origine naturelle vérifiée</p>
-                            </div>
-                        </div>
-                        <Switch name="isOrganic" value="true" className="data-[state=checked]:bg-emerald-500" />
-                    </div>
-                </div>
-
-                <div className="space-y-4 pt-4 border-t border-white/10">
-                    <Label className="text-[10px] font-bold text-white/40 uppercase tracking-[0.3em]">Stock Initial</Label>
+                <div className="space-y-2.5 pt-2 relative z-10">
+                    <Label className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Inventaire Disponible</Label>
                     <Input 
                         name="inventory" 
                         type="number" 
                         required
-                        placeholder="Quantité disponible" 
-                        className="h-14 px-6 rounded-2xl border-none bg-white font-light text-[#2D241E] shadow-xl"
+                        defaultValue={initialData?.stock}
+                        placeholder="Nombre d'unités..." 
+                        className="h-11 px-4 rounded-xl border-none bg-white font-black text-[11px] text-slate-800 shadow-xl"
                     />
                 </div>
             </Card>
 
-            <Card className="border-none shadow-xl shadow-black/5 bg-white/50 backdrop-blur-md rounded-[2.5rem] p-8">
-                <div className="flex items-center gap-3 text-amber-600 mb-4">
-                    <Info className="h-5 w-5" />
-                    <h4 className="text-xs font-bold uppercase tracking-widest">Conseil d'Artisan</h4>
+            <Card className="border-none shadow-sm bg-white rounded-[1.5rem] p-6">
+                <div className="flex items-center gap-3 text-teal-600 mb-3">
+                    <Info className="h-4 w-4" />
+                    <h4 className="text-[9px] font-black uppercase tracking-widest">Guide Artisan</h4>
                 </div>
-                <p className="text-xs leading-relaxed text-slate-500 font-light italic">
-                    Une histoire engageante augmente l'intérêt pour votre rituel. Utilisez des descriptions évocatrices pour faire ressentir l'âme de votre création.
+                <p className="text-[10px] leading-relaxed text-slate-400 font-bold uppercase tracking-tight opacity-70 italic">
+                    Un récit évocateur augmente l'interaction de 45%. Détaillez la source de vos ingrédients ou le temps de fabrication.
                 </p>
             </Card>
 
@@ -272,17 +311,21 @@ export default function ProductForm({ categories }: { categories: any[] }) {
                  <Button 
                     type="submit" 
                     disabled={isLoading || isUploading}
-                    className="w-full h-16 bg-[#2D241E] hover:bg-black text-white rounded-2xl shadow-xl shadow-[#2D241E]/20 transition-all active:scale-95 font-bold uppercase tracking-widest text-xs"
+                    className="w-full h-14 bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-xl shadow-teal-500/10 transition-all active:scale-[0.98] font-black uppercase tracking-widest text-[10px] border-none"
                 >
-                    {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Publier le Rituel"}
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                        <div className="flex items-center gap-2">
+                             {initialData ? "Mettre à jour" : "Lancer le Rituel"} <ArrowRight className="w-3.5 h-3.5" />
+                        </div>
+                    )}
                 </Button>
                 <Button 
                     type="button" 
                     onClick={() => router.back()}
                     variant="ghost" 
-                    className="w-full h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] text-muted-foreground hover:bg-black/5"
+                    className="w-full h-11 rounded-xl font-black uppercase tracking-widest text-[9px] text-slate-400 hover:bg-slate-50 transition-colors"
                 >
-                    <ChevronLeft className="h-4 w-4 mr-2" /> Retour à l'Espace
+                    Renoncer
                 </Button>
             </div>
         </div>

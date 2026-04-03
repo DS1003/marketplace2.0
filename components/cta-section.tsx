@@ -60,11 +60,11 @@ export function CTASection() {
         >
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity : 0, y: 30 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight tracking-tight text-balance"
           >
-            Ready to Discover Natural Beauty?
+            Prêt à Découvrir la Beauté Naturelle ?
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -72,8 +72,8 @@ export function CTASection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-primary-foreground/80 mt-8 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
           >
-            Join thousands of customers who have embraced authentic Senegalese beauty products, 
-            or start selling your handmade creations today.
+            Rejoignez des milliers de clients qui ont adopté les produits de beauté sénégalais authentiques, 
+            ou commencez à vendre vos créations artisanales dès aujourd&apos;hui.
           </motion.p>
 
           <motion.div
@@ -88,7 +88,7 @@ export function CTASection() {
                 className="bg-background text-foreground hover:bg-background/90 group rounded-xl px-8 py-7 text-lg shadow-2xl shadow-foreground/10"
               >
                 <ShoppingBag className="mr-2 h-5 w-5" />
-                Shop Now
+                Acheter Maintenant
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
             </motion.div>
@@ -99,7 +99,7 @@ export function CTASection() {
                 className="border-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground rounded-xl px-8 py-7 text-lg backdrop-blur-sm"
               >
                 <Store className="mr-2 h-5 w-5" />
-                Become a Seller
+                Devenir Vendeur
               </Button>
             </motion.div>
           </motion.div>
@@ -112,10 +112,10 @@ export function CTASection() {
             className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mt-16 pt-16 border-t border-primary-foreground/20"
           >
             {[
-              { value: "10K+", label: "Happy Customers" },
-              { value: "500+", label: "Products" },
-              { value: "150+", label: "Sellers" },
-              { value: "4.9", label: "Avg. Rating" },
+              { value: "10K+", label: "Clients Heureux" },
+              { value: "500+", label: "Produits" },
+              { value: "150+", label: "Vendeurs" },
+              { value: "4.9", label: "Note Moyenne" },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}

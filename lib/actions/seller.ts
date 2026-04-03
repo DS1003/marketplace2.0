@@ -96,11 +96,37 @@ export async function getSellerDashboardData() {
     }
   })
 
+  // Get recent orders
+  const recentOrders = await prisma.order.findMany({
+    where: {
+        items: {
+            some: {
+                product: { shopId: shop.id }
+            }
+        }
+    },
+    take: 5,
+    include: {
+        user: { select: { name: true, image: true } },
+        items: {
+          where: { product: { shopId: shop.id } }
+        }
+    },
+    orderBy: { createdAt: 'desc' }
+  })
+
+  // Calculate shop-specific total for each order (since an order can have items from multiple shops)
+  const processedOrders = recentOrders.map(order => ({
+    ...order,
+    shopTotal: order.items.reduce((acc, item) => acc + (item.price * item.quantity), 0)
+  }))
+
   return {
     shop,
-    revenue: sales._sum.price || 0,
+    revenue: Number(sales._sum.price || 0),
     salesCount: sales._sum.quantity || 0,
-    productCount: shop._count.products
+    productCount: shop._count.products,
+    recentOrders: processedOrders
   }
 }
 
@@ -237,4 +263,68 @@ export async function uploadImage(formData: FormData) {
   });
 
   return result.secure_url;
+}
+export async function updateOrderStatus(orderId: string, status: string) {
+    const session = await auth()
+    if (!session || ((session.user.role as string) !== "SELLER" && (session.user.role as string) !== "SUPER_ADMIN")) {
+        throw new Error("Unauthorized")
+    }
+
+    const shop = await prisma.shop.findUnique({
+        where: { ownerId: session.user.id }
+    })
+
+    const order = await prisma.order.findUnique({
+        where: { id: orderId },
+        include: { items: { include: { product: true } } }
+    })
+
+    if (!order) throw new Error("Order not found")
+
+    const hasSellerProducts = order.items.some(item => item.product.shopId === shop?.id)
+    if (!hasSellerProducts && (session.user.role as string) !== "SUPER_ADMIN") {
+        throw new Error("Unauthorized")
+    }
+
+    const updated = await prisma.order.update({
+        where: { id: orderId },
+        data: { status }
+    })
+
+    revalidatePath("/seller/orders")
+    return { success: true, order: updated }
+}
+export async function getSingleSellerProduct(id: string) {
+    const session = await auth()
+    if (!session) throw new Error("Unauthorized")
+
+    const shop = await prisma.shop.findUnique({
+        where: { ownerId: session.user.id }
+    })
+
+    const product = await prisma.product.findUnique({
+        where: { id },
+        include: { category: true }
+    })
+
+    if (!product || (product.shopId !== shop?.id && (session.user.role as string) !== "SUPER_ADMIN")) {
+        throw new Error("Product not found or unauthorized")
+    }
+
+    return product
+}
+export async function updateShopProfile(data: { name?: string; description?: string; image?: string }) {
+    const session = await auth()
+    if (!session) throw new Error("Unauthorized")
+
+    const updated = await prisma.shop.update({
+        where: { ownerId: session.user.id },
+        data: {
+            ...data
+        }
+    })
+
+    revalidatePath("/seller")
+    revalidatePath("/seller/settings")
+    return updated
 }

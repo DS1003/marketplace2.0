@@ -69,13 +69,13 @@ export default function BecomeSellerPage() {
                 <div className="max-w-5xl mx-auto px-6">
                     <div className="text-center space-y-4 mb-20">
                         <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20 px-6 py-1.5 rounded-full font-bold uppercase tracking-widest text-[9px]">
-                            Join the Moomel Artisan Lab
+                            Rejoignez le Lab des Artisans Moomel
                         </Badge>
                         <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-none italic">
-                            Empower Your <span className="text-primary not-italic">Heritage</span>
+                            Valorisez Votre <span className="text-primary not-italic">Héritage</span>
                         </h1>
                         <p className="text-lg text-slate-400 max-w-2xl mx-auto font-medium italic underline decoration-primary/10">
-                            Translate your West African artisanal rituals into a global digital presence.
+                            Traduisez vos rituels artisanaux d&apos;Afrique de l&apos;Ouest en une présence digitale mondiale.
                         </p>
                     </div>
 
@@ -86,8 +86,8 @@ export default function BecomeSellerPage() {
                                 <div className="absolute top-0 right-0 p-8 text-primary/20 transition-transform group-hover:scale-110 duration-700"><Sparkles className="h-20 w-20" /></div>
                                 <div className="relative z-10 space-y-8">
                                     <div className="space-y-1">
-                                        <h3 className="text-2xl font-bold tracking-tight">Institutional Onboarding</h3>
-                                        <p className="text-[11px] font-bold text-white/40 uppercase tracking-[0.2em] italic">Step {step > 2 ? 3 : step} of 3</p>
+                                        <h3 className="text-2xl font-bold tracking-tight">Onboarding Institutionnel</h3>
+                                        <p className="text-[11px] font-bold text-white/40 uppercase tracking-[0.2em] italic">Étape {step > 2 ? 3 : step} sur 3</p>
                                     </div>
                                     
                                     <div className="space-y-4">
@@ -100,21 +100,21 @@ export default function BecomeSellerPage() {
 
                                     <div className="pt-6 border-t border-white/5">
                                         <p className="text-xs text-white/50 leading-relaxed font-medium italic underline underline-offset-4 decoration-primary/20">
-                                            "Craft is the language of our ancestors; commerce is how we sustain their legacy."
+                                            &quot;L&apos;artisanat est la langue de nos ancêtres ; le commerce est la façon dont nous pérennisons leur héritage.&quot;
                                         </p>
                                     </div>
                                 </div>
                              </Card>
                              
                              {step < 3 && (
-                                <div className="px-8 flex flex-col gap-4">
+                                 <div className="px-8 flex flex-col gap-4">
                                     <div className="flex items-center gap-3">
                                        <div className="h-8 w-8 rounded-full bg-primary/5 flex items-center justify-center text-primary"><ShieldCheck className="h-4 w-4" /></div>
-                                       <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Institutional Review Ready</span>
+                                       <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Examen Institutionnel Prêt</span>
                                     </div>
                                     <div className="flex items-center gap-3">
                                        <div className="h-8 w-8 rounded-full bg-primary/5 flex items-center justify-center text-primary"><Globe className="h-4 w-4" /></div>
-                                       <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Global Registry Indexed</span>
+                                       <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Registre Mondial Indexé</span>
                                     </div>
                                  </div>
                              )}
@@ -136,27 +136,27 @@ export default function BecomeSellerPage() {
                                                 <div className="space-y-2">
                                                     <h2 className="text-3xl font-bold flex items-center gap-3 tracking-tight">
                                                         <Store className="w-8 h-8 text-primary" />
-                                                        Boutique Identity
+                                                        Identité de la Boutique
                                                     </h2>
-                                                    <p className="text-slate-400 font-medium italic text-base">Manifest the name and soul of your artisanal lab.</p>
+                                                    <p className="text-slate-400 font-medium italic text-base">Manifestez le nom et l&apos;âme de votre laboratoire artisanal.</p>
                                                 </div>
 
                                                 <div className="space-y-8">
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-slate-500">Boutique Nom de Plume</Label>
+                                                        <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-slate-500">Nom de la Boutique</Label>
                                                         <Input
                                                             required
-                                                            placeholder="e.g. Koba Skin Lab"
+                                                            placeholder="ex: Koba Skin Lab"
                                                             className="h-14 rounded-2xl bg-slate-50 border-zinc-100 focus:ring-1 focus:ring-primary/20 text-lg font-bold"
                                                             value={formData.name}
                                                             onChange={(e) => setFormData({...formData, name: e.target.value})}
                                                         />
                                                     </div>
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-slate-500">Brand Vibe / Bio</Label>
+                                                        <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-slate-500">Vibe de la Marque / Bio</Label>
                                                         <Textarea
                                                             required
-                                                            placeholder="Translate the alchemy of your process into words..."
+                                                            placeholder="Traduisez l&apos;alchimie de votre processus en mots..."
                                                             className="min-h-[160px] rounded-3xl bg-slate-50 border-zinc-100 p-6 text-sm font-semibold leading-relaxed"
                                                             value={formData.description}
                                                             onChange={(e) => setFormData({...formData, description: e.target.value})}
@@ -166,7 +166,7 @@ export default function BecomeSellerPage() {
 
                                                 <div className="flex justify-end pt-6 border-t border-zinc-50">
                                                     <Button type="button" onClick={() => setStep(2)} className="rounded-2xl h-14 px-10 text-[10px] font-bold uppercase tracking-widest bg-slate-900 group shadow-xl shadow-slate-900/10 text-white">
-                                                        Next Ritual <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                                        Rituel Suivant <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                                                     </Button>
                                                 </div>
                                             </motion.div>
@@ -183,16 +183,16 @@ export default function BecomeSellerPage() {
                                                 <div className="space-y-2">
                                                     <h2 className="text-3xl font-bold flex items-center gap-3 tracking-tight">
                                                         <ImageIcon className="w-8 h-8 text-primary" />
-                                                        Lab Visuals
+                                                        Visuels du Labo
                                                     </h2>
-                                                    <p className="text-slate-400 font-medium italic text-base">Secure your high-fidelity storefront imagery.</p>
+                                                    <p className="text-slate-400 font-medium italic text-base">Sécurisez l&apos;imagerie haute fidélité de votre vitrine.</p>
                                                 </div>
 
                                                 <div className="space-y-8">
                                                     <div className="space-y-4">
-                                                        <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-slate-500">Identity Visual (URL)</Label>
+                                                        <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-slate-500">Visuel d&apos;Identité (URL)</Label>
                                                         <Input
-                                                            placeholder="High-resolution image URL..."
+                                                            placeholder="URL de l&apos;image haute résolution..."
                                                             className="h-14 rounded-2xl bg-slate-50 border-zinc-100"
                                                             value={formData.image}
                                                             onChange={(e) => setFormData({...formData, image: e.target.value})}
@@ -202,9 +202,9 @@ export default function BecomeSellerPage() {
                                                     <div className="p-8 border-2 border-dashed border-zinc-100 rounded-[2rem] bg-slate-50/50 flex flex-col items-center justify-center text-center space-y-6">
                                                         <div className="h-16 w-16 rounded-full bg-white shadow-xl flex items-center justify-center"><Info className="h-6 w-6 text-primary" /></div>
                                                         <div className="space-y-2">
-                                                            <p className="text-sm font-bold text-slate-800">Final Verification</p>
+                                                            <p className="text-sm font-bold text-slate-800">Vérification Finale</p>
                                                             <p className="text-[11px] text-slate-400 font-medium italic underline underline-offset-4 decoration-primary/10">
-                                                                By establishing your lab, you join the global Moomel institutional registry for artisanal excellence.
+                                                                En établissant votre labo, vous rejoignez le registre institutionnel mondial Moomel pour l&apos;excellence artisanale.
                                                             </p>
                                                         </div>
                                                     </div>
@@ -215,7 +215,7 @@ export default function BecomeSellerPage() {
                                                         <ChevronLeft className="mr-2 h-4 w-4" /> Relire l'Essence
                                                     </Button>
                                                     <Button disabled={isPending} type="submit" className="rounded-2xl h-14 px-12 text-[10px] font-bold uppercase tracking-widest bg-primary text-white shadow-2xl shadow-primary/20 group">
-                                                        {isPending ? "Manifesting..." : "Launch Artisan Lab"} <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                                        {isPending ? "Manifestation en cours..." : "Lancer le Labo Artisanal"} <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                                     </Button>
                                                 </div>
                                             </motion.div>

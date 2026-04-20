@@ -19,8 +19,19 @@ export async function sendMessage(receiverId: string, content: string, productId
         }
     })
 
+    // Notify the receiver
+    await (prisma as any).notification.create({
+        data: {
+            userId: receiverId,
+            title: "Nouveau Message",
+            message: `${session.user.name} vous a envoyé un message.`,
+            type: "INFO"
+        }
+    })
+
     revalidatePath("/admin/sellers")
     revalidatePath("/seller/messages")
+    revalidatePath("/admin/messages")
     return { success: true, data: message }
 }
 
@@ -141,4 +152,37 @@ export async function searchProductsForMessaging(query: string) {
     })
 
     return products
+}
+
+export async function sendCandidacyFollowUp(content: string) {
+    const session = await auth()
+    if (!session || !session.user) throw new Error("Unauthorized")
+
+    // Find a super admin or admin to receive the message
+    const admin = await prisma.user.findFirst({
+        where: {
+            OR: [
+                { role: "SUPER_ADMIN" },
+                { role: "ADMIN" }
+            ]
+        },
+        orderBy: { createdAt: 'asc' } // Pick the oldest admin or just any
+    })
+
+    if (!admin) throw new Error("Pas d'administrateur disponible pour recevoir votre relance.")
+
+    return sendMessage(admin.id, content)
+}
+
+export async function getAdminPartner() {
+    const admin = await prisma.user.findFirst({
+        where: {
+            OR: [
+                { role: "SUPER_ADMIN" },
+                { role: "ADMIN" }
+            ]
+        },
+        select: { id: true, name: true, image: true, role: true }
+    })
+    return admin
 }

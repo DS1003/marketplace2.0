@@ -31,23 +31,60 @@ export async function registerSeller(formData: { name: string; description: stri
     throw new Error("You already have an active artisan boutique.")
   }
 
-  // Create shop in PENDING status
-  const shop = await (prisma as any).shop.create({
-    data: {
-      name: formData.name,
-      description: formData.description,
-      image: formData.image,
-      ownerId: userId,
-      status: "PENDING"
-    }
+  // Create shop in PENDING status and update user role to SELLER
+  const [shop] = await prisma.$transaction([
+    (prisma as any).shop.create({
+      data: {
+        name: formData.name,
+        description: formData.description,
+        image: formData.image,
+        ownerId: userId,
+        status: "PENDING"
+      }
+    }),
+    prisma.user.update({
+      where: { id: userId },
+      data: { role: "SELLER" }
+    })
+  ])
+
+  // Start automatic conversation with admin
+  const admin = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { role: "SUPER_ADMIN" },
+        { role: "ADMIN" }
+      ]
+    },
+    orderBy: { createdAt: 'asc' }
   })
 
-  // Notify of submission
+  if (admin) {
+    await (prisma as any).message.create({
+      data: {
+        senderId: admin.id,
+        receiverId: userId,
+        content: `Bienvenue sur Moomel ! Nous avons bien reçu votre candidature pour le laboratoire "${formData.name}". Notre équipe de curateurs va examiner votre dossier sous peu. Vous pouvez utiliser cette messagerie pour toute question.`,
+      }
+    })
+
+    // Notify ADMIN of new application
+    await (prisma as any).notification.create({
+      data: {
+        userId: admin.id,
+        title: "Nouvelle Candidature",
+        message: `L'artisan "${session.user.name}" a soumis une candidature pour sa boutique "${formData.name}".`,
+        type: "INFO"
+      }
+    })
+  }
+
+  // Notify of submission for the seller
   await (prisma as any).notification.create({
     data: {
       userId: userId,
       title: "Candidature Reçue",
-      message: `Votre demande pour la boutique "${formData.name}" a été transmise aux administrateurs. Vous recevrez une notification d'approbation d'ici peu.`,
+      message: `Votre demande pour la boutique "${formData.name}" a été transmise aux administrateurs. Vous pouvez désormais communiquer avec nous via la messagerie.`,
       type: "INFO"
     }
   })
@@ -56,6 +93,7 @@ export async function registerSeller(formData: { name: string; description: stri
   console.log(`[EMAIL SIMULATION] Application Submitted for ${userId}`)
 
   revalidatePath("/become-seller")
+  revalidatePath("/seller/messages")
   
   return shop
 }
@@ -80,8 +118,17 @@ export async function getSellerDashboardData() {
   })
 
   if (!shop) throw new Error("Shop not found")
+  
+  // If pending, return basic data but don't calculate full stats yet
   if ((shop as any).status !== "APPROVED" && (session.user.role as string) !== "SUPER_ADMIN") {
-    throw new Error("Votre boutique est toujours en cours d'approbation par nos conservateurs.")
+    return {
+      shop,
+      revenue: 0,
+      salesCount: 0,
+      productCount: shop._count.products,
+      recentOrders: [],
+      isPending: true
+    }
   }
 
   // Recalculate stats for the specific shop

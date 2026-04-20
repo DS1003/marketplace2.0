@@ -36,6 +36,7 @@ const navLinks = [
   { href: "/marketplace", label: "Marché" },
   { href: "/categories", label: "Catégories" },
   { href: "/sellers", label: "Artisans" },
+  { href: "https://tresor-moomel.vercel.app/", label: "Blog" },
   { href: "/about", label: "À propos" },
   { href: "/contact", label: "Contact" },
 ]
@@ -149,7 +150,7 @@ export function Header() {
             {/* Right Section: Actions & Menu */}
             <div className="flex items-center justify-end gap-2 lg:flex-1">
               {/* Become a Seller CTA */}
-              {(!session?.user || session.user.role === "CUSTOMER") && (
+              {!session?.user || (session.user.role === "CUSTOMER" && !(session.user as any).hasShop) && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -290,7 +291,7 @@ export function Header() {
                             <span className="text-sm font-medium">Favoris</span>
                           </Link>
                         </DropdownMenuItem>
-                        {((session.user.role as string) === "SUPER_ADMIN" || (session.user.role as string) === "SELLER") && (
+                        {((session.user.role as string) === "SUPER_ADMIN" || (session.user.role as string) === "SELLER" || (session.user as any).hasShop) && (
                           <DropdownMenuItem asChild className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-primary/5 group transition-all duration-300">
                             <Link href={(session.user.role as string) === "SUPER_ADMIN" ? "/admin" : "/seller"} className="flex items-center gap-3 w-full">
                               <div className="h-8 w-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
@@ -515,7 +516,7 @@ export function Header() {
               </div>
 
               <div className="p-8 border-t border-border/50 bg-secondary/10">
-                {((session?.user?.role as string) === "SUPER_ADMIN" || (session?.user?.role as string) === "SELLER") && (
+                {((session?.user?.role as string) === "SUPER_ADMIN" || (session?.user?.role as string) === "SELLER" || (session?.user as any).hasShop) && (
                   <Link 
                     href={(session?.user?.role as string) === "SUPER_ADMIN" ? "/admin" : "/seller"} 
                     onClick={() => setIsMenuOpen(false)}
@@ -526,7 +527,7 @@ export function Header() {
                     </Button>
                   </Link>
                 )}
-                {(!session?.user || session.user.role === "CUSTOMER") && (
+                {(!session?.user || (session.user.role === "CUSTOMER" && !(session.user as any).hasShop)) && (
                   <Link href="/become-seller" onClick={() => setIsMenuOpen(false)}>
                     <Button className="w-full h-14 rounded-2xl bg-[#2D241E]/10 text-[#2D241E] hover:bg-[#2D241E]/20 font-bold uppercase tracking-widest text-[9px] mb-4 flex items-center justify-center gap-2">
                       <Store className="h-4 w-4" /> Devenir Artisan

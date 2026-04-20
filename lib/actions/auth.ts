@@ -6,6 +6,7 @@ import { AuthError } from "next-auth"
 import bcrypt from "bcryptjs"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
+import { redirect } from "next/navigation"
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -79,7 +80,7 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
 }
 
 export async function logout() {
-  await signOut()
+  await signOut({ redirectTo: "/" })
 }
 
 export async function loginWithGoogle() {

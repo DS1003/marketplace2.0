@@ -233,7 +233,7 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
                             <CreditCard className="h-4 w-4 text-teal-400" />
                             <div>
                                 <p className="text-[7px] font-black text-white/40 uppercase tracking-widest">Transaction</p>
-                                <p className="text-[10px] font-black uppercase">Paytech / Mobile</p>
+                                <p className="text-[10px] font-black uppercase">PayDunya / Mobile</p>
                             </div>
                       </div>
                   </div>

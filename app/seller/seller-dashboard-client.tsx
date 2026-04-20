@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { 
   TrendingUp, 
   ShoppingBag, 
@@ -45,6 +46,8 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { toast } from "sonner"
+import { sendCandidacyFollowUp } from "@/lib/actions/messages"
 
 // Mock chart data for seller (re-using admin style)
 const chartData = [
@@ -64,22 +67,66 @@ export default function SellerDashboardClient({
     dashboardData?: any;
     pendingError?: string | null;
 }) {
+    const [isSendingFollowUp, setIsSendingFollowUp] = useState(false)
+
+    const handleFollowUp = async () => {
+        setIsSendingFollowUp(true)
+        try {
+            const res = await sendCandidacyFollowUp("Bonjour, je souhaite relancer ma candidature pour l'ouverture de mon laboratoire.")
+            if (res.success) {
+                toast.success("Votre relance a été transmise à l'administration.")
+            }
+        } catch (e: any) {
+            toast.error(e.message || "Erreur lors de la relance.")
+        } finally {
+            setIsSendingFollowUp(false)
+        }
+    }
+
     if (pendingError) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[70vh] text-center space-y-8 animate-in fade-in zoom-in duration-500">
-                <div className="w-20 h-20 bg-teal-50 text-teal-600 rounded-[1.5rem] flex items-center justify-center shadow-xl shadow-teal-500/10 border border-teal-100/50">
-                    <Clock className="w-8 h-8 animate-pulse" />
+            <div className="flex flex-col items-center justify-center min-h-[70vh] text-center space-y-8 animate-in fade-in zoom-in duration-500 max-w-lg mx-auto p-6">
+                <div className="w-20 h-20 bg-teal-50 text-teal-600 rounded-[2.5rem] flex items-center justify-center shadow-xl shadow-teal-500/10 border border-teal-100/50">
+                    <Clock className="w-8 h-8 animate-pulse text-teal-600" />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <h1 className="text-2xl font-black text-slate-800 tracking-tight italic uppercase">Curation en cours</h1>
-                  <p className="text-slate-400 text-[11px] font-bold leading-relaxed max-w-xs mx-auto uppercase tracking-widest opacity-80">
+                  <p className="text-slate-400 text-[11px] font-bold leading-relaxed uppercase tracking-widest opacity-80">
                       {pendingError}
                   </p>
+                  <div className="p-4 rounded-3xl bg-teal-50/30 border border-teal-100/50 text-[10px] text-teal-800/60 font-medium italic leading-relaxed">
+                    "Votre dossier est actuellement entre les mains de nos curateurs. Nous validons chaque artisan pour garantir l'excellence de la communauté Moomel."
+                  </div>
                 </div>
-                <Link href="/account">
-                    <Button variant="outline" className="rounded-xl h-10 px-8 bg-white hover:bg-slate-50 text-[9px] font-black uppercase tracking-[0.2em] text-slate-800 border-zinc-200 shadow-sm">
-                        Retourner au profil
+                
+                <div className="flex flex-col sm:flex-row gap-3 w-full">
+                    <Button 
+                        asChild
+                        variant="outline" 
+                        className="flex-1 rounded-2xl h-14 bg-white hover:bg-slate-50 text-[10px] font-black uppercase tracking-[0.2em] text-slate-800 border-zinc-200 shadow-sm transition-all"
+                    >
+                        <Link href="/seller/messages">
+                            <MessageCircle className="w-4 h-4 mr-2 text-teal-600" />
+                            Messagerie
+                        </Link>
                     </Button>
+                    <Button 
+                        disabled={isSendingFollowUp}
+                        onClick={handleFollowUp}
+                        className="flex-1 rounded-2xl h-14 bg-[#2D241E] text-white hover:bg-[#1f1814] text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-black/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                        {isSendingFollowUp ? (
+                          <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        ) : (
+                          <><Activity className="w-4 h-4 mr-2 text-teal-400" /> Relancer</>
+                        )}
+                    </Button>
+                </div>
+
+                <Link href="/account">
+                    <span className="text-[10px] font-black text-slate-400 hover:text-teal-600 cursor-pointer uppercase tracking-[0.2em] transition-all flex items-center gap-2 group">
+                        <ChevronRight className="w-3.5 h-3.5 rotate-180 group-hover:-translate-x-1 transition-transform" /> Retour au profil
+                    </span>
                 </Link>
             </div>
         )
@@ -102,12 +149,12 @@ export default function SellerDashboardClient({
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Zap className="w-3.5 h-3.5 text-teal-600 fill-teal-600" />
-                    <span className="text-[9px] font-black text-teal-600 uppercase tracking-[0.2em]">Live Artisan Dashboard</span>
+                    <span className="text-[9px] font-black text-teal-600 uppercase tracking-[0.2em]">Tableau de Bord Artisan Live</span>
                   </div>
                   <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2 italic uppercase leading-none">
                     Atelier : <span className="text-teal-600 not-italic">{shop.name}</span>
                   </h1>
-                  <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Générez l'excellence artisanale au Sénégal.</p>
+                  <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Gérez l'excellence artisanale du Sénégal.</p>
                 </div>
                 <div className="flex gap-2">
                   <Button variant="outline" className="h-8 rounded-lg text-slate-500 font-black uppercase tracking-widest text-[8px] px-4 bg-white border-zinc-200 hover:bg-slate-50 shadow-sm">

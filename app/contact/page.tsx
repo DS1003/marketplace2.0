@@ -1,173 +1,195 @@
 "use client"
 
 import { motion } from "framer-motion"
-import NextImage from "next/image"
-import { Mail, Phone, MapPin, Send, Instagram, Twitter, Facebook, ExternalLink, MessageCircle, Clock } from "lucide-react"
-
+import { Mail, Phone, MapPin, Send, Instagram, Facebook, Twitter, ShieldCheck, Globe, Zap } from "lucide-react"
+import { useState } from "react"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { FadeContent } from "@/components/ui/fade-content"
+import { Badge } from "@/components/ui/badge"
+import { toast } from "sonner"
 
 export default function ContactPage() {
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setIsSubmitting(true)
+        // Simulate sending
+        await new Promise(resolve => setTimeout(resolve, 1500))
+        toast.success("Votre message a été transmis à nos curateurs. Nous vous répondrons sous peu.")
+        setIsSubmitting(false)
+        const form = e.target as HTMLFormElement
+        form.reset()
+    }
+
     return (
-        <div className="min-h-screen bg-[#FDFBF7]">
+        <div className="min-h-screen bg-[#FDFBF7] text-[#2D241E]">
             <Header />
 
-            {/* Hero Section */}
-            <section className="pt-40 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <FadeContent blur={true} duration={0.8}>
-                    <div className="flex flex-col items-center text-center mb-16 space-y-4">
-                        <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary">Contactez-Nous</Badge>
-                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-[#2D241E]">
-                            Nous Serions Ravis de <br />
-                            <span className="italic text-primary font-medium">Vous Lire.</span>
-                        </h1>
-                        <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto italic">
-                            Que vous ayez une question sur nos produits, une proposition commerciale ou que vous souhaitiez simplement nous dire bonjour, notre équipe est là pour vous aider.
-                        </p>
-                    </div>
-                </FadeContent>
-            </section>
-
-            {/* Contact Content Grid */}
-            <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-
-                    {/* Left Side: Contact Information */}
-                    <div className="space-y-12">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                                <Card className="border-none shadow-sm bg-white rounded-[2rem] p-8 hover:shadow-xl transition-all duration-500">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-[1.2rem] flex items-center justify-center text-primary mb-6">
-                                        <Mail className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="text-lg font-bold mb-2">E-mail</h3>
-                                    <p className="text-sm text-muted-foreground mb-4">Notre équipe est là pour vous aider.</p>
-                                    <a href="mailto:hello@moomel.sn" className="text-primary font-bold hover:underline">hello@moomel.sn</a>
-                                </Card>
-                            </motion.div>
-
-                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-                                <Card className="border-none shadow-sm bg-white rounded-[2rem] p-8 hover:shadow-xl transition-all duration-500">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-[1.2rem] flex items-center justify-center text-primary mb-6">
-                                        <Phone className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="text-lg font-bold mb-2">Appelez-nous</h3>
-                                    <p className="text-sm text-muted-foreground mb-4">Du lundi au vendredi, 9h - 18h.</p>
-                                    <a href="tel:+221338883333" className="text-primary font-bold hover:underline">+221 33 888 33 33</a>
-                                </Card>
-                            </motion.div>
-
-                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-                                <Card className="border-none shadow-sm bg-white rounded-[2rem] p-8 hover:shadow-xl transition-all duration-500">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-[1.2rem] flex items-center justify-center text-primary mb-6">
-                                        <MapPin className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="text-lg font-bold mb-2">Bureau de Dakar</h3>
-                                    <p className="text-sm text-muted-foreground mb-4">Visitez notre siège social.</p>
-                                    <p className="text-[#2D241E] font-medium">Plateau, Avenue Hassan II <br /> Dakar, Sénégal</p>
-                                </Card>
-                            </motion.div>
-
-                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
-                                <Card className="border-none shadow-sm bg-white rounded-[2rem] p-8 hover:shadow-xl transition-all duration-500">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-[1.2rem] flex items-center justify-center text-primary mb-6">
-                                        <Clock className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="text-lg font-bold mb-2">Support en Direct</h3>
-                                    <p className="text-sm text-muted-foreground mb-4">Discutez avec nos experts beauté.</p>
-                                    <a href="#" className="flex items-center text-primary font-bold hover:underline"><MessageCircle className="w-4 h-4 mr-2" /> Démarrer le Chat</a>
-                                </Card>
-                            </motion.div>
-                        </div>
-
-                        <div className="p-10 bg-[#2D241E] rounded-[2.5rem] text-white space-y-8">
-                            <h3 className="text-2xl font-bold italic">Suivez-nous sur les réseaux</h3>
-                            <p className="text-white/60 leading-relaxed max-w-sm">
-                                Suivez notre aventure alors que nous mettons en lumière le meilleur des rituels de beauté bio sénégalais.
+            <main className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                <div className="flex flex-col lg:flex-row gap-20">
+                    
+                    {/* Left: Content and Info */}
+                    <div className="lg:w-1/2 space-y-12">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="space-y-6"
+                        >
+                            <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary uppercase tracking-widest text-[10px] font-bold px-4 py-1.5 rounded-full">
+                                Contact & Dialogue
+                            </Badge>
+                            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-[#2D241E] leading-tight italic">
+                                Entrons en <br />
+                                <span className="text-primary not-italic">Résonance.</span>
+                            </h1>
+                            <p className="text-lg text-[#2D241E]/60 leading-relaxed max-w-md italic">
+                                Que vous soyez un artisan passionné ou un amateur de rituels naturels, notre équipe est à votre écoute pour honorer la beauté du Sénégal.
                             </p>
-                            <div className="flex gap-6">
-                                <a href="#" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-[#2D241E] transition-all duration-500"><Instagram className="w-5 h-5" /></a>
-                                <a href="#" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-[#2D241E] transition-all duration-500"><Twitter className="w-5 h-5" /></a>
-                                <a href="#" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-[#2D241E] transition-all duration-500"><Facebook className="w-5 h-5" /></a>
-                            </div>
-                        </div>
-                    </div>
+                        </motion.div>
 
-                    {/* Right Side: Contact Form */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-[#E9E1D6] space-y-10"
-                    >
-                        <div className="space-y-4">
-                            <h3 className="text-3xl font-bold tracking-tight text-[#2D241E]">Envoyez-nous un message</h3>
-                            <p className="text-muted-foreground">Demandes générales ? Opportunités commerciales ? Nous sommes à votre écoute.</p>
-                        </div>
-
-                        <form className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Nom complet</label>
-                                    <Input placeholder="Anta Diop" className="h-14 rounded-2xl border-[#E9E1D6] bg-[#FDFBF7] focus:ring-primary/20" />
+                        <motion.div 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="grid grid-cols-1 sm:grid-cols-2 gap-8"
+                        >
+                            <div className="space-y-4">
+                                <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary border border-[#E9E1D6]">
+                                    <Mail className="w-5 h-5" />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Adresse E-mail</label>
-                                    <Input placeholder="anta@exemple.sn" className="h-14 rounded-2xl border-[#E9E1D6] bg-[#FDFBF7] focus:ring-primary/20" />
+                                <div>
+                                    <h3 className="font-bold uppercase tracking-widest text-[10px] text-[#2D241E]/40 mb-1">Email Ritual</h3>
+                                    <p className="font-bold">contact@moomel.sn</p>
                                 </div>
                             </div>
-
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Type de demande</label>
-                                <Input placeholder="Demande générale" className="h-14 rounded-2xl border-[#E9E1D6] bg-[#FDFBF7] focus:ring-primary/20" />
+                            <div className="space-y-4">
+                                <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary border border-[#E9E1D6]">
+                                    <Phone className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold uppercase tracking-widest text-[10px] text-[#2D241E]/40 mb-1">Ligne Directe</h3>
+                                    <p className="font-bold">+221 33 800 00 00</p>
+                                </div>
                             </div>
-
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Votre Message</label>
-                                <Textarea placeholder="Comment pouvons-nous vous aider aujourd'hui ?" className="min-h-[160px] rounded-2xl border-[#E9E1D6] bg-[#FDFBF7] focus:ring-primary/20 p-4" />
+                            <div className="space-y-4">
+                                <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary border border-[#E9E1D6]">
+                                    <MapPin className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold uppercase tracking-widest text-[10px] text-[#2D241E]/40 mb-1">Siège Social</h3>
+                                    <p className="font-bold">Point E, Dakar, Sénégal</p>
+                                </div>
                             </div>
+                            <div className="space-y-4">
+                                <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary border border-[#E9E1D6]">
+                                    <Globe className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold uppercase tracking-widest text-[10px] text-[#2D241E]/40 mb-1">Connectivité</h3>
+                                    <div className="flex gap-4 mt-2">
+                                        <Instagram className="w-4 h-4 cursor-pointer hover:text-primary transition-colors" />
+                                        <Facebook className="w-4 h-4 cursor-pointer hover:text-primary transition-colors" />
+                                        <Twitter className="w-4 h-4 cursor-pointer hover:text-primary transition-colors" />
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
 
-                            <Button className="w-full h-16 rounded-2xl text-lg font-bold bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-3">
-                                Envoyer le Message <Send className="w-5 h-5" />
-                            </Button>
-                        </form>
-
-                        <div className="pt-6 border-t border-[#E9E1D6] flex items-center justify-center gap-2 text-sm text-muted-foreground italic">
-                            <ExternalLink className="w-4 h-4" />
-                            <span>Temps de réponse : Généralement sous 24 heures.</span>
+                        <div className="p-8 bg-[#F6EBE1] rounded-[2.5rem] border border-primary/10 relative overflow-hidden group">
+                            <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 blur-3xl rounded-full transition-transform group-hover:scale-150 duration-1000" />
+                            <div className="flex items-start gap-4 relative z-10">
+                                <ShieldCheck className="w-6 h-6 text-primary shrink-0" />
+                                <div className="space-y-2">
+                                    <h4 className="font-bold uppercase tracking-widest text-[11px]">Support Vendeur</h4>
+                                    <p className="text-[12px] text-[#2D241E]/60 leading-relaxed italic">
+                                        Vous êtes un artisan et souhaitez rejoindre notre marketplace ? Précisez "Candidature" dans le sujet de votre message.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </motion.div>
-                </div>
-            </section>
+                    </div>
 
-            {/* Map or Office Image Section */}
-            <section className="py-20 px-4 max-w-7xl mx-auto overflow-hidden">
-                <div className="relative h-[500px] w-full rounded-[4rem] overflow-hidden group shadow-2xl">
-                    <NextImage
-                        src="https://images.unsplash.com/photo-1471341971476-3bc3a2d59f77?q=80&w=1200&auto=format&fit=crop"
-                        alt="Our Dakar Office"
-                        fill
-                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col items-center justify-end p-20 text-center">
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                            <Badge variant="outline" className="mb-4 bg-white/10 text-white border-white/20 uppercase tracking-widest">Notre Présence</Badge>
-                            <h2 className="text-4xl font-bold text-white mb-4">Né au Sénégal, <br /> Distribué dans le Monde Entier.</h2>
-                            <p className="text-white/60 text-lg max-w-xl mx-auto">
-                                Opérant depuis le cœur de Dakar, nous veillons à ce que nos standards mondiaux rencontrent l&apos;esprit local.
-                            </p>
+                    {/* Right: Contact Form Card */}
+                    <div className="lg:w-1/2">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <Card className="border-none shadow-2xl bg-white rounded-[3rem] overflow-hidden">
+                                <CardContent className="p-10 md:p-16">
+                                    <form onSubmit={handleSubmit} className="space-y-8">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div className="space-y-2">
+                                                <LabelInput label="Votre Nom Nom" placeholder="ex: Anta Diop" name="name" required />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <LabelInput label="Vecteur Email" placeholder="votre@email.com" name="email" type="email" required />
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="space-y-2">
+                                            <LabelInput label="Objet du Dialogue" placeholder="Candidature, Partenariat, Question..." name="subject" required />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#2D241E]/50 ml-2 mb-2 block">
+                                                Votre Message
+                                            </label>
+                                            <Textarea 
+                                                name="message"
+                                                required
+                                                placeholder="Partagez vos pensées avec nous..." 
+                                                className="min-h-[180px] rounded-3xl border-stone-100 bg-stone-50/50 focus:ring-primary/20 focus:border-primary px-6 py-5 text-[14px] font-medium placeholder:text-[#2D241E]/20"
+                                            />
+                                        </div>
+
+                                        <Button 
+                                            disabled={isSubmitting}
+                                            type="submit" 
+                                            className="w-full h-16 rounded-full bg-[#2D241E] text-white hover:bg-black font-bold uppercase tracking-[0.2em] text-xs shadow-xl shadow-black/10 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                                        >
+                                            {isSubmitting ? (
+                                                <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                            ) : (
+                                                <>
+                                                    Transmettre le Message
+                                                    <Send className="w-4 h-4" />
+                                                </>
+                                            )}
+                                        </Button>
+                                    </form>
+                                </CardContent>
+                            </Card>
                         </motion.div>
                     </div>
                 </div>
-            </section>
+            </main>
 
             <Footer />
+        </div>
+    )
+}
+
+function LabelInput({ label, placeholder, name, type = "text", required }: { label: string, placeholder: string, name: string, type?: string, required?: boolean }) {
+    return (
+        <div className="space-y-2">
+            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#2D241E]/50 ml-2 block">
+                {label}
+            </label>
+            <Input 
+                name={name}
+                type={type}
+                required={required}
+                placeholder={placeholder}
+                className="h-14 rounded-2xl border-stone-100 bg-stone-50/50 focus:ring-primary/20 focus:border-primary px-6 font-bold text-[13px] placeholder:text-[#2D241E]/20"
+            />
         </div>
     )
 }

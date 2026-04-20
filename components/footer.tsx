@@ -27,6 +27,7 @@ const footerLinks = {
   ],
   entreprise: [
     { label: "À propos", href: "/about" },
+    { label: "Trésor Moomel (Blog)", href: "https://tresor-moomel.vercel.app/" },
     { label: "Notre Mission", href: "/mission" },
     { label: "Carrières", href: "/careers" },
     { label: "Presse", href: "/press" },

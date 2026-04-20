@@ -26,7 +26,7 @@ import { Footer } from "@/components/footer"
 import { FadeContent } from "@/components/ui/fade-content"
 import { useCart } from "@/providers/cart-provider"
 import { createOrder } from "@/lib/actions/order"
-import { initiatePaytechPayment } from "@/lib/actions/paytech"
+import { initiatePaydunyaPayment } from "@/lib/actions/paydunya"
 import { toast } from "sonner"
 import { useSession } from "next-auth/react"
 import { formatPrice } from "@/lib/utils"
@@ -41,7 +41,7 @@ function CheckoutPageContent() {
     
     const [step, setStep] = useState(1) // 1: Shipping, 2: Payment, 3: Success
     const [loading, setLoading] = useState(false)
-    const [paymentMethod, setPaymentMethod] = useState("PAYTECH")
+    const [paymentMethod, setPaymentMethod] = useState("PAYDUNYA")
     
     // Form States
     const [shippingData, setShippingData] = useState({
@@ -58,7 +58,7 @@ function CheckoutPageContent() {
     const total = subtotal + shipping + tax
 
     useEffect(() => {
-        // Si on revient de Paytech avec succès
+        // Si on revient de PayDunya avec succès
         if (searchParams.get("step") === "3") {
             setStep(3)
             clearCart()
@@ -97,12 +97,12 @@ function CheckoutPageContent() {
             }
 
             // 2. Gérer le paiement
-            if (paymentMethod === "PAYTECH") {
-                const paytechRes = await initiatePaytechPayment(orderRes.orderId!, total)
-                if (paytechRes.success && paytechRes.redirect_url) {
-                    window.location.href = paytechRes.redirect_url
+            if (paymentMethod === "PAYDUNYA") {
+                const paydunyaRes = await initiatePaydunyaPayment(orderRes.orderId!, total)
+                if (paydunyaRes.success && paydunyaRes.redirect_url) {
+                    window.location.href = paydunyaRes.redirect_url
                 } else {
-                    toast.error(paytechRes.error || "Erreur lors de l'initiation du paiement")
+                    toast.error(paydunyaRes.error || "Erreur lors de l'initiation du paiement")
                     setLoading(false)
                 }
             } else {
@@ -288,8 +288,8 @@ function CheckoutPageContent() {
 
                                         <div className="space-y-8 pt-4">
                                             <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <Label htmlFor="paytech" className={`flex flex-col items-center justify-center gap-4 p-8 border border-[#E9E1D6] rounded-3xl cursor-pointer hover:bg-[#FDFBF7] transition-all ${paymentMethod === 'PAYTECH' ? 'border-primary bg-primary/5' : ''}`}>
-                                                    <RadioGroupItem value="PAYTECH" id="paytech" className="sr-only" />
+                                                <Label htmlFor="paydunya" className={`flex flex-col items-center justify-center gap-4 p-8 border border-[#E9E1D6] rounded-3xl cursor-pointer hover:bg-[#FDFBF7] transition-all ${paymentMethod === 'PAYDUNYA' ? 'border-primary bg-primary/5' : ''}`}>
+                                                    <RadioGroupItem value="PAYDUNYA" id="paydunya" className="sr-only" />
                                                     <Smartphone className="w-8 h-8 text-primary" />
                                                     <div className="text-center">
                                                         <div className="text-xs font-bold uppercase tracking-widest leading-tight">Mobile Money</div>
@@ -309,8 +309,8 @@ function CheckoutPageContent() {
                                             <div className="p-8 bg-stone-50 rounded-[2.5rem] border border-stone-100 flex items-start gap-4">
                                                 <Info className="w-5 h-5 text-primary mt-0.5" />
                                                 <div className="text-xs text-muted-foreground leading-relaxed italic">
-                                                    {paymentMethod === 'PAYTECH' 
-                                                        ? "Vous serez redirigé vers l'interface de Paytech pour effectuer votre paiement mobile en toute sécurité."
+                                                    {paymentMethod === 'PAYDUNYA' 
+                                                        ? "Vous serez redirigé vers l'interface sécurisée de PayDunya pour effectuer votre paiement mobile."
                                                         : "Veuillez préparer le montant exact de votre commande pour faciliter la livraison par nos agents."}
                                                 </div>
                                             </div>

@@ -25,24 +25,24 @@ const sellerData = {
     "koba-skin": {
         name: "Anta Diouf",
         brand: "Koba Skin",
-        role: "Crafting Tradition",
-        location: "Dakar, Senegal",
+        role: "Gardien de la Tradition",
+        location: "Dakar, Sénégal",
         banner: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1600&auto=format&fit=crop",
         logo: "https://images.unsplash.com/photo-1531123414780-f74242c2b052?q=80&w=400&auto=format&fit=crop",
-        bio: "Koba Skin is a minimalist skincare brand rooted in Senegalese traditions. We believe in the power of simple, high-quality ingredients sourced directly from local cooperatives and delivered with modern elegance.",
-        founderQuote: "Our mission is to elevate traditional African skincare to a global luxury standard while empowering the women who harvest our ingredients.",
+        bio: "Koba Skin est une marque de soins minimaliste ancrée dans les traditions sénégalaises. Nous croyons au pouvoir des ingrédients simples et de haute qualité, provenant directement de coopératives locales.",
+        founderQuote: "Notre mission est d'élever les soins traditionnels africains vers un standard de luxe mondial tout en valorisant les femmes qui récoltent nos ingrédients.",
         rating: 4.9,
         reviews: 420,
-        joined: "March 2023",
+        joined: "Mars 2023",
         stats: {
             sales: "5k+",
-            shipTime: "1-2 days",
-            identity: "Verified Artisan"
+            shipTime: "1-2 jours",
+            identity: "Artisan Vérifié"
         },
         featuredProduct: {
             id: 1,
-            name: "Pure Shea Butter - Gold Reserve",
-            description: "Our signature whipped shea butter, multi-filtered for 48 hours for an unparalleled velvet texture.",
+            name: "Beurre de Karité Pur - Réserve d'Or",
+            description: "Notre beurre de karité fouetté emblématique, filtré plusieurs fois pendant 48 heures pour une texture veloutée inégalée.",
             price: 27500,
             image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=800"
         }
@@ -51,24 +51,24 @@ const sellerData = {
     "baobab-essence": {
         name: "Malick Sow",
         brand: "Baobab Essence",
-        role: "Sustainable Innovator",
-        location: "Thiès, Senegal",
+        role: "Innovateur Durable",
+        location: "Thiès, Sénégal",
         banner: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1600&auto=format&fit=crop",
         logo: "https://images.unsplash.com/photo-1507152832244-10d45c7eda57?q=80&w=400&auto=format&fit=crop",
-        bio: "Baobab Essence harnesses the life-giving properties of the Baobab tree. Our products are 100% traceable and support community reinvestment.",
-        founderQuote: "Sustainability is the soul of our brand. Every drop of oil supports a family in Thiès.",
+        bio: "Baobab Essence exploite les propriétés bienfaisantes du baobab. Nos produits sont 100% traçables et soutiennent les communautés locales.",
+        founderQuote: "La durabilité est l'âme de notre marque. Chaque goutte d'huile soutient une famille à Thiès.",
         rating: 4.8,
         reviews: 310,
-        joined: "June 2023",
+        joined: "Juin 2023",
         stats: {
             sales: "2.5k+",
-            shipTime: "2-3 days",
-            identity: "Community Leader"
+            shipTime: "2-3 jours",
+            identity: "Leader Communautaire"
         },
         featuredProduct: {
             id: 2,
-            name: "Premium Baobab Oil Serum",
-            description: "Cold-pressed within 24 hours of harvest to preserve maximum nutrient density.",
+            name: "Sérum à l'Huile de Baobab Premium",
+            description: "Pressé à froid dans les 24 heures suivant la récolte pour préserver une densité nutritionnelle maximale.",
             price: 35000,
             image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800"
         }
@@ -76,24 +76,24 @@ const sellerData = {
     "arona-naturals": {
         name: "Fatou Ndiaye",
         brand: "Arona Naturals",
-        role: "Botanical Artist",
-        location: "Saint-Louis, Senegal",
+        role: "Artiste Botanique",
+        location: "Saint-Louis, Sénégal",
         banner: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1600&auto=format&fit=crop",
         logo: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?q=80&w=400&auto=format&fit=crop",
-        bio: "Arona Naturals blends complex botanical profiles into powerful skincare rituals hand-crafted in Saint-Louis.",
-        founderQuote: "We believe skincare is a sacred ritual, a moment of connection between nature and self.",
+        bio: "Arona Naturals mélange des profils botaniques complexes dans des rituels de soins puissants, fabriqués à la main à Saint-Louis.",
+        founderQuote: "Nous croyons que le soin de la peau est un rituel sacré, un moment de connexion entre la nature et soi-même.",
         rating: 4.7,
         reviews: 280,
-        joined: "January 2023",
+        joined: "Janvier 2023",
         stats: {
             sales: "1.2k+",
-            shipTime: "1-3 days",
-            identity: "Master Herbalist"
+            shipTime: "1-3 jours",
+            identity: "Maître Herboriste"
         },
         featuredProduct: {
             id: 3,
-            name: "Hibiscus & Clay Ritual Mask",
-            description: "A deeply purifying mask that revitalizes tired skin using ancient Senegalese clay recipes.",
+            name: "Masque au Rituel d'Hibiscus et d'Argile",
+            description: "Un masque profondément purifiant qui revitalise les peaux fatiguées en utilisant d'anciennes recettes d'argile sénégalaises.",
             price: 22500,
             image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=800"
         }
@@ -129,24 +129,24 @@ export default function SellerShopPage() {
     const slug = params?.slug as string
     const seller = fullSellerData[slug] || fullSellerData["koba-skin"]
 
-    const [activeCategory, setActiveCategory] = useState("All")
+    const [activeCategory, setActiveCategory] = useState("Tous")
     const [searchQuery, setSearchQuery] = useState("")
 
     const productCategories = useMemo(() => {
         const cats = allProducts.filter(p => p.sellerId === slug).map(p => p.category)
-        return ["All", ...Array.from(new Set(cats))]
+        return ["Tous", ...Array.from(new Set(cats))]
     }, [slug])
 
     const filteredProducts = useMemo(() => {
         return allProducts.filter(p => {
             const matchesSeller = p.sellerId === slug
-            const matchesCategory = activeCategory === "All" || p.category === activeCategory
+            const matchesCategory = activeCategory === "Tous" || p.category === activeCategory
             const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase())
             return matchesSeller && matchesCategory && matchesSearch
         })
     }, [slug, activeCategory, searchQuery])
 
-    if (!seller) return <div className="min-h-screen flex items-center justify-center">Loading Boutique...</div>
+    if (!seller) return <div className="min-h-screen flex items-center justify-center italic">Chargement du Rituel...</div>
 
     return (
         <div className="min-h-screen bg-[#FDFBF7] text-[#2D241E]">
@@ -165,7 +165,7 @@ export default function SellerShopPage() {
 
                 {/* Banner Breadcrumbs */}
                 <div className="absolute top-32 left-4 md:left-12 flex items-center gap-2 text-white/80 text-sm font-medium z-30">
-                    <span className="hover:text-white cursor-pointer transition-colors">Sellers</span>
+                    <span className="hover:text-white cursor-pointer transition-colors" onClick={() => router.push('/sellers')}>Artisans</span>
                     <ArrowRight className="w-3 h-3" />
                     <span className="text-white font-bold">{seller.brand}</span>
                 </div>
@@ -191,7 +191,7 @@ export default function SellerShopPage() {
                                 <span className="flex items-center gap-2 bg-primary/5 px-4 py-1.5 rounded-full"><MapPin className="w-5 h-5 text-primary" /> {seller.location}</span>
                                 <span className="flex items-center gap-2 font-bold text-[#2D241E]">
                                     <Award className="w-5 h-5 text-primary" />
-                                    Led by {seller.name}
+                                    Dirigé par {seller.name}
                                 </span>
                             </div>
                         </div>
@@ -217,7 +217,7 @@ export default function SellerShopPage() {
                                 <Button size="icon" variant="ghost" className="rounded-full hover:bg-primary hover:text-white transition-all"><Twitter className="w-5 h-5" /></Button>
                             </div>
                             <Button size="lg" className="rounded-full h-14 px-10 text-lg shadow-2xl shadow-primary/30 group hover:scale-105 transition-transform">
-                                Follow Brand <Heart className="w-5 h-5 ml-2 group-hover:fill-current" />
+                                Suivre la Marque <Heart className="w-5 h-5 ml-2 group-hover:fill-current" />
                             </Button>
                         </div>
                     </div>
@@ -229,21 +229,21 @@ export default function SellerShopPage() {
                                 <ShieldCheck className="w-8 h-8 text-primary" />
                             </div>
                             <div className="text-2xl font-bold group-hover:text-white mb-2">{seller.stats.identity}</div>
-                            <div className="text-sm uppercase tracking-[0.2em] font-bold text-muted-foreground group-hover:text-white/60">Verified Origin</div>
+                            <div className="text-sm uppercase tracking-[0.2em] font-bold text-muted-foreground group-hover:text-white/60">Origine Vérifiée</div>
                         </div>
                         <div className="flex flex-col items-center text-center p-8 rounded-[2.5rem] bg-gradient-to-br from-primary/5 to-transparent border border-primary/5 group hover:from-primary hover:to-primary/80 transition-all duration-700">
                             <div className="p-4 rounded-3xl bg-white mb-6 shadow-xl group-hover:scale-110 transition-transform">
                                 <Truck className="w-8 h-8 text-primary" />
                             </div>
                             <div className="text-2xl font-bold group-hover:text-white mb-2">{seller.stats.shipTime}</div>
-                            <div className="text-sm uppercase tracking-[0.2em] font-bold text-muted-foreground group-hover:text-white/60">Fast Shipping</div>
+                            <div className="text-sm uppercase tracking-[0.2em] font-bold text-muted-foreground group-hover:text-white/60">Livraison Rapide</div>
                         </div>
                         <div className="flex flex-col items-center text-center p-8 rounded-[2.5rem] bg-gradient-to-br from-primary/5 to-transparent border border-primary/5 group hover:from-primary hover:to-primary/80 transition-all duration-700">
                             <div className="p-4 rounded-3xl bg-white mb-6 shadow-xl group-hover:scale-110 transition-transform">
                                 <Star className="w-8 h-8 text-primary" />
                             </div>
                             <div className="text-2xl font-bold group-hover:text-white mb-2">{seller.rating} / 5.0</div>
-                            <div className="text-sm uppercase tracking-[0.2em] font-bold text-muted-foreground group-hover:text-white/60">Customer Love</div>
+                            <div className="text-sm uppercase tracking-[0.2em] font-bold text-muted-foreground group-hover:text-white/60">Avis Clients</div>
                         </div>
                     </div>
                 </div>
@@ -261,7 +261,7 @@ export default function SellerShopPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
                         <div className="absolute top-8 left-8">
-                            <Badge className="bg-primary text-white h-8 px-4 rounded-full border-none">Boutique Spotlight</Badge>
+                            <Badge className="bg-primary text-white h-8 px-4 rounded-full border-none">Focus Boutique</Badge>
                         </div>
                     </div>
                     <div className="w-full lg:w-1/2 p-10 md:p-20 text-white space-y-8">
@@ -274,7 +274,7 @@ export default function SellerShopPage() {
                         <div className="flex items-center gap-6">
                             <div className="text-4xl md:text-5xl font-bold text-primary">{formatPrice(seller.featuredProduct.price)}</div>
                             <Button size="lg" className="bg-white text-[#2D241E] hover:bg-primary hover:text-white rounded-full h-16 px-10 text-xl font-bold transition-all shadow-xl">
-                                <ShoppingBag className="w-6 h-6 mr-3" /> Get it Now
+                                <ShoppingBag className="w-6 h-6 mr-3" /> J&apos;en profite
                             </Button>
                         </div>
                     </div>
@@ -289,16 +289,16 @@ export default function SellerShopPage() {
                     <div className="space-y-2">
                         <h2 className="text-3xl font-bold flex items-center gap-3">
                             <Package className="w-8 h-8 text-primary" />
-                            The Collection
+                            La Collection
                         </h2>
-                        <p className="text-muted-foreground">{filteredProducts.length} items available from {seller.brand}</p>
+                        <p className="text-muted-foreground">{filteredProducts.length} articles disponibles chez {seller.brand}</p>
                     </div>
 
                     <div className="w-full md:w-auto flex flex-col sm:flex-row gap-4">
                         <div className="relative group">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                             <Input
-                                placeholder="Search products..."
+                                placeholder="Rechercher des produits..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-11 pr-4 h-12 rounded-full w-full sm:w-64 border-primary/10 bg-white/50 focus:bg-white shadow-sm transition-all"
@@ -335,7 +335,7 @@ export default function SellerShopPage() {
                                     <div className="relative aspect-[3/4] overflow-hidden">
                                         {product.organic && (
                                             <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1 bg-white/90 backdrop-blur-md text-[#2D5A27] text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm border border-white/50">
-                                                <Leaf className="w-3.5 h-3.5" /> Organic
+                                                <Leaf className="w-3.5 h-3.5" /> Bio
                                             </div>
                                         )}
                                         <NextImage
@@ -352,7 +352,7 @@ export default function SellerShopPage() {
 
                                         <div className="absolute inset-x-4 bottom-4 translate-y-[120%] group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
                                             <Button className="w-full bg-white text-primary hover:bg-primary hover:text-white rounded-2xl h-12 shadow-xl backdrop-blur-md">
-                                                <ShoppingBag className="w-4 h-4 mr-2" /> Add to Cart
+                                                <ShoppingBag className="w-4 h-4 mr-2" /> Au panier
                                             </Button>
                                         </div>
                                     </div>
@@ -367,7 +367,7 @@ export default function SellerShopPage() {
                                         <h3 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2">{product.name}</h3>
                                         <div className="mt-auto pt-4 flex items-center justify-between">
                                             <span className="text-2xl font-bold text-primary">{formatPrice(product.price)}</span>
-                                            <Badge variant="outline" className="text-[10px] font-bold border-primary/10">{product.reviews} reviews</Badge>
+                                            <Badge variant="outline" className="text-[10px] font-bold border-primary/10">{product.reviews} avis</Badge>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -382,10 +382,10 @@ export default function SellerShopPage() {
                         <div className="w-24 h-24 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-6">
                             <Package className="w-12 h-12 text-primary/20" />
                         </div>
-                        <h3 className="text-3xl font-bold">No products found</h3>
-                        <p className="text-muted-foreground mt-2 max-w-sm mx-auto">Try a different category or search term within {seller.brand}'s collection.</p>
-                        <Button variant="link" onClick={() => { setActiveCategory("All"); setSearchQuery("") }} className="mt-4 text-primary font-bold">
-                            Reset all filters
+                        <h3 className="text-3xl font-bold">Aucun produit trouvé</h3>
+                        <p className="text-muted-foreground mt-2 max-w-sm mx-auto">Essayez une autre catégorie ou un autre terme de recherche dans la collection de {seller.brand}.</p>
+                        <Button variant="link" onClick={() => { setActiveCategory("Tous"); setSearchQuery("") }} className="mt-4 text-primary font-bold">
+                            Réinitialiser les filtres
                         </Button>
                     </div>
                 )}

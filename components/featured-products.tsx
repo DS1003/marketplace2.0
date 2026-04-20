@@ -41,8 +41,8 @@ export function FeaturedProducts({
     rating: p.avgRating || 0,
     reviews: p.reviewCount || 0,
     image: p.images?.[0] || "/images/product-1.jpg",
-    seller: p.shop?.name || "Premium Artisan",
-    badge: "Trending",
+    seller: p.shop?.name || "Artisan Premium",
+    badge: "Tendance",
   }))
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })

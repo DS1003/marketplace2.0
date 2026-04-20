@@ -2,8 +2,8 @@ import { getSingleSellerProduct, getAllCategories } from "@/lib/actions/seller"
 import ProductForm from "@/components/seller/product-form"
 import { notFound } from "next/navigation"
 
-export default async function EditProductPage({ params }: { params: { id: string } }) {
-    const { id } = params
+export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     
     try {
         const product = await getSingleSellerProduct(id)

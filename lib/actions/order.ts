@@ -10,7 +10,7 @@ interface CreateOrderProps {
     quantity: number; 
   }[];
   total: number;
-  paymentMethod: string; // CASH, PAYTECH
+  paymentMethod: string; // CASH, PAYDUNYA
   shippingAddress: string;
   city: string;
   phone: string;
@@ -42,6 +42,36 @@ export async function createOrder(props: CreateOrderProps) {
         }
       }
     })
+
+    // Notify sellers
+    const productIds = props.items.map(i => i.id)
+    const products = await prisma.product.findMany({
+      where: { id: { in: productIds } },
+      include: { shop: true }
+    })
+
+    const sellerMap = new Map<string, any>()
+    products.forEach(p => {
+      const item = props.items.find(i => i.id === p.id)
+      if (item) {
+        const current = sellerMap.get(p.shop.ownerId) || { total: 0, shopName: p.shop.name }
+        sellerMap.set(p.shop.ownerId, {
+          total: current.total + (item.price * item.quantity),
+          shopName: current.shopName
+        })
+      }
+    })
+
+    for (const [ownerId, data] of Array.from(sellerMap.entries())) {
+      await (prisma as any).notification.create({
+        data: {
+          userId: ownerId,
+          title: "Nouvelle Commande !",
+          message: `Vous avez reçu une nouvelle commande pour "${data.shopName}" d'un montant de ${data.total} FCFA.`,
+          type: "SUCCESS"
+        }
+      })
+    }
 
     return { success: true, orderId: order.id }
   } catch (error) {

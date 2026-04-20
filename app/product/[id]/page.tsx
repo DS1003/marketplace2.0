@@ -84,7 +84,7 @@ export default function ProductPage() {
                 name: product.name,
                 price: Number(product.price),
                 image: product.images?.[0] || "",
-                seller: product.shop?.name || "Artisan Shop",
+                seller: product.shop?.name || "Boutique Artisanale",
                 organic: true
             })
         }
@@ -226,7 +226,7 @@ export default function ProductPage() {
                         <div className="hidden lg:block p-8 bg-[#FDFBF7] border border-[#E9E1D6] rounded-[2.5rem] mt-12 space-y-4">
                             <div className="flex items-center gap-3 text-primary">
                                 <Award className="w-5 h-5" />
-                                <span className="text-xs font-bold uppercase tracking-widest">Garantie Héritage</span>
+                                <span className="text-xs font-bold uppercase tracking-widest">Héritage Garanti</span>
                             </div>
                             <p className="text-sm text-muted-foreground leading-relaxed italic">
                                 "L'achat de ce produit soutient directement les artisans sénégalais derrière <strong>{product.shop?.name || "la coopérative"}</strong>." — Rituels Durables
@@ -361,7 +361,7 @@ export default function ProductPage() {
                                         </AccordionContent>
                                     </AccordionItem>
                                     <AccordionItem value="item-2" className="border-b-border/40">
-                                        <AccordionTrigger className="text-sm font-bold uppercase tracking-widest hover:no-underline py-6">The Ritual</AccordionTrigger>
+                                        <AccordionTrigger className="text-sm font-bold uppercase tracking-widest hover:no-underline py-6">Le Rituel</AccordionTrigger>
                                         <AccordionContent className="pb-8 pt-2">
                                             <p className="text-muted-foreground leading-relaxed text-sm bg-stone-50 p-6 rounded-2xl border border-stone-100 italic">
                                                 "Incorporer ce produit dans votre rituel quotidien pour bénéficier pleinement de ses vertus naturelles. Appliquer une petite quantité sur la zone souhaitée et masser délicatement jusqu'à absorption complète."
@@ -369,7 +369,7 @@ export default function ProductPage() {
                                         </AccordionContent>
                                     </AccordionItem>
                                     <AccordionItem value="item-3" className="border-none">
-                                        <AccordionTrigger className="text-sm font-bold uppercase tracking-widest hover:no-underline py-6">Transparency</AccordionTrigger>
+                                        <AccordionTrigger className="text-sm font-bold uppercase tracking-widest hover:no-underline py-6">Transparence</AccordionTrigger>
                                         <AccordionContent className="pb-8 pt-2">
                                             <div className="mt-4 flex gap-6">
                                                 <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#2D241E]">

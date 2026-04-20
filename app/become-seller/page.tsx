@@ -18,6 +18,8 @@ import {
   ChevronRight,
   ChevronLeft,
   Clock,
+  LayoutDashboard,
+  MessageCircle,
   Image as ImageIcon
 } from "lucide-react"
 import { Header } from "@/components/header"
@@ -226,21 +228,32 @@ export default function BecomeSellerPage() {
                                                 key="step3"
                                                 initial={{ opacity: 0, scale: 0.95 }}
                                                 animate={{ opacity: 1, scale: 1 }}
-                                                className="text-center py-10 space-y-8"
+                                                className="text-center py-10 space-y-10"
                                             >
-                                                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center text-primary mx-auto animate-bounce">
-                                                    <Clock className="w-12 h-12" />
+                                                <div className="relative mx-auto h-32 w-32 bg-primary/10 rounded-[2.5rem] flex items-center justify-center text-primary group">
+                                                    <div className="absolute inset-0 bg-primary/20 rounded-[2.5rem] animate-ping opacity-20" />
+                                                    <Store className="w-16 h-16 transform group-hover:scale-110 transition-transform duration-700" />
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <h2 className="text-4xl font-bold tracking-tight">Candidature en cours d'Examen</h2>
-                                                    <p className="text-slate-400 font-medium italic max-w-sm mx-auto">
-                                                        Votre laboratoire est maintenant entre les mains de nos conservateurs. 
-                                                        Vous recevrez une notification et un e-mail une fois votre rituel approuvé.
+                                                    <h2 className="text-4xl md:text-5xl font-black tracking-tight italic uppercase">Labo <span className="text-primary not-italic">Inscrit</span></h2>
+                                                    <p className="text-slate-400 font-bold italic max-w-sm mx-auto leading-relaxed uppercase tracking-widest text-[11px]">
+                                                        Manifestation réussie. Votre dossier est en cours de curation. <br />
+                                                        <span className="text-primary/60">L'accès à la messagerie est maintenant ouvert.</span>
                                                     </p>
                                                 </div>
-                                                <div className="pt-8">
-                                                    <Button onClick={() => router.push("/")} className="rounded-full px-10 h-14 bg-[#2D241E] text-white font-bold uppercase tracking-widest text-[10px] shadow-2xl shadow-black/10">
-                                                        Retour au Marché
+                                                <div className="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                    <Button 
+                                                        onClick={() => router.push("/seller/messages")} 
+                                                        variant="outline"
+                                                        className="rounded-2xl px-10 h-16 bg-white border-zinc-200 text-[#2D241E] font-black uppercase tracking-widest text-[10px] shadow-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-3"
+                                                    >
+                                                        <MessageCircle className="w-5 h-5 text-primary" /> Ouvrir Messagerie
+                                                    </Button>
+                                                    <Button 
+                                                        onClick={() => router.push("/seller")} 
+                                                        className="rounded-2xl px-10 h-16 bg-[#2D241E] text-white font-black uppercase tracking-widest text-[10px] shadow-2xl shadow-black/10 transition-all hover:scale-[1.02] flex items-center justify-center gap-3"
+                                                    >
+                                                        <LayoutDashboard className="w-5 h-5 text-primary" /> Dashboard Lab
                                                     </Button>
                                                 </div>
                                             </motion.div>

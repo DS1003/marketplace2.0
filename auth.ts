@@ -15,15 +15,30 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
+      // Internal update of role & shop status from DB for dynamic promotion
       if (user) {
         token.role = (user as any).role
+      } 
+      
+      // Always verify shop status for customers and promote role in session if shop exists
+      const dbUser = await prisma.user.findUnique({
+        where: { id: token.sub },
+        select: { role: true, shop: { select: { id: true } } }
+      })
+      
+      if (dbUser) {
+        // If they have a shop, they should be treated as SELLER for dashboard access
+        token.role = dbUser.shop ? "SELLER" : dbUser.role
+        token.hasShop = !!dbUser.shop
       }
+      
       return token
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub as string
         session.user.role = token.role as any
+        (session.user as any).hasShop = token.hasShop
       }
       return session
     },

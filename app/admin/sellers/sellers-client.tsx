@@ -6,9 +6,18 @@ import {
     CheckCircle, XCircle, Clock, Search,
     ExternalLink, Mail, MapPin,
     Check, X, SlidersHorizontal,
-    ShoppingBag, Store, Globe, ShieldCheck
+    ShoppingBag, Store, Globe, ShieldCheck,
+    Eye, Calendar, User, Info, Loader2
 } from "lucide-react"
 import Link from "next/link"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 import NextImage from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -27,6 +36,8 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
     const [shops, setShops] = useState(initialShops)
     const [activeTab, setActiveTab] = useState("pending")
     const [isPending, startTransition] = useTransition()
+    const [selectedShop, setSelectedShop] = useState<any>(null)
+    const [isDetailsOpen, setIsDetailsOpen] = useState(false)
     const router = useRouter()
 
     const filteredShops = shops.filter(shop => {
@@ -179,6 +190,15 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                                             {shop.status === 'PENDING' ? (
                                                 <div className="flex flex-row lg:flex-col gap-2 w-full lg:w-auto pt-6 lg:pt-0 lg:pl-8 lg:border-l border-zinc-100">
                                                     <Button
+                                                        asChild
+                                                        variant="ghost"
+                                                        className="flex-1 lg:w-40 h-10 rounded-lg text-slate-500 hover:text-[#2D241E] hover:bg-slate-50 font-bold uppercase tracking-widest text-[9px] transition-all"
+                                                    >
+                                                        <Link href={`/admin/sellers/${shop.id}`}>
+                                                            <Eye className="mr-2 h-3.5 w-3.5" /> View Ritual
+                                                        </Link>
+                                                    </Button>
+                                                    <Button
                                                         disabled={isPending}
                                                         onClick={() => handleApprove(shop.id, shop.name)}
                                                         className="flex-1 lg:w-40 h-10 rounded-lg bg-[#2D241E] text-white font-bold uppercase tracking-widest text-[9px] shadow-sm hover:translate-y-[-1px] transition-all"
@@ -194,6 +214,7 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                                                         <X className="mr-2 h-3.5 w-3.5" /> Deny
                                                     </Button>
                                                 </div>
+
                                             ) : (
                                                 <div className="flex flex-row lg:flex-col gap-2 w-full lg:w-auto pt-6 lg:pt-0 lg:pl-8 lg:border-l border-zinc-100 items-center justify-center">
                                                     <Button asChild variant="outline" className="w-full h-10 rounded-xl font-bold uppercase tracking-widest text-[10px]">

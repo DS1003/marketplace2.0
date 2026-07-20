@@ -205,7 +205,7 @@ function CheckoutPageContent() {
                                     exit={{ opacity: 0, x: 20 }}
                                     className="space-y-12"
                                 >
-                                    <div className="space-y-8 p-12 bg-white rounded-[3.5rem] shadow-2xl border border-[#E9E1D6]">
+                                    <div className="space-y-8 p-6 md:p-12 bg-white rounded-[2rem] md:rounded-[3.5rem] shadow-2xl border border-[#E9E1D6]">
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary"><MapPin className="w-6 h-6" /></div>
                                             <h2 className="text-3xl font-bold text-[#2D241E]">Informations de Livraison</h2>
@@ -276,7 +276,7 @@ function CheckoutPageContent() {
                                     exit={{ opacity: 0, x: 20 }}
                                     className="space-y-12"
                                 >
-                                    <div className="space-y-8 p-12 bg-white rounded-[3.5rem] shadow-2xl border border-[#E9E1D6]">
+                                    <div className="space-y-8 p-6 md:p-12 bg-white rounded-[2rem] md:rounded-[3.5rem] shadow-2xl border border-[#E9E1D6]">
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary"><CreditCard className="w-6 h-6" /></div>
                                             <h2 className="text-3xl font-bold text-[#2D241E]">Méthode de Paiement</h2>
@@ -312,7 +312,7 @@ function CheckoutPageContent() {
                                             </div>
                                         </div>
 
-                                        <div className="pt-10 flex gap-4">
+                                        <div className="pt-10 flex flex-col-reverse md:flex-row gap-4">
                                             <Button variant="ghost" onClick={() => setStep(1)} className="h-16 rounded-2xl px-8 font-bold text-muted-foreground gap-2">
                                                 <ArrowLeft className="w-4 h-4" /> Retour
                                             </Button>
@@ -338,8 +338,8 @@ function CheckoutPageContent() {
 
                     {/* Right Column: Mini Summary */}
                     <aside className="w-full lg:w-[40%] lg:sticky lg:top-32 h-fit">
-                        <Card className="glass-panel border-none shadow-2xl rounded-[3rem] overflow-hidden">
-                            <div className="p-10 space-y-8">
+                        <Card className="glass-panel border-none shadow-2xl rounded-[2rem] md:rounded-[3rem] overflow-hidden">
+                            <div className="p-6 md:p-10 space-y-8">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl font-bold text-[#2D241E]">Récapitulatif</h2>
                                     <Link href="/cart" className="text-xs font-bold uppercase tracking-widest text-primary hover:underline">Modifier</Link>

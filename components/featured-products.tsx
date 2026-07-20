@@ -154,7 +154,7 @@ export function FeaturedProducts({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {products.map((product, idx) => (
               <FadeContent key={product.id} direction="up" delay={0.1 * (idx + 1)}>
-                <SpotlightCard className="group relative bg-background border border-border/50 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
+                <SpotlightCard className="group relative bg-background border border-border/50 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
                   <Card className="border-none bg-transparent shadow-none">
                     <div 
                       className="relative aspect-[4/5] overflow-hidden bg-secondary/20"
@@ -224,7 +224,7 @@ export function FeaturedProducts({
                       </div>
                     </div>
 
-                    <CardContent className="p-6 md:p-8">
+                    <CardContent className="p-4 md:p-8">
                       <div className="flex justify-between items-start mb-3">
                         <div className="space-y-1">
                           <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-primary">{product.seller}</p>

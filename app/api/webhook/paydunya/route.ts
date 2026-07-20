@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
     const rawBody = await req.text();
     const parsedBody = qs.parse(rawBody);
-    console.log("PayDunya Webhook Received (parsed):", parsedBody);
 
     // PayDunya sends the payload under the 'data' key
     const data = parsedBody.data as any;

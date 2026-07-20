@@ -18,7 +18,7 @@ import { Slider } from "@/components/ui/slider"
 import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog"
 
 import { Newsletter } from "@/components/newsletter"
 
@@ -315,6 +315,7 @@ export default function MarketplaceClient({ initialProducts, initialSellers }: {
                                             </DialogTrigger>
                                             {/* Detailed Dialog Content */}
                                             <DialogContent className="sm:max-w-[800px] p-0 overflow-hidden rounded-[2rem] border-none bg-background">
+                                                <DialogTitle className="sr-only">{product.name}</DialogTitle>
                                                 {selectedProduct && selectedProduct.id === product.id && (
                                                     <div className="flex flex-col md:flex-row h-full">
                                                         <div className="relative w-full md:w-1/2 aspect-square md:aspect-auto h-64 md:h-[500px]">

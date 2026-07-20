@@ -44,10 +44,6 @@ export const metadata: Metadata = {
     description: 'Produits de beauté bio haut de gamme d&apos;entrepreneurs sénégalais.',
     images: ['/images/og-image.jpg'],
   },
-  icons: {
-    icon: '/images/logo.png',
-    apple: '/images/logo.png',
-  },
 }
 
 export const viewport: Viewport = {

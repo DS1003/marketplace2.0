@@ -56,7 +56,7 @@ export default function CartPage() {
                     {/* Left Side: Cart Items */}
                     <div className="w-full lg:w-[65%] space-y-12">
                         <div className="flex items-center justify-between pb-6 border-b border-border/40">
-                            <h1 className="text-4xl font-bold tracking-tight text-[#2D241E]">Panier Ritual</h1>
+                            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#2D241E]">Panier Ritual</h1>
                             <span className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{cartItems.length} article{cartItems.length > 1 ? 's' : ''}</span>
                         </div>
 
@@ -71,7 +71,7 @@ export default function CartPage() {
                                         exit={{ opacity: 0, scale: 0.95 }}
                                         className="group py-8 first:pt-0 border-b border-border/40 last:border-none flex items-start gap-6 md:gap-10"
                                     >
-                                        <Link href={`/product/\${item.id}`} className="relative w-24 h-32 md:w-32 md:h-44 flex-shrink-0 rounded-2xl overflow-hidden bg-muted shadow-sm hover:shadow-xl transition-shadow duration-500">
+                                        <Link href={`/product/${item.id}`} className="relative w-20 h-28 md:w-32 md:h-44 flex-shrink-0 rounded-2xl overflow-hidden bg-muted shadow-sm hover:shadow-xl transition-shadow duration-500">
                                             <NextImage src={item.image} alt={item.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
                                         </Link>
 
@@ -93,14 +93,14 @@ export default function CartPage() {
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center justify-between pt-2">
-                                                <div className="flex items-center border border-border/60 rounded-full p-0.5 bg-stone-50 group-hover:bg-white group-hover:border-primary/20 transition-all duration-500 shadow-sm">
+                                            <div className="flex flex-col md:flex-row md:items-center justify-between pt-2 gap-4 md:gap-0">
+                                                <div className="flex self-start md:self-auto items-center border border-border/60 rounded-full p-0.5 bg-stone-50 group-hover:bg-white group-hover:border-primary/20 transition-all duration-500 shadow-sm">
                                                     <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full hover:bg-white" onClick={() => updateQuantity(item.id, -1)}><Minus className="w-3 h-3" /></Button>
                                                     <span className="w-10 text-center text-sm font-bold">{item.quantity}</span>
                                                     <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full hover:bg-white" onClick={() => updateQuantity(item.id, 1)}><Plus className="w-3 h-3" /></Button>
                                                 </div>
 
-                                                <div className="flex gap-4">
+                                                <div className="flex flex-wrap gap-2 md:gap-4">
                                                     <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-red-500 rounded-full text-xs font-bold uppercase tracking-widest gap-2 py-5" onClick={() => removeItem(item.id)}>
                                                         <Trash2 className="w-4 h-4" /> Supprimer
                                                     </Button>
@@ -121,15 +121,15 @@ export default function CartPage() {
                             </Link>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
-                                <div className="flex items-center gap-4 p-6 bg-white border border-[#E9E1D6] rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
+                                <div className="flex items-center gap-4 p-4 md:p-6 bg-white border border-[#E9E1D6] rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><ShieldCheck className="w-5 h-5" /></div>
                                     <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Paiement Sécurisé</span>
                                 </div>
-                                <div className="flex items-center gap-4 p-6 bg-white border border-[#E9E1D6] rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
+                                <div className="flex items-center gap-4 p-4 md:p-6 bg-white border border-[#E9E1D6] rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><Truck className="w-5 h-5" /></div>
                                     <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Logistique Rapide</span>
                                 </div>
-                                <div className="flex items-center gap-4 p-6 bg-white border border-[#E9E1D6] rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
+                                <div className="flex items-center gap-4 p-4 md:p-6 bg-white border border-[#E9E1D6] rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition-all h-full">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><CornerDownLeft className="w-5 h-5" /></div>
                                     <span className="text-xs font-bold uppercase tracking-widest text-[#2D241E] leading-tight">Retours Faciles</span>
                                 </div>
@@ -139,8 +139,8 @@ export default function CartPage() {
 
                     {/* Right Side: Order Summary */}
                     <aside className="w-full lg:w-[35%] lg:sticky lg:top-32">
-                        <Card className="border-none shadow-2xl rounded-[3rem] overflow-hidden bg-white">
-                            <div className="p-10 space-y-10">
+                        <Card className="border-none shadow-2xl rounded-[2rem] md:rounded-[3rem] overflow-hidden bg-white">
+                            <div className="p-6 md:p-10 space-y-8 md:space-y-10">
                                 <h2 className="text-2xl font-bold text-[#2D241E]">Résumé Ritual</h2>
 
                                 <div className="space-y-6">

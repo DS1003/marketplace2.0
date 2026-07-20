@@ -19,12 +19,14 @@ const footerLinks = {
     { label: "Nouveautés", href: "/new" },
     { label: "Promotions", href: "/deals" },
   ],
+  /*
   artisans: [
     { label: "Nos Artisans", href: "/sellers" },
     { label: "Devenir Vendeur", href: "/sell" },
     { label: "Tableau de bord", href: "/seller/dashboard" },
     { label: "FAQ Vendeur", href: "/seller-faq" },
   ],
+  */
   entreprise: [
     { label: "À propos", href: "/about" },
     { label: "Trésor Moomel (Blog)", href: "https://tresor-moomel.vercel.app/" },

@@ -35,7 +35,7 @@ const navLinks = [
   { href: "/", label: "Accueil" },
   { href: "/marketplace", label: "Marché" },
   { href: "/categories", label: "Catégories" },
-  { href: "/sellers", label: "Artisans" },
+  // { href: "/sellers", label: "Artisans" },
   { href: "https://tresor-moomel.vercel.app/", label: "Blog" },
   { href: "/about", label: "À propos" },
   { href: "/contact", label: "Contact" },

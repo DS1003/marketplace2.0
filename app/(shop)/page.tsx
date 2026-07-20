@@ -23,9 +23,9 @@ export default async function HomePage() {
       <FeaturedProducts initialProducts={products} />
       <MadeInSenegal />
       <WhyChooseUs />
-      <Founders />
+      {/* <Founders /> */}
       <Testimonials />
-      <BecomeSeller />
+      {/* <BecomeSeller /> */}
       <Newsletter />
       <CTASection />
     </div>

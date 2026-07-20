@@ -53,38 +53,48 @@ function AccountPageContent() {
     if (!session) {
         return (
             <div className="min-h-screen bg-[#FDFBF7]">
-                <main className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[80vh] flex items-center justify-center">
-                    <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                        <motion.div 
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="hidden lg:block space-y-8"
-                        >
-                            <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden shadow-2xl">
-                                <NextImage 
-                                    src="https://images.unsplash.com/photo-1596462502278-27bfad85731d?q=80&w=800" 
-                                    alt="Moomel Rituals" 
-                                    fill 
-                                    className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-12 text-white">
-                                    <h2 className="text-4xl font-bold italic mb-4">Le Rituel de la Sélection Naturelle</h2>
-                                    <p className="text-white/80 text-sm leading-relaxed italic max-w-xs">
-                                        Découvrez les secrets de beauté ancestraux préservés pour les esprits modernes. Pur, biologique et directement du cœur du Sénégal.
-                                    </p>
-                                </div>
-                            </div>
-                        </motion.div>
+                <main className="pt-24 lg:pt-0 min-h-screen flex flex-col lg:flex-row w-full">
+                    {/* Left: Image side */}
+                    <div className="hidden lg:flex lg:w-1/2 relative bg-stone-100">
+                        <NextImage 
+                            src="/images/hero-products.jpg" 
+                            alt="Moomel Rituals" 
+                            fill 
+                            className="object-cover"
+                            priority
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-16 xl:p-24 text-white">
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2, duration: 0.8 }}
+                            >
+                                <h2 className="text-4xl xl:text-5xl font-semibold mb-6 leading-tight">
+                                    Le Rituel de la<br/>Sélection Naturelle
+                                </h2>
+                                <p className="text-white/90 text-lg leading-relaxed max-w-md font-light">
+                                    Découvrez les secrets de beauté ancestraux préservés pour les esprits modernes. Pur, biologique et directement du cœur du Sénégal.
+                                </p>
+                            </motion.div>
+                        </div>
+                    </div>
 
+                    {/* Right: Form side */}
+                    <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-16 xl:p-24 bg-white relative">
+                        {/* subtle decorative background elements if desired */}
+                        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(212,165,116,0.05)_0%,transparent_50%)] pointer-events-none" />
+                        
                         <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-white/50 backdrop-blur-xl p-10 lg:p-14 rounded-[3.5rem] shadow-xl border border-white"
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="w-full max-w-md z-10"
                         >
                             <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as any)} className="w-full">
-                                <TabsList className="grid grid-cols-2 w-full max-w-[280px] mx-auto h-12 bg-stone-100/50 rounded-full p-1 mb-10">
-                                    <TabsTrigger value="login" className="rounded-full font-bold uppercase tracking-widest text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white">Connexion</TabsTrigger>
-                                    <TabsTrigger value="register" className="rounded-full font-bold uppercase tracking-widest text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white">Rejoindre</TabsTrigger>
+                                <TabsList className="grid grid-cols-2 w-full max-w-[240px] h-11 bg-stone-100 rounded-full p-1 mb-10 mx-auto">
+                                    <TabsTrigger value="login" className="rounded-full font-semibold uppercase tracking-wider text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white">Connexion</TabsTrigger>
+                                    <TabsTrigger value="register" className="rounded-full font-semibold uppercase tracking-wider text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white">Rejoindre</TabsTrigger>
                                 </TabsList>
                                 <TabsContent value="login" className="mt-0">
                                     <LoginForm />

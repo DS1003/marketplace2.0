@@ -5,7 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      disallow: ['/admin/', '/seller/', '/api/', '/checkout/'],
     },
-    sitemap: 'https://www.moomel.sn/sitemap.xml',
+    sitemap: 'https://moomel.sn/sitemap.xml',
   }
 }

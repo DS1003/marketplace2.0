@@ -1,13 +1,23 @@
 import { NextResponse } from "next/server";
 import { createHash } from "crypto";
 import prisma from "@/lib/prisma";
+import qs from "qs";
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
-    console.log("PayDunya Webhook Received:", data);
+    const rawBody = await req.text();
+    const parsedBody = qs.parse(rawBody);
+    console.log("PayDunya Webhook Received (parsed):", parsedBody);
 
-    const { status, hash, custom_data, invoice } = data.data;
+    // PayDunya sends the payload under the 'data' key
+    const data = parsedBody.data as any;
+
+    if (!data) {
+      console.error("No 'data' found in webhook payload");
+      return NextResponse.json({ error: "Invalid payload format" }, { status: 400 });
+    }
+
+    const { status, hash, custom_data, invoice } = data;
 
     // 1. Verify Hash
     const masterKey = process.env.PAYDUNYA_MASTER_KEY;

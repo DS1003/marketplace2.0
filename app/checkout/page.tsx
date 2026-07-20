@@ -21,8 +21,6 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
 import { FadeContent } from "@/components/ui/fade-content"
 import { useCart } from "@/providers/cart-provider"
 import { createOrder } from "@/lib/actions/order"
@@ -120,9 +118,8 @@ function CheckoutPageContent() {
 
     if (step === 3) {
         return (
-            <div className="min-h-screen bg-[#FDFBF7]">
-                <Header />
-                <main className="pt-48 pb-24 px-4 flex flex-col items-center justify-center text-center space-y-10">
+            <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">
+                <div className="w-full max-w-3xl flex flex-col items-center justify-center text-center space-y-10 py-24 px-4">
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -158,8 +155,7 @@ function CheckoutPageContent() {
                         <Leaf className="w-12 h-12" />
                         <Award className="w-12 h-12" />
                     </div>
-                </main>
-                <Footer />
+                </div>
             </div>
         )
     }
@@ -342,7 +338,7 @@ function CheckoutPageContent() {
 
                     {/* Right Column: Mini Summary */}
                     <aside className="w-full lg:w-[40%] lg:sticky lg:top-32 h-fit">
-                        <Card className="border-none shadow-xl rounded-[3rem] overflow-hidden bg-white">
+                        <Card className="glass-panel border-none shadow-2xl rounded-[3rem] overflow-hidden">
                             <div className="p-10 space-y-8">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl font-bold text-[#2D241E]">Récapitulatif</h2>
@@ -409,7 +405,6 @@ function CheckoutPageContent() {
                 </div>
             </main>
 
-            <Footer />
         </div>
     )
 }

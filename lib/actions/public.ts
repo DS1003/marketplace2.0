@@ -221,3 +221,32 @@ export async function getProductFullDetails(id: string) {
     return { success: false, error: "Failed to fetch product details" }
   }
 }
+
+export async function getPublicSellerById(id: string) {
+  try {
+    const shop = await prisma.shop.findUnique({
+      where: { id },
+      include: {
+        owner: {
+          select: {
+            name: true,
+            image: true
+          }
+        },
+        products: {
+          include: {
+            category: true,
+            reviews: { select: { rating: true } } as any
+          }
+        }
+      }
+    })
+    
+    if (!shop) return { success: false, error: "Shop not found" }
+    
+    return { success: true, data: shop }
+  } catch (error) {
+    console.error("Failed to fetch public seller:", error)
+    return { success: false, error: "Failed to fetch seller" }
+  }
+}

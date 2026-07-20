@@ -54,9 +54,22 @@ export function Footer() {
   const { ref, isInView } = useScrollAnimation()
 
   return (
-    <footer ref={ref} className="bg-foreground text-background">
-      {/* Newsletter Section */}
-      <motion.div
+    <footer ref={ref} className="bg-foreground text-background relative overflow-hidden">
+      {/* Background Pattern */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{ 
+          backgroundImage: "url('/Doodle.svg')", 
+          backgroundSize: "300px", 
+          backgroundRepeat: "repeat",
+          opacity: 0.03
+        }}
+      />
+      
+      {/* Content wrapper */}
+      <div className="relative z-10">
+        {/* Newsletter Section */}
+        <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -237,6 +250,7 @@ export function Footer() {
           </div>
         </div>
       </motion.div>
+      </div>
     </footer>
   )
 }

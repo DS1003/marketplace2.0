@@ -2,12 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { 
-  Search, Plus, MoreHorizontal, Edit, Trash2, 
-  Eye, Package, AlertCircle, CheckCircle2,
-  Filter, ArrowUpDown, ChevronLeft, ChevronRight,
-  Zap, TrendingUp
-} from "lucide-react"
+import { SearchNormal, Add, More, Edit2, Trash, Eye, Box, Danger, TickCircle, Filter, ArrowLeft2, ArrowRight2, Flash, TrendUp } from "reicon-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -53,14 +48,14 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <div className="flex items-center gap-2 mb-1">
-                <Zap className="w-4 h-4 text-teal-600 fill-teal-600" />
+                <Flash className="w-4 h-4 text-teal-600 fill-teal-600" />
                 <h2 className="text-xl font-black tracking-tight text-slate-800 uppercase">Vos Rituels</h2>
             </div>
             <p className="text-[12px] font-bold text-slate-400 uppercase tracking-widest">Gérez votre collection artisanale et vos stocks.</p>
         </div>
         <Link href="/seller/products/new">
           <Button className="bg-[#0F172A] hover:bg-black text-white rounded-xl h-11 px-6 shadow-xl shadow-black/10 font-black uppercase tracking-widest text-[10px]">
-            <Plus className="mr-2 h-3.5 w-3.5" /> Nouveau Rituel
+            <Add className="mr-2 h-3.5 w-3.5" /> Nouveau Rituel
           </Button>
         </Link>
       </div>
@@ -69,7 +64,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
         <CardHeader className="p-4 border-b border-zinc-50 bg-slate-50/30">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="relative w-full md:w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+              <SearchNormal className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
               <input
                 placeholder="Filtrer les rituels..."
                 className="w-full h-10 pl-10 pr-4 bg-white rounded-xl border border-zinc-100 text-[11px] font-bold uppercase tracking-widest focus:outline-none focus:ring-1 focus:ring-teal-500/20 transition-all placeholder:text-slate-300"
@@ -82,7 +77,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
                 <Filter className="mr-2 h-3.5 w-3.5 text-slate-400" /> Filtrer
               </Button>
               <Button variant="outline" className="rounded-xl h-10 border-zinc-100 font-black text-[9px] uppercase tracking-widest hover:bg-slate-50">
-                <ArrowUpDown className="mr-2 h-3.5 w-3.5 text-slate-400" /> Trier
+                <Box className="mr-2 h-3.5 w-3.5 text-slate-400" /> Trier
               </Button>
             </div>
           </div>
@@ -115,7 +110,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
                             />
                             ) : (
                             <div className="flex h-full w-full items-center justify-center bg-slate-50">
-                                <Package className="h-5 w-5 text-slate-300" />
+                                <Box className="h-5 w-5 text-slate-300" />
                             </div>
                             )}
                         </div>
@@ -144,7 +139,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon" className="rounded-lg h-8 w-8 hover:bg-slate-100">
-                                <MoreHorizontal className="h-3.5 w-3.5 text-slate-400" />
+                                <More className="h-3.5 w-3.5 text-slate-400" />
                             </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="rounded-xl p-1 min-w-[160px] border-zinc-100 shadow-xl">
@@ -155,7 +150,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
                             </Link>
                             <Link href={`/seller/products/edit/${product.id}`}>
                                 <DropdownMenuItem className="rounded-lg cursor-pointer py-2 focus:bg-slate-50 text-[10px] font-bold uppercase tracking-widest">
-                                    <Edit className="mr-2 h-3.5 w-3.5" /> Modifier
+                                    <Edit2 className="mr-2 h-3.5 w-3.5" /> Modifier
                                 </DropdownMenuItem>
                             </Link>
                             <DropdownMenuSeparator className="bg-zinc-50 mx-1" />
@@ -163,7 +158,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
                                 onClick={() => handleDelete(product.id)}
                                 className="rounded-lg cursor-pointer py-2 text-rose-500 focus:bg-rose-50 focus:text-rose-600 text-[10px] font-bold uppercase tracking-widest"
                             >
-                                <Trash2 className="mr-2 h-3.5 w-3.5" /> Supprimer
+                                <Trash className="mr-2 h-3.5 w-3.5" /> Supprimer
                             </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
@@ -174,7 +169,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
                     <TableRow>
                     <TableCell colSpan={6} className="h-48 text-center">
                         <div className="flex flex-col items-center justify-center gap-2 opacity-40">
-                        <AlertCircle className="h-8 w-8 text-slate-300" />
+                        <Danger className="h-8 w-8 text-slate-300" />
                         <p className="font-black text-slate-800 text-[11px] uppercase tracking-widest">Aucun rituel trouvé</p>
                         <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Ajustez votre recherche ou ajoutez un produit.</p>
                         </div>
@@ -192,7 +187,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
         <Card className="border-none shadow-sm bg-white rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
           <CardContent className="p-4 flex items-center gap-4">
             <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-inner">
-              <Package className="h-5 w-5" />
+              <Box className="h-5 w-5" />
             </div>
             <div>
               <p className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-400">Stock Total</p>
@@ -205,7 +200,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
         <Card className="border-none shadow-sm bg-white rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
           <CardContent className="p-4 flex items-center gap-4">
             <div className="h-10 w-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-inner">
-              <CheckCircle2 className="h-5 w-5" />
+              <TickCircle className="h-5 w-5" />
             </div>
             <div>
               <p className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-400">Rituels Actifs</p>
@@ -216,7 +211,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
         <Card className="border-none shadow-sm bg-[#0F172A] text-white rounded-2xl overflow-hidden group hover:scale-[1.02] transition-transform">
           <CardContent className="p-4 flex items-center gap-4">
             <div className="h-10 w-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center shadow-inner">
-              <TrendingUp className="h-5 w-5" />
+              <TrendUp className="h-5 w-5" />
             </div>
             <div className="flex-1 flex justify-between items-center">
               <div>
@@ -225,7 +220,7 @@ export default function SellerProductsClient({ products }: { products: any[] }) 
               </div>
               <Link href="/seller/products/new">
                 <Button size="icon" variant="ghost" className="rounded-full hover:bg-white/10 h-8 w-8 transition-transform group-hover:translate-x-1">
-                  <ChevronRight className="h-4 w-4" />
+                  <ArrowRight2 className="h-4 w-4" />
                 </Button>
               </Link>
             </div>

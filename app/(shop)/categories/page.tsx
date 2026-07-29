@@ -14,7 +14,7 @@ import { FadeContent } from "@/components/ui/fade-content"
 const mainCategories = [
     {
         id: "skincare",
-        name: "Soins du Visage",
+        name: "Soins Visage",
         description: "Des formules nourrissantes pour un teint éclatant et sain.",
         icon: Sparkles,
         color: "bg-amber-50",
@@ -23,7 +23,7 @@ const mainCategories = [
     },
     {
         id: "haircare",
-        name: "Soins Capillaires",
+        name: "Cheveux",
         description: "Revitalisez vos cheveux grâce à la puissance des plantes africaines.",
         icon: Wind,
         color: "bg-emerald-50",
@@ -32,7 +32,7 @@ const mainCategories = [
     },
     {
         id: "bodycare",
-        name: "Soins du Corps",
+        name: "Corps & Bain",
         description: "Une pure indulgence pour votre peau, de la tête aux pieds.",
         icon: Droplets,
         color: "bg-rose-50",
@@ -41,7 +41,7 @@ const mainCategories = [
     },
     {
         id: "wellness",
-        name: "Bien-être",
+        name: "Huiles Précieuses",
         description: "Huiles essentielles et accessoires pour un mode de vie conscient.",
         icon: Leaf,
         color: "bg-stone-50",
@@ -79,7 +79,7 @@ export default function CategoriesPage() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: index * 0.1 }}
                         >
-                            <Link href={`/marketplace?category=${category.id}`}>
+                            <Link href={`/marketplace?category=${encodeURIComponent(category.name)}`}>
                                 <Card className="group overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-700 h-[500px] relative rounded-[2.5rem]">
                                     <NextImage
                                         src={category.image}

@@ -5,25 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { 
-    Search, 
-    Send, 
-    MessageCircle, 
-    AlertCircle, 
-    ShieldCheck, 
-    Filter, 
-    Trash2, 
-    MoreVertical, 
-    Mail, 
-    ExternalLink,
-    Zap,
-    Clock,
-    User,
-    ChevronRight,
-    Plus,
-    X,
-    Check
-} from "lucide-react"
+import { SearchNormal, Send2, Message, Danger, ShieldTick, Filter, Trash, More, Sms, Maximize4, Flash, Clock, User, ArrowRight2, Add, CloseSquare, TickSquare } from "reicon-react"
 import { 
     sendMessage, 
     getConversation, 
@@ -171,12 +153,12 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                     <div className="p-4 border-b border-zinc-50 shrink-0">
                         <div className="flex justify-between items-center mb-3">
                             <div className="flex items-center gap-2">
-                                <Zap className="w-2.5 h-2.5 text-teal-600 fill-teal-600" />
+                                <Flash className="w-2.5 h-2.5 text-teal-600 fill-teal-600" />
                                 <h2 className="text-[9px] font-black tracking-[0.2em] text-slate-500 uppercase">Communications</h2>
                             </div>
                         </div>
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-300" />
+                            <SearchNormal className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-300" />
                             <input 
                                 value={sidebarSearch}
                                 onChange={(e) => setSidebarSearch(e.target.value)}
@@ -263,7 +245,7 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 rounded-lg hover:bg-slate-50">
-                                            <MoreVertical className="w-3 h-3" />
+                                            <More className="w-3 h-3" />
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end" className="rounded-xl p-1 w-40">
@@ -271,7 +253,7 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                                             onClick={() => handleDelete(activePartner.id)}
                                             className="text-rose-500 text-[9px] font-black uppercase tracking-widest rounded-lg"
                                         >
-                                            <Trash2 className="w-3 h-3 mr-2" /> Effacer Historique
+                                            <Trash className="w-3 h-3 mr-2" /> Effacer Historique
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
@@ -333,7 +315,7 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                                             {selectedProduct.images?.[0] ? <NextImage src={selectedProduct.images[0]} alt="" fill className="object-cover" /> : "P"}
                                         </div>
                                         <span className="text-[8px] font-black text-teal-600 uppercase tracking-widest truncate max-w-[150px]">{selectedProduct.name}</span>
-                                        <button onClick={() => setSelectedProduct(null)} className="text-teal-400 hover:text-teal-600 transition-colors"><X className="w-2.5 h-2.5" /></button>
+                                        <button onClick={() => setSelectedProduct(null)} className="text-teal-400 hover:text-teal-600 transition-colors"><CloseSquare className="w-2.5 h-2.5" /></button>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
@@ -342,14 +324,14 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                                 <Popover open={isProductPopoverOpen} onOpenChange={setIsProductPopoverOpen}>
                                     <PopoverTrigger asChild>
                                         <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 rounded-lg hover:bg-white hover:text-teal-600 border-none shrink-0">
-                                            <Plus className="w-3.5 h-3.5" />
+                                            <Add className="w-3.5 h-3.5" />
                                         </Button>
                                     </PopoverTrigger>
                                     <PopoverContent side="top" align="start" className="w-64 p-0 rounded-2xl overflow-hidden shadow-2xl border-zinc-100">
                                         <div className="p-3 border-b border-zinc-50">
                                             <h4 className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Attacher un rituel</h4>
                                             <div className="relative">
-                                                <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-300" />
+                                                <SearchNormal className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-300" />
                                                 <input 
                                                     value={productSearch}
                                                     onChange={(e) => setProductSearch(e.target.value)}
@@ -373,7 +355,7 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                                                         <p className="text-[10px] font-black text-slate-800 uppercase tracking-tight truncate">{p.name}</p>
                                                         <p className="text-[8px] font-bold text-teal-600">{p.price} FCFA</p>
                                                     </div>
-                                                    <Plus className="w-3 h-3 text-slate-200" />
+                                                    <Add className="w-3 h-3 text-slate-200" />
                                                 </div>
                                             ))}
                                             {productSearch.length > 1 && foundProducts.length === 0 && <p className="p-4 text-center text-[9px] font-bold text-slate-300">Aucun résultat</p>}
@@ -393,7 +375,7 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 rounded-lg hover:bg-white hover:text-teal-600 border-none shrink-0">
-                                            <ExternalLink className="w-3.5 h-3.5" />
+                                            <Maximize4 className="w-3.5 h-3.5" />
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent side="top" align="end" className="rounded-2xl p-2 w-64 shadow-2xl border-zinc-100">
@@ -415,7 +397,7 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                                     disabled={!messageText.trim() && !selectedProduct}
                                     className="h-8 w-8 rounded-lg bg-[#0D9488] text-white hover:bg-[#0F766E] shadow-sm active:scale-95 transition-all p-0 disabled:opacity-20 border-none shrink-0"
                                 >
-                                    <Send className="w-3 h-3" />
+                                    <Send2 className="w-3 h-3" />
                                 </Button>
                             </div>
                         </div>
@@ -423,7 +405,7 @@ export default function MessagesClient({ initialConversations, currentUserId }: 
                 ) : (
                     <div className="flex-1 flex flex-col items-center justify-center text-slate-300 gap-2 bg-slate-50/10">
                         <div className="w-10 h-10 rounded-xl bg-white border border-zinc-50 flex items-center justify-center shadow-xs">
-                            <Mail className="w-4 h-4 text-slate-100" />
+                            <Sms className="w-4 h-4 text-slate-100" />
                         </div>
                         <p className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 opacity-40 uppercase">Lab Protocol Offline</p>
                     </div>

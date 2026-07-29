@@ -1,12 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { 
-  Activity, TrendingUp, Users, ShoppingBag, 
-  ArrowUpRight, ArrowDownRight, Calendar,
-  BarChart3, PieChart, MousePointer2, Zap,
-  Search, ShieldCheck, Target
-} from "lucide-react"
+import { Activity, TrendUp, Users, ShoppingBag, ArrowUp2, ArrowDown2, Calendar, Chart, ChartPie, Mouse, Flash, SearchNormal, ShieldTick, Target } from "reicon-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -46,10 +41,10 @@ export default function SellerAnalyticsPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: "Visites Flux", value: "2,842", change: "+14.2%", icon: MousePointer2, color: "text-blue-500", bg: "bg-blue-50/50" },
+          { label: "Visites Flux", value: "2,842", change: "+14.2%", icon: Mouse, color: "text-blue-500", bg: "bg-blue-50/50" },
           { label: "Conversion", value: "3.2%", change: "+2.1%", icon: Activity, color: "text-emerald-500", bg: "bg-emerald-50/50" },
           { label: "Rétention Client", value: "85%", change: "+5.4%", icon: Users, color: "text-indigo-500", bg: "bg-indigo-50/50" },
-          { label: "Temps Immersion", value: "12min", change: "-0.5%", icon: Zap, color: "text-teal-500", bg: "bg-teal-50/50" },
+          { label: "Temps Immersion", value: "12min", change: "-0.5%", icon: Flash, color: "text-teal-500", bg: "bg-teal-50/50" },
         ].map((stat, i) => (
           <Card key={i} className="rounded-2xl border-none shadow-sm bg-white overflow-hidden group hover:shadow-md transition-shadow">
             <CardContent className="p-6">
@@ -58,7 +53,7 @@ export default function SellerAnalyticsPage() {
                   <stat.icon className={cn("w-5 h-5", stat.color)} />
                 </div>
                 <div className={cn("flex items-center text-[9px] font-black uppercase tracking-widest", stat.change.startsWith('+') ? "text-emerald-500" : "text-rose-500")}>
-                  {stat.change.startsWith('+') ? <ArrowUpRight className="w-2.5 h-2.5 mr-1" /> : <ArrowDownRight className="w-2.5 h-2.5 mr-1" />}
+                  {stat.change.startsWith('+') ? <ArrowUp2 className="w-2.5 h-2.5 mr-1" /> : <ArrowDown2 className="w-2.5 h-2.5 mr-1" />}
                   {stat.change}
                 </div>
               </div>

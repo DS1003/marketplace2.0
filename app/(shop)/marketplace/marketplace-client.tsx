@@ -32,7 +32,7 @@ import { formatPrice } from "@/lib/utils"
 // Categories should ideally be fetched and dynamic as well, but for simplicity here's a dynamic extract
 // const categories = ["All Products", "Skincare", "Haircare", "Natural Soaps", "Essential Oils", "Accessories"]
 
-export default function MarketplaceClient({ initialProducts, initialSellers }: { initialProducts: any[], initialSellers: any[] }) {
+export default function MarketplaceClient({ initialProducts, initialSellers, initialCategory = "Tous les produits" }: { initialProducts: any[], initialSellers: any[], initialCategory?: string }) {
     const categories = ["Tous les produits", ...Array.from(new Set(initialProducts.map((p: any) => p.category?.name).filter(Boolean))) as string[]]
     
     const productsList = initialProducts.map((p: any, i: number) => ({
@@ -60,7 +60,7 @@ export default function MarketplaceClient({ initialProducts, initialSellers }: {
         return Math.ceil(Math.max(...productsList.map(p => p.price)) * 1.2)
     }, [productsList])
 
-    const [activeCategory, setActiveCategory] = useState("Tous les produits")
+    const [activeCategory, setActiveCategory] = useState(initialCategory)
     const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false)
     const [priceRange, setPriceRange] = useState([0, maxPrice])
     const [searchQuery, setSearchQuery] = useState("")

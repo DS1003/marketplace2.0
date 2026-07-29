@@ -2,12 +2,7 @@
 
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { 
-  Plus, X, Image as ImageIcon, CheckCircle2, 
-  Leaf, Info, AlertCircle, ChevronLeft, Save,
-  UploadCloud, Loader2, Zap, ArrowRight,
-  TrendingUp, Package
-} from "lucide-react"
+import { Add, CloseSquare, Image as ImageIcon, TickCircle, Category, InfoCircle, Danger, ArrowLeft2, Save, CloudPlus, Refresh, Flash, ArrowRight, TrendUp, Box } from "reicon-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -104,14 +99,14 @@ export default function ProductForm({ categories, initialData }: { categories: a
             onClick={() => router.back()}
             className="h-9 w-9 rounded-xl hover:bg-slate-100"
           >
-            <ChevronLeft className="w-4 h-4 text-slate-400" />
+            <ArrowLeft2 className="w-4 h-4 text-slate-400" />
           </Button>
           <div>
             <h1 className="text-xl font-black text-slate-800 uppercase tracking-tight">
                 {initialData ? "Modifier le Rituel" : "Nouveau Rituel"}
             </h1>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic flex items-center gap-2 mt-0.5">
-                <Zap className="w-2.5 h-2.5 text-teal-600" /> Identification du flux artisanal dans le protocole Moomel.
+                <Flash className="w-2.5 h-2.5 text-teal-600" /> Identification du flux artisanal dans le protocole Moomel.
             </p>
           </div>
       </div>
@@ -123,7 +118,7 @@ export default function ProductForm({ categories, initialData }: { categories: a
             <CardContent className="p-8 space-y-6">
                 <div className="space-y-2.5">
                     <Label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2 flex items-center gap-2">
-                        <CheckCircle2 className="w-3 h-3 text-teal-600" /> Désignation de la Création
+                        <TickCircle className="w-3 h-3 text-teal-600" /> Désignation de la Création
                     </Label>
                     <Input 
                         name="name" 
@@ -136,7 +131,7 @@ export default function ProductForm({ categories, initialData }: { categories: a
 
                 <div className="space-y-4">
                     <Label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2 flex items-center gap-2">
-                        <TrendingUp className="w-3 h-3 text-teal-600" /> Description Narrative
+                        <TrendUp className="w-3 h-3 text-teal-600" /> Description Narrative
                     </Label>
                     <Textarea 
                         name="description" 
@@ -211,12 +206,12 @@ export default function ProductForm({ categories, initialData }: { categories: a
             >
                 {isUploading ? (
                     <div className="flex flex-col items-center">
-                        <Loader2 className="h-5 w-5 text-teal-600 animate-spin mb-2" />
+                        <Refresh className="h-5 w-5 text-teal-600 animate-spin mb-2" />
                         <span className="text-[8px] font-black uppercase tracking-widest text-teal-600">Uploading Signal...</span>
                     </div>
                 ) : (
                     <div className="flex flex-col items-center opacity-40 group-hover:opacity-100 transition-opacity">
-                        <UploadCloud className="h-6 w-6 text-slate-400 mb-2 group-hover:text-teal-600" />
+                        <CloudPlus className="h-6 w-6 text-slate-400 mb-2 group-hover:text-teal-600" />
                         <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-500 group-hover:text-teal-600">Lier des images</span>
                     </div>
                 )}
@@ -241,7 +236,7 @@ export default function ProductForm({ categories, initialData }: { categories: a
                                     onClick={(e) => { e.stopPropagation(); removeImage(idx); }}
                                     className="text-white hover:text-white hover:bg-rose-500 rounded-lg h-7 w-7 transition-all"
                                 >
-                                    <X className="h-3.5 w-3.5" />
+                                    <CloseSquare className="h-3.5 w-3.5" />
                                 </Button>
                             </div>
                         </motion.div>
@@ -264,7 +259,7 @@ export default function ProductForm({ categories, initialData }: { categories: a
                 
                 <div className="space-y-4 relative z-10">
                     <div className="flex items-center gap-2 pb-2 border-b border-white/5 font-black uppercase tracking-[0.2em] text-[9px] text-teal-400">
-                        <CheckCircle2 className="w-3 h-3" /> État du Protocole
+                        <TickCircle className="w-3 h-3" /> État du Protocole
                     </div>
                     
                     <div className="flex items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5">
@@ -299,7 +294,7 @@ export default function ProductForm({ categories, initialData }: { categories: a
 
             <Card className="border-none shadow-sm bg-white rounded-[1.5rem] p-6">
                 <div className="flex items-center gap-3 text-teal-600 mb-3">
-                    <Info className="h-4 w-4" />
+                    <InfoCircle className="h-4 w-4" />
                     <h4 className="text-[9px] font-black uppercase tracking-widest">Guide Artisan</h4>
                 </div>
                 <p className="text-[10px] leading-relaxed text-slate-400 font-bold uppercase tracking-tight opacity-70 italic">
@@ -313,7 +308,7 @@ export default function ProductForm({ categories, initialData }: { categories: a
                     disabled={isLoading || isUploading}
                     className="w-full h-14 bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-xl shadow-teal-500/10 transition-all active:scale-[0.98] font-black uppercase tracking-widest text-[10px] border-none"
                 >
-                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                    {isLoading ? <Refresh className="w-4 h-4 animate-spin" /> : (
                         <div className="flex items-center gap-2">
                              {initialData ? "Mettre à jour" : "Lancer le Rituel"} <ArrowRight className="w-3.5 h-3.5" />
                         </div>

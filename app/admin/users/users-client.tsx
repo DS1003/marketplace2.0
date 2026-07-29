@@ -2,20 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
-  Users, 
-  Search, 
-  MoreVertical, 
-  Filter, 
-  ChevronRight,
-  UserCheck,
-  UserX,
-  Mail,
-  ShoppingBag,
-  Calendar,
-  Star,
-  Settings
-} from "lucide-react"
+import { Users, SearchNormal, More, Filter, ArrowRight2, UserTick, UserMinus, Sms, ShoppingBag, Calendar, Star, Setting2 } from "reicon-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -47,10 +34,10 @@ export default function AdminUsersPage() {
         </div>
         <div className="flex gap-2">
            <Button variant="outline" className="h-10 rounded-lg border-zinc-200 text-slate-700 font-bold uppercase tracking-widest text-[9px] px-6 bg-white shadow-sm">
-             <Mail className="mr-2 h-3.5 w-3.5" /> Message All
+             <Sms className="mr-2 h-3.5 w-3.5" /> Message All
            </Button>
            <Button className="h-10 rounded-lg bg-slate-900 text-white font-bold uppercase tracking-widest text-[9px] px-6 shadow-sm flex items-center gap-2 group">
-             Export Members <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+             Export Members <ArrowRight2 className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
            </Button>
         </div>
       </div>
@@ -58,7 +45,7 @@ export default function AdminUsersPage() {
        {/* FiltersArea - Refined */}
        <div className="flex flex-col md:flex-row items-center gap-3 bg-white/50 backdrop-blur-xl p-3 rounded-2xl border border-zinc-200/50 shadow-sm">
         <div className="relative flex-1 group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+          <SearchNormal className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Find ritualist..." 
             className="bg-white border-none rounded-lg h-10 pl-10 text-[13px] font-medium focus:ring-1 focus:ring-primary/10 transition-all w-full shadow-inner"
@@ -136,21 +123,21 @@ export default function AdminUsersPage() {
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-white shadow-none transition-all group-hover:border border-zinc-100">
-                          <MoreVertical className="h-4 w-4 text-slate-400" />
+                          <More className="h-4 w-4 text-slate-400" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-52 p-2 rounded-xl shadow-2xl border-none bg-white">
                         <DropdownMenuItem className="rounded-lg py-2.5 px-3 focus:bg-primary/5 group transition-all text-slate-700">
-                             <Settings className="h-3.5 w-3.5 mr-2 text-primary" />
+                             <Setting2 className="h-3.5 w-3.5 mr-2 text-primary" />
                           <span className="text-[9px] font-bold uppercase tracking-widest">Manage Privileges</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="rounded-lg py-2.5 px-3 focus:bg-primary/5 group transition-all text-slate-700">
-                             <Mail className="h-3.5 w-3.5 mr-2 text-primary" />
+                             <Sms className="h-3.5 w-3.5 mr-2 text-primary" />
                           <span className="text-[9px] font-bold uppercase tracking-widest">Send Message</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="bg-slate-50 mx-1 my-1" />
                         <DropdownMenuItem className="rounded-lg py-2.5 px-3 focus:bg-rose-50 text-rose-500 group transition-all">
-                             <UserX className="h-3.5 w-3.5 mr-2" />
+                             <UserMinus className="h-3.5 w-3.5 mr-2" />
                           <span className="text-[9px] font-bold uppercase tracking-widest">Restrict Access</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>

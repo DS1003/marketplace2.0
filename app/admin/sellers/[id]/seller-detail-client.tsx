@@ -3,11 +3,7 @@
 import { useState } from "react"
 import NextImage from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import {
-    ChevronLeft, Store, Mail, Calendar, Package, ShieldCheck,
-    MessageCircle, MoreVertical, Edit, Search, Settings2, SlidersHorizontal, EyeOff, Eye, Send,
-    CheckCircle, Clock, Info, Check, X, Globe, ShoppingBag
-} from "lucide-react"
+import { ArrowLeft2, Shop, Sms, Calendar, Box, ShieldTick, Message, More, Edit2, SearchNormal, Setting3, SliderHorizontal, EyeSlash, Eye, Send2, TickCircle, Clock, InfoCircle, TickSquare, CloseCircle, Global, ShoppingBag, CloseSquare } from "reicon-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -102,7 +98,7 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
     return (
         <div className="space-y-8 pb-32 max-w-7xl mx-auto">
             <Link href="/admin/sellers" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-800 transition-colors">
-                <ChevronLeft className="h-4 w-4" /> Retour aux partenaires
+                <ArrowLeft2 className="h-4 w-4" /> Retour aux partenaires
             </Link>
 
             {shop.status === 'PENDING' && (
@@ -123,14 +119,14 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
                             variant="outline"
                             className="flex-1 md:w-40 h-12 rounded-xl text-rose-500 border-rose-200 hover:bg-rose-50 font-black uppercase tracking-widest text-[9px]"
                         >
-                            <X className="mr-2 h-4 w-4" /> Rejeter
+                            <CloseSquare className="mr-2 h-4 w-4" /> Rejeter
                         </Button>
                         <Button
                             disabled={isActionPending}
                             onClick={handleApprove}
                             className="flex-1 md:w-56 h-12 rounded-xl bg-[#2D241E] text-white font-black uppercase tracking-widest text-[10px] shadow-lg shadow-black/10 transition-all hover:scale-[1.02]"
                         >
-                            <Check className="mr-2 h-5 w-5" /> Manifest Lab
+                            <TickSquare className="mr-2 h-5 w-5" /> Manifest Lab
                         </Button>
                     </div>
                 </div>
@@ -140,7 +136,7 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className="lg:col-span-8 bg-white rounded-[2rem] p-8 border border-zinc-200/50 shadow-sm flex flex-col md:flex-row gap-8 items-start relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-                        <Store className="w-64 h-64" />
+                        <Shop className="w-64 h-64" />
                     </div>
                     <div className="relative h-32 w-32 rounded-3xl overflow-hidden bg-slate-100 flex-shrink-0 shadow-inner border-4 border-white shadow-xl">
                         <NextImage src={shop.image || "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=300"} alt={shop.name} fill className="object-cover" />
@@ -151,11 +147,11 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
                                 <h1 className="text-3xl font-black text-slate-800 tracking-tighter">{shop.name}</h1>
                                 <div className="flex items-center gap-2 mt-2">
                                     <Badge variant="outline" className={`border-none text-[10px] uppercase font-bold tracking-widest ${shop.status === 'PENDING' ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'}`}>{shop.status}</Badge>
-                                    <span className="text-sm font-medium text-slate-400 flex items-center gap-1"><Mail className="w-3 h-3" /> {shop.owner?.email}</span>
+                                    <span className="text-sm font-medium text-slate-400 flex items-center gap-1"><Sms className="w-3 h-3" /> {shop.owner?.email}</span>
                                 </div>
                             </div>
                             <Button onClick={() => openMessageDialog()} variant="outline" className="rounded-xl shadow-sm hover:bg-slate-50 border-zinc-200 gap-2 font-bold uppercase tracking-widest text-[10px]">
-                                <MessageCircle className="w-4 h-4 text-primary" /> Contacter
+                                <Message className="w-4 h-4 text-primary" /> Contacter
                             </Button>
                         </div>
                         <div className="space-y-4">
@@ -196,13 +192,13 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
                             ].map((item, i) => (
                                 <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-zinc-100">
                                     <span className="text-xs font-bold text-slate-700">{item.label}</span>
-                                    {item.ok ? <CheckCircle className="w-4 h-4 text-emerald-500" /> : <Clock className="w-4 h-4 text-amber-400" />}
+                                    {item.ok ? <TickCircle className="w-4 h-4 text-emerald-500" /> : <Clock className="w-4 h-4 text-amber-400" />}
                                 </div>
                             ))}
                         </div>
                         <div className="pt-4 border-t border-zinc-100">
                             <div className="flex items-center gap-3 p-4 rounded-xl border border-primary/20 bg-primary/5 text-primary">
-                                <ShieldCheck className="w-5 h-5 flex-shrink-0" />
+                                <ShieldTick className="w-5 h-5 flex-shrink-0" />
                                 <p className="text-[9px] font-bold leading-tight uppercase tracking-wider">Identity & Artisan Ritual verified by Moomel Security</p>
                             </div>
                         </div>
@@ -217,10 +213,10 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
                     <h2 className="text-xl font-bold text-slate-800">Catalogue des produits</h2>
                     <div className="flex gap-2">
                         <div className="relative">
-                            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                            <SearchNormal className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                             <input type="text" placeholder="Filtrer les produits..." className="h-10 rounded-xl border border-zinc-200/50 bg-white pl-9 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary/20 w-full md:w-64" />
                         </div>
-                        <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl"><SlidersHorizontal className="w-4 h-4 text-slate-500" /></Button>
+                        <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl"><SliderHorizontal className="w-4 h-4 text-slate-500" /></Button>
                     </div>
                 </div>
 
@@ -251,14 +247,14 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
                                     variant={product.status === 'SUSPENDED' ? 'default' : 'outline'} 
                                     className={`h-9 w-full sm:w-36 rounded-lg text-[10px] uppercase font-bold tracking-widest ${product.status === 'SUSPENDED' ? 'bg-primary text-white hover:bg-primary/90' : 'text-rose-500 hover:text-rose-600 hover:bg-rose-50 border-rose-200'}`}
                                 >
-                                    {product.status === 'SUSPENDED' ? <><Eye className="w-3.5 h-3.5 flex-shrink-0 mr-1.5"/> Réactiver</> : <><EyeOff className="w-3.5 h-3.5 flex-shrink-0 mr-1.5"/> Suspendre</>}
+                                    {product.status === 'SUSPENDED' ? <><Eye className="w-3.5 h-3.5 flex-shrink-0 mr-1.5"/> Réactiver</> : <><EyeSlash className="w-3.5 h-3.5 flex-shrink-0 mr-1.5"/> Suspendre</>}
                                 </Button>
                                 <Button 
                                     onClick={() => openMessageDialog(product)}
                                     variant="ghost" 
                                     className="h-9 w-full sm:w-36 rounded-lg text-slate-500 hover:text-primary hover:bg-primary/5 text-[10px] uppercase font-bold tracking-widest"
                                 >
-                                    <MessageCircle className="w-3.5 h-3.5 flex-shrink-0 mr-1.5"/> Discussion
+                                    <Message className="w-3.5 h-3.5 flex-shrink-0 mr-1.5"/> Discussion
                                 </Button>
                             </div>
                         </Card>
@@ -284,7 +280,7 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
                                     </p>
                                 )}
                             </div>
-                            <Button variant="ghost" size="icon" onClick={() => setMessagesOpen(false)} className="rounded-full"><XCircle className="w-5 h-5 text-slate-400" /></Button>
+                            <Button variant="ghost" size="icon" onClick={() => setMessagesOpen(false)} className="rounded-full"><CloseCircle className="w-5 h-5 text-slate-400" /></Button>
                         </div>
 
                         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/50">
@@ -316,7 +312,7 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
                                     className="flex-1 h-12 rounded-xl bg-slate-50 border border-zinc-200/50 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30"
                                 />
                                 <Button onClick={handleSendMessage} className="h-12 w-12 rounded-xl bg-[#2D241E] text-white shadow-md hover:scale-105 transition-transform" size="icon">
-                                    <Send className="w-5 h-5" />
+                                    <Send2 className="w-5 h-5" />
                                 </Button>
                             </div>
                         </div>

@@ -2,11 +2,7 @@
 
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { 
-  Building2, Camera, CheckCircle2, ChevronRight, 
-  MapPin, Phone, Mail, Globe, Save, Loader2, Zap,
-  LayoutDashboard, ShieldCheck
-} from "lucide-react"
+import { Building, Camera, TickCircle, ArrowRight2, Location, Call, Sms, Global, Save, Refresh, Flash, Category, ShieldTick } from "reicon-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -71,7 +67,7 @@ export default function SellerSettingsClient({ shop }: { shop: any }) {
       <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
-                <ShieldCheck className="w-4 h-4 text-teal-600" />
+                <ShieldTick className="w-4 h-4 text-teal-600" />
                 <h2 className="text-xl font-black tracking-tight text-slate-800 uppercase">Paramètres Artisant</h2>
             </div>
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Identité et Configuration du Flux.</p>
@@ -87,11 +83,11 @@ export default function SellerSettingsClient({ shop }: { shop: any }) {
                         {shopImage ? (
                             <NextImage src={shopImage} alt={shop.name} fill className="object-cover" />
                         ) : (
-                            <Building2 className="w-10 h-10 text-slate-200 m-auto mt-7" />
+                            <Building className="w-10 h-10 text-slate-200 m-auto mt-7" />
                         )}
                         {isUploading && (
                             <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
-                                <Loader2 className="w-5 h-5 text-teal-600 animate-spin" />
+                                <Refresh className="w-5 h-5 text-teal-600 animate-spin" />
                             </div>
                         )}
                     </div>
@@ -106,7 +102,7 @@ export default function SellerSettingsClient({ shop }: { shop: any }) {
                 <div className="w-full pt-4 border-t border-zinc-50 space-y-2">
                     <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-widest text-slate-400">
                         <span>Compte Vérifié</span>
-                        <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                        <TickCircle className="w-3 h-3 text-emerald-500" />
                     </div>
                     <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-widest text-slate-400">
                         <span>Statut Boutique</span>
@@ -162,7 +158,7 @@ export default function SellerSettingsClient({ shop }: { shop: any }) {
                             disabled={isLoading}
                             className="h-11 px-8 bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-lg shadow-teal-500/10 font-black uppercase tracking-widest text-[10px] border-none"
                         >
-                            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Save className="w-3.5 h-3.5 mr-2" /> Synchroniser</>}
+                            {isLoading ? <Refresh className="w-4 h-4 animate-spin" /> : <><Save className="w-3.5 h-3.5 mr-2" /> Synchroniser</>}
                         </Button>
                     </div>
                 </CardContent>
@@ -175,7 +171,7 @@ export default function SellerSettingsClient({ shop }: { shop: any }) {
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
                 <div className="flex items-center gap-4">
                     <div className="h-10 w-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center border border-white/5 shadow-inner">
-                        <Zap className="w-5 h-5" />
+                        <Flash className="w-5 h-5" />
                     </div>
                     <div>
                         <h4 className="text-[12px] font-black uppercase tracking-[0.1em]">Protocoles de Sécurité</h4>

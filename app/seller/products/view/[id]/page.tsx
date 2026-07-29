@@ -2,11 +2,7 @@ import { getSingleSellerProduct } from "@/lib/actions/seller"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import NextImage from "next/image"
-import { 
-  ChevronLeft, Edit, Package, BadgeCheck, 
-  Trash2, ArrowLeft, MoreVertical, Sparkles,
-  Award, ShieldCheck, Zap
-} from "lucide-react"
+import { ArrowLeft2, Edit2, Box, Verify, Trash, ArrowLeft, More, MagicStar, Award, ShieldTick, Flash } from "reicon-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -24,13 +20,13 @@ export default async function ViewProductPage({ params }: { params: Promise<{ id
                 <div className="flex items-center justify-between">
                     <Link href="/seller/products">
                         <Button variant="ghost" className="rounded-xl gap-2 text-slate-500 hover:text-slate-800 font-black uppercase tracking-widest text-[10px]">
-                            <ChevronLeft className="w-4 h-4" /> Retour aux Rituels
+                            <ArrowLeft2 className="w-4 h-4" /> Retour aux Rituels
                         </Button>
                     </Link>
                     <div className="flex items-center gap-3">
                         <Link href={`/seller/products/edit/${id}`}>
                             <Button className="rounded-xl bg-[#0F172A] hover:bg-black text-white h-11 px-6 shadow-xl shadow-black/10 font-black uppercase tracking-widest text-[10px] gap-2">
-                                <Edit className="w-4 h-4" /> Modifier le Rituel
+                                <Edit2 className="w-4 h-4" /> Modifier le Rituel
                             </Button>
                         </Link>
                     </div>
@@ -50,12 +46,12 @@ export default async function ViewProductPage({ params }: { params: Promise<{ id
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                        <Package className="w-20 h-20" />
+                                        <Box className="w-20 h-20" />
                                     </div>
                                 )}
                                 <div className="absolute top-6 left-6">
                                      <Badge className="bg-white/80 backdrop-blur-md text-teal-600 border-none px-4 py-2 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl">
-                                        <Zap className="w-3 h-3 mr-2 fill-teal-500" /> Rituel Actif
+                                        <Flash className="w-3 h-3 mr-2 fill-teal-500" /> Rituel Actif
                                     </Badge>
                                 </div>
                             </div>
@@ -98,7 +94,7 @@ export default async function ViewProductPage({ params }: { params: Promise<{ id
                             <div className="p-8 rounded-[2rem] bg-white border border-slate-100 shadow-sm flex flex-col gap-2">
                                 <div className="flex items-center gap-3 mb-2">
                                     <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
-                                        <Package className="w-5 h-5" />
+                                        <Box className="w-5 h-5" />
                                     </div>
                                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Stock Disponible</span>
                                 </div>
@@ -122,14 +118,14 @@ export default async function ViewProductPage({ params }: { params: Promise<{ id
                             <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-[50px] rounded-full group-hover:scale-125 transition-transform duration-700" />
                             <div className="flex items-center gap-6 relative z-10">
                                 <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-teal-400 border border-white/5 shadow-inner">
-                                    <ShieldCheck className="w-6 h-6" />
+                                    <ShieldTick className="w-6 h-6" />
                                 </div>
                                 <div>
                                     <h4 className="text-sm font-black uppercase tracking-widest">Protocol de Qualité</h4>
                                     <p className="text-[10px] font-bold text-slate-500 uppercase italic mt-1">Sourcing éthique & biologique certifié.</p>
                                 </div>
                             </div>
-                            <Sparkles className="w-6 h-6 text-teal-500 opacity-20 relative z-10" />
+                            <MagicStar className="w-6 h-6 text-teal-500 opacity-20 relative z-10" />
                         </div>
                     </div>
                 </div>

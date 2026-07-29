@@ -192,12 +192,53 @@ export async function getSellerDashboardData() {
     shopTotal: order.items.reduce((acc, item) => acc + (item.price * item.quantity), 0)
   }))
 
+  // Generate chart data for the last 7 days
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+  sevenDaysAgo.setHours(0, 0, 0, 0);
+
+  const recentSalesData = await prisma.orderItem.findMany({
+    where: {
+      product: { shopId: shop.id },
+      order: {
+        status: { in: ["PAID", "SHIPPED", "DELIVERED"] },
+        createdAt: { gte: sevenDaysAgo }
+      }
+    },
+    include: { order: { select: { createdAt: true } } }
+  });
+
+  const chartDataMap = new Map();
+  const days = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+  
+  for(let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dayName = days[d.getDay()];
+      // Only keep the first entry if there are duplicates (e.g. today and 7 days ago both Tuesday)
+      if (!chartDataMap.has(dayName)) {
+        chartDataMap.set(dayName, { name: dayName, revenue: 0, orders: 0 });
+      }
+  }
+
+  recentSalesData.forEach(item => {
+      const dayName = days[item.order.createdAt.getDay()];
+      if(chartDataMap.has(dayName)) {
+          const entry = chartDataMap.get(dayName);
+          entry.revenue += item.price * item.quantity;
+          entry.orders += item.quantity;
+      }
+  });
+
+  const chartData = Array.from(chartDataMap.values()).reverse(); // To order chronologically
+
   return {
     shop,
     revenue: Number(sales._sum.price || 0),
     salesCount: sales._sum.quantity || 0,
     productCount: shop._count.products,
-    recentOrders: processedOrders
+    recentOrders: processedOrders,
+    chartData
   }
 }
 

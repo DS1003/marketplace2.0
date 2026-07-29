@@ -1,15 +1,15 @@
 "use client"
 
 import { 
-  TrendingUp, 
+  TrendUp, 
   ShoppingBag, 
-  DollarSign, 
-  ArrowUpRight, 
-  ArrowDownRight,
-  Store,
+  DollarCircle, 
+  ArrowUp2, 
+  ArrowDown2,
+  Shop,
   Activity,
   Calendar,
-} from "lucide-react"
+} from "reicon-react"
 import { 
   XAxis, 
   YAxis, 
@@ -32,17 +32,16 @@ interface DashboardProps {
   stats: any
 }
 
-const data = [
-  { name: 'Mon', revenue: 4000, orders: 24 },
-  { name: 'Tue', revenue: 3000, orders: 18 },
-  { name: 'Wed', revenue: 2000, orders: 12 },
-  { name: 'Thu', revenue: 2780, orders: 20 },
-  { name: 'Fri', revenue: 1890, orders: 15 },
-  { name: 'Sat', revenue: 2390, orders: 22 },
-  { name: 'Sun', revenue: 3490, orders: 28 },
-]
 
 export default function AdminDashboardClient({ stats }: DashboardProps) {
+  const chartData = stats.chartData || []
+  const colors = ['#d4a574', '#D1BDAB', '#94a3b8', '#cbd5e1']
+  const performanceData = (stats.performance || []).map((p: any, i: number) => ({
+    name: p.category,
+    value: p.sales,
+    fill: colors[i % colors.length]
+  }))
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-700">
       {/* Header Section */}
@@ -64,10 +63,10 @@ export default function AdminDashboardClient({ stats }: DashboardProps) {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: "Gross Revenue", value: `$${stats.totalRevenue.toFixed(2)}`, change: "+12.5%", trending: "up", icon: DollarSign, color: "bg-emerald-50 text-emerald-600" },
+          { label: "Gross Revenue", value: `${stats.totalRevenue.toFixed(2)} FCFA`, change: "+12.5%", trending: "up", icon: DollarCircle, color: "bg-emerald-50 text-emerald-600" },
           { label: "Total Orders", value: stats.totalOrders.toString(), change: "+8.2%", trending: "up", icon: ShoppingBag, color: "bg-blue-50 text-blue-600" },
-          { label: "Active Shops", value: stats.totalShops.toString(), change: "+2.4%", trending: "up", icon: Store, color: "bg-amber-50 text-amber-600" },
-          { label: "Avg Ticket", value: `$${stats.avgTicket.toFixed(2)}`, change: "+5.1%", trending: "up", icon: Activity, color: "bg-violet-50 text-violet-600" },
+          { label: "Active Shops", value: stats.totalShops.toString(), change: "+2.4%", trending: "up", icon: Shop, color: "bg-amber-50 text-amber-600" },
+          { label: "Avg Ticket", value: `${stats.avgTicket.toFixed(2)} FCFA`, change: "+5.1%", trending: "up", icon: Activity, color: "bg-violet-50 text-violet-600" },
         ].map((stat, idx) => (
           <motion.div 
             key={stat.label} 
@@ -82,9 +81,9 @@ export default function AdminDashboardClient({ stats }: DashboardProps) {
                     <stat.icon className="h-4 w-4" />
                   </div>
                   {stat.trending === "up" ? (
-                    <span className="text-emerald-500 text-[11px] font-bold flex items-center bg-emerald-50 px-2 py-0.5 rounded-md"><ArrowUpRight className="mr-0.5 h-3 w-3" /> {stat.change}</span>
+                    <span className="text-emerald-500 text-[11px] font-bold flex items-center bg-emerald-50 px-2 py-0.5 rounded-md"><ArrowUp2 className="mr-0.5 h-3 w-3" /> {stat.change}</span>
                   ) : (
-                    <span className="text-rose-500 text-[11px] font-bold flex items-center bg-rose-50 px-2 py-0.5 rounded-md"><ArrowDownRight className="mr-0.5 h-3 w-3" /> {stat.change}</span>
+                    <span className="text-rose-500 text-[11px] font-bold flex items-center bg-rose-50 px-2 py-0.5 rounded-md"><ArrowDown2 className="mr-0.5 h-3 w-3" /> {stat.change}</span>
                   )}
                 </div>
                 <div className="space-y-0.5">
@@ -115,7 +114,7 @@ export default function AdminDashboardClient({ stats }: DashboardProps) {
           <CardContent className="p-6">
             <div className="h-[280px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#d4a574" stopOpacity={0.15}/>
@@ -155,12 +154,7 @@ export default function AdminDashboardClient({ stats }: DashboardProps) {
           <CardContent className="p-6">
             <div className="h-[280px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart layout="vertical" data={[
-                  { name: 'Rituals', value: 85, fill: '#d4a574' },
-                  { name: 'Beauty', value: 72, fill: '#D1BDAB' },
-                  { name: 'Decor', value: 64, fill: '#94a3b8' },
-                  { name: 'Essences', value: 45, fill: '#cbd5e1' },
-                ]} margin={{ top: 0, right: 30, left: 10, bottom: 0 }}>
+                <BarChart layout="vertical" data={performanceData} margin={{ top: 0, right: 30, left: 10, bottom: 0 }}>
                   <XAxis type="number" hide />
                   <YAxis 
                     dataKey="name" 
@@ -214,7 +208,7 @@ export default function AdminDashboardClient({ stats }: DashboardProps) {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-[12px] text-slate-400 font-medium">{format(new Date(order.createdAt), "MMM d, HH:mm")}</td>
-                    <td className="px-6 py-4 text-right text-[13px] font-bold text-slate-800">${order.total.toFixed(2)}</td>
+                    <td className="px-6 py-4 text-right text-[13px] font-bold text-slate-800">{order.total.toFixed(2)} FCFA</td>
                   </tr>
                 ))}
               </tbody>
@@ -226,7 +220,7 @@ export default function AdminDashboardClient({ stats }: DashboardProps) {
         <div className="space-y-6">
            <Card className="border-none shadow-sm rounded-2xl bg-slate-900 text-white p-6 relative overflow-hidden group">
               <div className="relative z-10 space-y-4">
-                <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center text-primary"><TrendingUp className="h-4 w-4" /></div>
+                <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center text-primary"><TrendUp className="h-4 w-4" /></div>
                 <h3 className="text-xl font-bold tracking-tight">Market Growth</h3>
                 <p className="text-[13px] text-white/40 leading-relaxed italic">You have {stats.totalUsers} manual ritualists and artisans in your ecosystem.</p>
                 <div className="flex items-end gap-1">

@@ -1,19 +1,6 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
-import { 
-  LayoutDashboard, 
-  Package, 
-  ShoppingBag, 
-  Settings, 
-  LogOut,
-  ChevronLeft,
-  Store,
-  Sparkles,
-  MessageCircle,
-  Activity,
-  Plus,
-  Wallet
-} from "lucide-react"
+import { Category, Box, ShoppingBag, Setting2, Logout, ArrowLeft2, Shop, MagicStar, Message, Activity, Add, Wallet } from "reicon-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -23,13 +10,13 @@ import { logout } from "@/lib/actions/auth"
 import { LogoutButton } from "@/components/auth/logout-button"
 
 const sellerNavItems = [
-  { href: "/seller", label: "Tableau de bord", icon: LayoutDashboard },
+  { href: "/seller", label: "Tableau de bord", icon: Category },
   { href: "/seller/wallet", label: "Portefeuille", icon: Wallet },
-  { href: "/seller/messages", label: "Messagerie", icon: MessageCircle },
-  { href: "/seller/products", label: "Mes Créations", icon: Package },
+  { href: "/seller/messages", label: "Messagerie", icon: Message },
+  { href: "/seller/products", label: "Mes Créations", icon: Box },
   { href: "/seller/orders", label: "Commandes", icon: ShoppingBag },
   { href: "/seller/analytics", label: "Performances", icon: Activity },
-  { href: "/seller/settings", label: "Paramètres", icon: Settings },
+  { href: "/seller/settings", label: "Paramètres", icon: Setting2 },
 ]
 
 import prisma from "@/lib/prisma"
@@ -59,12 +46,12 @@ export default async function SellerLayout({
       <aside className="w-60 fixed inset-y-0 bg-[#0F172A] text-slate-400 overflow-hidden shadow-2xl border-r border-white/5 z-50 flex flex-col transition-all duration-300">
           <div className="p-5 flex flex-col items-start gap-4">
             <Link href="/" className="group flex items-center gap-2">
-                <ChevronLeft className="h-3 w-3 text-slate-500 group-hover:text-[#0D9488] transition-all" />
+                <ArrowLeft2 className="h-3 w-3 text-slate-500 group-hover:text-[#0D9488] transition-all" />
                 <span className="text-[8px] font-black uppercase tracking-widest text-slate-600 group-hover:text-slate-400">Sortir</span>
             </Link>
             <div className="flex items-center gap-2.5">
               <div className="h-7 w-7 rounded-lg bg-[#0D9488] flex items-center justify-center shadow-lg shadow-teal-500/20">
-                <Store className="h-3.5 w-3.5 text-white" />
+                <Shop className="h-3.5 w-3.5 text-white" />
               </div>
               <div>
                 <h1 className="text-sm font-black tracking-tight text-white uppercase italic leading-none">Moomel</h1>
@@ -129,7 +116,7 @@ export default async function SellerLayout({
              <div className="flex items-center gap-4">
                 <Link href="/seller/products/new">
                   <Button className="h-8 rounded-lg bg-[#0D9488] text-white font-black uppercase tracking-widest text-[8px] px-5 shadow-lg shadow-teal-500/10 hover:translate-y-[-1px] transition-all border-none">
-                      <Plus className="mr-1.5 h-3 w-3" /> Nouveau Rituel
+                      <Add className="mr-1.5 h-3 w-3" /> Nouveau Rituel
                   </Button>
                 </Link>
              </div>

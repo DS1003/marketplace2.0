@@ -2,25 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
-  Settings, 
-  User, 
-  Shield, 
-  Bell, 
-  Globe, 
-  Database, 
-  CreditCard, 
-  CheckCircle, 
-  Smartphone,
-  Save,
-  Lock,
-  Mail,
-  MoreVertical,
-  ChevronRight,
-  LogOut,
-  SlidersHorizontal,
-  Palette
-} from "lucide-react"
+import { Setting2, User, ShieldSearch, Notification, Global, Data, Card as CreditCardIcon, TickCircle, Mobile, Save, Lock, Sms, More, ArrowRight2, Logout, SliderHorizontal, ColorSwatch } from "reicon-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -31,11 +13,11 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 
 const tabs = [
-  { id: "general", label: "General", icon: SlidersHorizontal },
-  { id: "security", label: "Security", icon: Shield },
-  { id: "notifications", label: "Alerts", icon: Bell },
-  { id: "branding", label: "Design", icon: Palette },
-  { id: "api", label: "Engine", icon: Database },
+  { id: "general", label: "General", icon: SliderHorizontal },
+  { id: "security", label: "Security", icon: ShieldSearch },
+  { id: "notifications", label: "Alerts", icon: Notification },
+  { id: "branding", label: "Design", icon: ColorSwatch },
+  { id: "api", label: "Engine", icon: Data },
 ]
 
 export default function AdminSettingsPage() {
@@ -126,7 +108,7 @@ export default function AdminSettingsPage() {
                                     <h3 className="text-base font-bold text-slate-800 tracking-tight">Regional Controls</h3>
                                     <p className="text-[11px] text-slate-400 font-medium italic">Currency, timezones and local language defaults.</p>
                                  </div>
-                                 <Globe className="h-5 w-5 text-slate-200" />
+                                 <CreditCardIcon className="h-5 w-5 text-emerald-400" />
                               </div>
                               
                               <Separator className="bg-slate-100" />
@@ -144,7 +126,7 @@ export default function AdminSettingsPage() {
                                        </div>
                                        <div className="flex items-center gap-3">
                                           <span className="text-[12px] font-bold text-slate-900 underline decoration-slate-200 underline-offset-4">{item.value}</span>
-                                          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg opacity-0 group-hover:opacity-100 transition-all"><ChevronRight className="h-3.5 w-3.5" /></Button>
+                                          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg opacity-0 group-hover:opacity-100 transition-all"><ArrowRight2 className="h-3.5 w-3.5" /></Button>
                                        </div>
                                     </div>
                                  ))}
@@ -168,9 +150,9 @@ export default function AdminSettingsPage() {
 
                           <div className="space-y-6">
                              {[
-                                { title: "Two-Factor Auth", desc: "Mandatory for all admin and seller lab accounts.", icon: Smartphone, status: true },
+                                { title: "Two-Factor Auth", desc: "Mandatory for all admin and seller lab accounts.", icon: Mobile, status: true },
                                 { title: "API Session Lock", desc: "Automatically sign out after 30 mins of inactivity.", icon: Lock, status: true },
-                                { title: "IP Whitelisting", desc: "Restrict management panel access to specific IPs.", icon: Globe, status: false },
+                                { title: "IP Whitelisting", desc: "Restrict management panel access to specific IPs.", icon: Global, status: false },
                              ].map((item, idx) => (
                                 <div key={idx} className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 bg-slate-50/20 shadow-sm shadow-slate-900/5">
                                    <div className="flex items-center gap-4">

@@ -109,7 +109,7 @@ export default function AdminOrdersPage() {
                      <span className="text-[14px] font-bold text-slate-900 underline decoration-primary/20 underline-offset-4">${order.total.toFixed(2)}</span>
                   </td>
                   <td className="px-6 py-4">
-                    <Badge variant="ghost" className={cn(
+                    <Badge className={cn(
                       "h-5 rounded-md uppercase text-[8px] font-bold px-2 tracking-widest",
                       order.status === "Processing" ? "bg-amber-50 text-amber-600" :
                       order.status === "Delivered" ? "bg-emerald-50 text-emerald-600" :

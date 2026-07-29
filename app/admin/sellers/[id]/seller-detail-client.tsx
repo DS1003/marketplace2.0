@@ -44,10 +44,11 @@ export default function SellerDetailClient({ shop }: { shop: any }) {
     }
 
     const handleReject = async () => {
-        if (!confirm(`Êtes-vous sûr de vouloir rejeter ${shop.name} ?`)) return
+        const reason = window.prompt(`Raison du rejet pour ${shop.name} ?`)
+        if (!reason) return
         setIsActionPending(true)
         try {
-            const res = await rejectShop(shop.id)
+            const res = await rejectShop(shop.id, reason)
             if (res.success) {
                 toast.success(`Le lab ${shop.name} a été rejeté.`)
                 router.push("/admin/sellers")

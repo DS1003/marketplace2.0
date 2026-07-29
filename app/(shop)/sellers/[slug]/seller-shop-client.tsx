@@ -374,7 +374,7 @@ export default function SellerShopClient({ initialSeller }: { initialSeller: any
                 {/* Boutique Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <AnimatePresence mode="popLayout">
-                        {filteredProducts.map((product, index) => (
+                        {filteredProducts.map((product: any, index: number) => (
                             <motion.div
                                 key={product.id}
                                 layout

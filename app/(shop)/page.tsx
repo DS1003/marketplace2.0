@@ -13,7 +13,7 @@ import { getPublicProducts } from "@/lib/actions/public"
 
 export default async function HomePage() {
   const productsRes = await getPublicProducts()
-  const products = productsRes.success ? productsRes.data : []
+  const products = productsRes.success ? (productsRes.data || []) : []
 
   return (
     <div className="flex flex-col">

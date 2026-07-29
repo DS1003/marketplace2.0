@@ -3,9 +3,17 @@
 import prisma from "@/lib/prisma"
 import { auth } from "@/auth"
 
+async function getSafeSession() {
+  try {
+    return await auth()
+  } catch (error) {
+    return null
+  }
+}
+
 export async function getPublicProducts() {
   try {
-    const session = await auth()
+    const session = await getSafeSession()
     const userId = session?.user?.id
 
     const products = await prisma.product.findMany({
@@ -120,7 +128,7 @@ export async function getProductById(id: string) {
       ? (product as any).reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / (product as any).reviews.length 
       : 0
 
-    const session = await auth()
+    const session = await getSafeSession()
     const userId = session?.user?.id
     const isWishlisted = userId 
       ? (product as any).wishlistedBy?.some((u: any) => u.id === userId)
@@ -201,7 +209,7 @@ export async function getProductFullDetails(id: string) {
       ? (product as any).reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / (product as any).reviews.length 
       : 0
 
-    const session = await auth()
+    const session = await getSafeSession()
     const userId = session?.user?.id
     const isWishlisted = userId 
       ? (product as any).wishlistedBy.some((u: any) => u.id === userId)

@@ -3,6 +3,13 @@
 import prisma from "@/lib/prisma"
 import { auth } from "@/auth"
 import { revalidatePath } from "next/cache"
+import { z } from "zod"
+
+const AddReviewSchema = z.object({
+  productId: z.string().min(1, "Product ID is required"),
+  rating: z.number().min(1, "Rating must be at least 1").max(5, "Rating cannot exceed 5"),
+  comment: z.string().min(3, "Comment must be at least 3 characters").max(500, "Comment is too long"),
+})
 
 export async function addReview(productId: string, rating: number, comment: string) {
   try {
@@ -11,6 +18,12 @@ export async function addReview(productId: string, rating: number, comment: stri
       return { success: false, error: "Non autorisé" }
     }
 
+    const validated = AddReviewSchema.safeParse({ productId, rating, comment })
+    if (!validated.success) {
+      return { success: false, error: validated.error.errors[0]?.message || "Invalid input" }
+    }
+    const validData = validated.data
+
     // Optional Check if the user bought this product : 
     // Usually it would check Orders, but we'll bypass strict buy-only check for now, or we can check
     const hasBought = await prisma.order.findFirst({
@@ -18,7 +31,7 @@ export async function addReview(productId: string, rating: number, comment: stri
             userId: session.user.id,
             status: { not: 'CANCELLED' },
             items: {
-                some: { productId: productId }
+                some: { productId: validData.productId }
             }
         }
     });
@@ -32,23 +45,23 @@ export async function addReview(productId: string, rating: number, comment: stri
     const review = await prisma.review.upsert({
       where: {
         productId_userId: {
-          productId,
+          productId: validData.productId,
           userId: session.user.id
         }
       },
       update: {
-        rating,
-        comment
+        rating: validData.rating,
+        comment: validData.comment
       },
       create: {
-        productId,
+        productId: validData.productId,
         userId: session.user.id,
-        rating,
-        comment
+        rating: validData.rating,
+        comment: validData.comment
       }
     })
 
-    revalidatePath(`/product/${productId}`)
+    revalidatePath(`/product/${validData.productId}`)
     return { success: true, data: review }
   } catch (error: any) {
     console.error("Error adding review:", error)

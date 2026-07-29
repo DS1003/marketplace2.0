@@ -10,8 +10,8 @@ export default async function NewArrivalsPage() {
     const productsRes = await getPublicProducts()
     const sellersRes = await getPublicSellers()
 
-    const products = productsRes.success ? productsRes.data : []
-    const sellers = sellersRes.success ? sellersRes.data : []
+    const products = productsRes.success ? (productsRes.data || []) : []
+    const sellers = sellersRes.success ? (sellersRes.data || []) : []
 
     // Already sorted by createdAt desc by default in getPublicProducts
     return <MarketplaceClient initialProducts={products} initialSellers={sellers} />

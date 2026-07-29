@@ -79,6 +79,9 @@ export async function getWishlist() {
           include: {
             shop: {
               select: { name: true }
+            },
+            reviews: {
+              select: { rating: true }
             }
           }
         }
@@ -87,13 +90,17 @@ export async function getWishlist() {
 
     const products = (user as any)?.wishlist || []
     
-    // Inject review data and wishlist status for the UI
-    const mappedProducts = products.map((p: any) => ({
-      ...p,
-      isWishlisted: true, // We know it's wishlisted as it's coming from the wishlist
-      avgRating: 4.8, // Mock if needed, or include reviews
-      reviewCount: 0
-    }))
+    const mappedProducts = products.map((p: any) => {
+      const avgRating = p.reviews && p.reviews.length > 0
+        ? p.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / p.reviews.length
+        : 0
+      return {
+        ...p,
+        isWishlisted: true,
+        avgRating,
+        reviewCount: p.reviews?.length || 0
+      }
+    })
 
     return { success: true, data: mappedProducts }
   } catch (error: any) {

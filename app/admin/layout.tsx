@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
+import { LogoutButton } from "@/components/auth/logout-button"
 
 const navItems = [
   { href: "/admin", label: "Vue d'ensemble", icon: LayoutDashboard },
@@ -83,11 +84,7 @@ export default async function AdminLayout({
                 <p className="text-[9px] uppercase tracking-wider text-zinc-500">Administrateur</p>
               </div>
             </div>
-            <Link href="/api/auth/signout" className="block w-full">
-              <Button variant="ghost" className="w-full justify-start h-9 rounded-xl gap-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-400/5 text-[11px] font-medium px-2">
-                <LogOut className="h-3.5 w-3.5" /> Déconnexion
-              </Button>
-            </Link>
+            <LogoutButton className="w-full justify-start h-9 rounded-xl gap-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-400/5 text-[11px] font-medium px-2" />
           </div>
         </div>
       </aside>

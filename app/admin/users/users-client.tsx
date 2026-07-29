@@ -105,7 +105,7 @@ export default function AdminUsersPage() {
                   </td>
                   <td className="px-6 py-4 text-[12px]">
                      <div className="flex flex-col gap-1">
-                        <Badge variant="ghost" className="h-5 rounded-md bg-secondary/50 text-slate-800 font-bold uppercase text-[8px] px-2 tracking-widest w-fit">
+                        <Badge className="h-5 rounded-md bg-secondary/50 text-slate-800 font-bold uppercase text-[8px] px-2 tracking-widest w-fit">
                            {user.role}
                         </Badge>
                         <div className="flex items-center gap-1.5 text-[9px] font-bold italic text-slate-400 uppercase tracking-tight">

@@ -11,25 +11,11 @@ import { useSession } from "next-auth/react"
 import { useCart } from "@/providers/cart-provider"
 import { logout } from "@/lib/actions/auth"
 import { motion, AnimatePresence } from "framer-motion"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command"
 import { NotificationBell } from "./notifications/NotificationBell"
+import { SearchCommand } from "./search-command"
+import { MobileMenu } from "./mobile-menu"
 
 const navLinks = [
   { href: "/", label: "Accueil" },
@@ -62,21 +48,7 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setIsSearchOpen((open) => !open)
-      }
-    }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
 
-  const runCommand = useCallback((command: () => void) => {
-    setIsSearchOpen(false)
-    command()
-  }, [])
 
   return (
     <>
@@ -431,157 +403,16 @@ export function Header() {
         </nav>
       </motion.header>
 
-      {/* Mobile Navigation - Moved outside transformed header */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="lg:hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-background shadow-2xl flex flex-col"
-              onClick={(e: React.MouseEvent) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between p-6 border-b border-border/50">
-                <NextImage
-                  src="/images/logo.png"
-                  alt="Moomel"
-                  width={100}
-                  height={32}
-                  className="h-8 w-auto"
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="rounded-full"
-                >
-                  <X className="h-6 w-6" />
-                </Button>
-              </div>
+      <MobileMenu
+        isOpen={isMenuOpen}
+        setIsOpen={setIsMenuOpen}
+        pathname={pathname}
+        session={session}
+        totalItems={totalItems}
+        navLinks={navLinks}
+      />
 
-              <div className="flex-1 overflow-y-auto py-8">
-                <div className="px-6 space-y-2">
-                  {navLinks.map((link, index) => {
-                    const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
-                    return (
-                      <motion.div
-                        key={link.href}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                      >
-                        <Link
-                          href={link.href}
-                          className={cn(
-                            "flex items-center justify-between py-4 text-xl font-semibold border-b border-border/30 last:border-none transition-all",
-                            isActive ? "text-primary translate-x-1" : "text-foreground hover:translate-x-1"
-                          )}
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          <span className="flex items-center gap-3">
-                            {isActive && <motion.div layoutId="active-dot" className="h-2 w-2 rounded-full bg-primary" />}
-                            {link.label}
-                          </span>
-                          <ChevronRight className={cn("h-5 w-5 transition-transform", isActive ? "text-primary opacity-100" : "opacity-30")} />
-                        </Link>
-                      </motion.div>
-                    )
-                  })}
-                </div>
-
-                <div className="mt-12 px-6">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-6">Actions Rapides</p>
-                  <div className="grid grid-cols-2 gap-4">
-                    <Link href="/account" className="flex flex-col items-center justify-center p-6 bg-secondary/30 rounded-3xl gap-3" onClick={() => setIsMenuOpen(false)}>
-                      <User className="h-6 w-6 text-primary" />
-                      <span className="text-xs font-bold uppercase tracking-tight">Compte</span>
-                    </Link>
-                    <Link href="/cart" className="flex flex-col items-center justify-center p-6 bg-secondary/30 rounded-3xl gap-3" onClick={() => setIsMenuOpen(false)}>
-                      <div className="relative">
-                        <ShoppingBag className="h-6 w-6 text-primary" />
-                        <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold">0</span>
-                      </div>
-                      <span className="text-xs font-bold uppercase tracking-tight">Panier</span>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-8 border-t border-border/50 bg-secondary/10">
-                {((session?.user?.role as string) === "SUPER_ADMIN" || (session?.user?.role as string) === "SELLER" || (session?.user as any).hasShop) && (
-                  <Link 
-                    href={(session?.user?.role as string) === "SUPER_ADMIN" ? "/admin" : "/seller"} 
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Button className="w-full h-14 rounded-2xl bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-[10px] mb-4 flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
-                      <LayoutDashboard className="h-4 w-4" /> 
-                      {(session?.user?.role as string) === "SUPER_ADMIN" ? "Panel Admin" : "Lab des Artisans"}
-                    </Button>
-                  </Link>
-                )}
-                {(!session?.user || (session.user.role === "CUSTOMER" && !(session.user as any).hasShop)) && (
-                  <Link href="/become-seller" onClick={() => setIsMenuOpen(false)}>
-                    <Button className="w-full h-14 rounded-2xl bg-[#2D241E]/10 text-[#2D241E] hover:bg-[#2D241E]/20 font-bold uppercase tracking-widest text-[9px] mb-4 flex items-center justify-center gap-2">
-                      <Store className="h-4 w-4" /> Devenir Artisan
-                    </Button>
-                  </Link>
-                )}
-                <Button 
-                  onClick={() => !session?.user ? router.push("/account") : logout()}
-                  className="w-full h-14 rounded-2xl bg-[#2D241E] text-white hover:bg-black font-bold uppercase tracking-widest text-[10px] mb-6"
-                >
-                  {!session?.user ? "Se Connecter" : "Déconnexion"}
-                </Button>
-                <div className="flex justify-center gap-6">
-                  <div className="h-10 w-10 rounded-full bg-white border border-border/50 flex items-center justify-center text-muted-foreground"><Instagram className="h-5 w-5" /></div>
-                  <div className="h-10 w-10 rounded-full bg-white border border-border/50 flex items-center justify-center text-muted-foreground"><Facebook className="h-5 w-5" /></div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <CommandDialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
-        <CommandInput placeholder="Rechercher des produits, catégories, artisans..." />
-        <CommandList className="max-h-[70vh]">
-          <CommandEmpty>Aucun résultat trouvé.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem onSelect={() => runCommand(() => router.push("/marketplace"))}>
-              <ShoppingBag className="mr-2 h-4 w-4" />
-              <span>Parcourir tous les produits</span>
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push("/categories"))}>
-              <Menu className="mr-2 h-4 w-4" />
-              <span>Voir les catégories</span>
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Catégories populaires">
-            <CommandItem onSelect={() => runCommand(() => router.push("/marketplace?category=Skincare"))}>Soins du Visage</CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push("/marketplace?category=Haircare"))}>Soins Capillaires</CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push("/marketplace?category=Oils"))}>Huiles Naturelles</CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Paramètres">
-            <CommandItem onSelect={() => runCommand(() => router.push("/account"))}>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profil</span>
-              <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                <span className="text-xs">⌘</span>P
-              </kbd>
-            </CommandItem>
-          </CommandGroup>
-        </CommandList>
-      </CommandDialog>
+      <SearchCommand isOpen={isSearchOpen} setIsOpen={setIsSearchOpen} />
     </>
   )
 }

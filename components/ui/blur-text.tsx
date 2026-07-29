@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, Variants } from "framer-motion"
 
 interface BlurTextProps {
   text: string
@@ -28,7 +28,7 @@ export function BlurText({
   const items = animateBy === "words" ? text.split(" ") : text.split("")
   const yOffset = direction === "top" ? -20 : 20
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -37,7 +37,7 @@ export function BlurText({
     },
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: {
       opacity: 0,
       y: yOffset,
@@ -49,7 +49,7 @@ export function BlurText({
       filter: "blur(0px)",
       transition: {
         duration: stepDuration,
-        ease: [0.25, 0.1, 0.25, 1],
+        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
       },
     },
   }

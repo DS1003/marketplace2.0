@@ -39,7 +39,7 @@ function CheckoutPageContent() {
     
     const [step, setStep] = useState(1) // 1: Shipping, 2: Payment, 3: Success
     const [loading, setLoading] = useState(false)
-    const [paymentMethod, setPaymentMethod] = useState("PAYDUNYA")
+    const [paymentMethod, setPaymentMethod] = useState<"CASH" | "PAYDUNYA">("PAYDUNYA")
     
     // Form States
     const [shippingData, setShippingData] = useState({
@@ -81,7 +81,6 @@ function CheckoutPageContent() {
             // 1. Créer la commande dans la DB
             const orderRes = await createOrder({
                 items: items.map(i => ({ id: i.id, price: i.price, quantity: i.quantity })),
-                total: total,
                 paymentMethod: paymentMethod,
                 shippingAddress: shippingData.address,
                 city: shippingData.city,
@@ -283,7 +282,7 @@ function CheckoutPageContent() {
                                         </div>
 
                                         <div className="space-y-8 pt-4">
-                                            <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <RadioGroup value={paymentMethod} onValueChange={(val) => setPaymentMethod(val as "CASH" | "PAYDUNYA")} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <Label htmlFor="paydunya" className={`flex flex-col items-center justify-center gap-4 p-8 border border-[#E9E1D6] rounded-3xl cursor-pointer hover:bg-[#FDFBF7] transition-all ${paymentMethod === 'PAYDUNYA' ? 'border-primary bg-primary/5' : ''}`}>
                                                     <RadioGroupItem value="PAYDUNYA" id="paydunya" className="sr-only" />
                                                     <Smartphone className="w-8 h-8 text-primary" />

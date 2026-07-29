@@ -9,5 +9,5 @@ export default {
     }),
   ],
   trustHost: true,
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || "moomel-marketplace-secret-2026-lux",
 } satisfies NextAuthConfig

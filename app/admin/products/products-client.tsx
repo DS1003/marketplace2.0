@@ -100,7 +100,7 @@ export default function AdminProductsPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <Badge variant="ghost" className="h-5 rounded-md bg-slate-100 text-slate-700 font-bold uppercase text-[8px] px-2 tracking-widest">
+                    <Badge className="h-5 rounded-md bg-slate-100 text-slate-700 font-bold uppercase text-[8px] px-2 tracking-widest">
                       <Tag className="mr-1.5 h-3 w-3" /> {product.category}
                     </Badge>
                   </td>

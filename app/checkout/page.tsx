@@ -21,8 +21,6 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
 import { FadeContent } from "@/components/ui/fade-content"
 import { useCart } from "@/providers/cart-provider"
 import { createOrder } from "@/lib/actions/order"
@@ -41,7 +39,7 @@ function CheckoutPageContent() {
     
     const [step, setStep] = useState(1) // 1: Shipping, 2: Payment, 3: Success
     const [loading, setLoading] = useState(false)
-    const [paymentMethod, setPaymentMethod] = useState("PAYDUNYA")
+    const [paymentMethod, setPaymentMethod] = useState<"CASH" | "PAYDUNYA">("PAYDUNYA")
     
     // Form States
     const [shippingData, setShippingData] = useState({
@@ -83,7 +81,6 @@ function CheckoutPageContent() {
             // 1. Créer la commande dans la DB
             const orderRes = await createOrder({
                 items: items.map(i => ({ id: i.id, price: i.price, quantity: i.quantity })),
-                total: total,
                 paymentMethod: paymentMethod,
                 shippingAddress: shippingData.address,
                 city: shippingData.city,
@@ -120,9 +117,8 @@ function CheckoutPageContent() {
 
     if (step === 3) {
         return (
-            <div className="min-h-screen bg-[#FDFBF7]">
-                <Header />
-                <main className="pt-48 pb-24 px-4 flex flex-col items-center justify-center text-center space-y-10">
+            <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">
+                <div className="w-full max-w-3xl flex flex-col items-center justify-center text-center space-y-10 py-24 px-4">
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -158,8 +154,7 @@ function CheckoutPageContent() {
                         <Leaf className="w-12 h-12" />
                         <Award className="w-12 h-12" />
                     </div>
-                </main>
-                <Footer />
+                </div>
             </div>
         )
     }
@@ -209,7 +204,7 @@ function CheckoutPageContent() {
                                     exit={{ opacity: 0, x: 20 }}
                                     className="space-y-12"
                                 >
-                                    <div className="space-y-8 p-12 bg-white rounded-[3.5rem] shadow-2xl border border-[#E9E1D6]">
+                                    <div className="space-y-8 p-6 md:p-12 bg-white rounded-[2rem] md:rounded-[3.5rem] shadow-2xl border border-[#E9E1D6]">
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary"><MapPin className="w-6 h-6" /></div>
                                             <h2 className="text-3xl font-bold text-[#2D241E]">Informations de Livraison</h2>
@@ -280,14 +275,14 @@ function CheckoutPageContent() {
                                     exit={{ opacity: 0, x: 20 }}
                                     className="space-y-12"
                                 >
-                                    <div className="space-y-8 p-12 bg-white rounded-[3.5rem] shadow-2xl border border-[#E9E1D6]">
+                                    <div className="space-y-8 p-6 md:p-12 bg-white rounded-[2rem] md:rounded-[3.5rem] shadow-2xl border border-[#E9E1D6]">
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary"><CreditCard className="w-6 h-6" /></div>
                                             <h2 className="text-3xl font-bold text-[#2D241E]">Méthode de Paiement</h2>
                                         </div>
 
                                         <div className="space-y-8 pt-4">
-                                            <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <RadioGroup value={paymentMethod} onValueChange={(val) => setPaymentMethod(val as "CASH" | "PAYDUNYA")} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <Label htmlFor="paydunya" className={`flex flex-col items-center justify-center gap-4 p-8 border border-[#E9E1D6] rounded-3xl cursor-pointer hover:bg-[#FDFBF7] transition-all ${paymentMethod === 'PAYDUNYA' ? 'border-primary bg-primary/5' : ''}`}>
                                                     <RadioGroupItem value="PAYDUNYA" id="paydunya" className="sr-only" />
                                                     <Smartphone className="w-8 h-8 text-primary" />
@@ -316,7 +311,7 @@ function CheckoutPageContent() {
                                             </div>
                                         </div>
 
-                                        <div className="pt-10 flex gap-4">
+                                        <div className="pt-10 flex flex-col-reverse md:flex-row gap-4">
                                             <Button variant="ghost" onClick={() => setStep(1)} className="h-16 rounded-2xl px-8 font-bold text-muted-foreground gap-2">
                                                 <ArrowLeft className="w-4 h-4" /> Retour
                                             </Button>
@@ -342,8 +337,8 @@ function CheckoutPageContent() {
 
                     {/* Right Column: Mini Summary */}
                     <aside className="w-full lg:w-[40%] lg:sticky lg:top-32 h-fit">
-                        <Card className="border-none shadow-xl rounded-[3rem] overflow-hidden bg-white">
-                            <div className="p-10 space-y-8">
+                        <Card className="glass-panel border-none shadow-2xl rounded-[2rem] md:rounded-[3rem] overflow-hidden">
+                            <div className="p-6 md:p-10 space-y-8">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl font-bold text-[#2D241E]">Récapitulatif</h2>
                                     <Link href="/cart" className="text-xs font-bold uppercase tracking-widest text-primary hover:underline">Modifier</Link>
@@ -409,7 +404,6 @@ function CheckoutPageContent() {
                 </div>
             </main>
 
-            <Footer />
         </div>
     )
 }

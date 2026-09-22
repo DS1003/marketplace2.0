@@ -18,6 +18,7 @@ const slides = [
     primaryCTA: "Acheter la Collection",
     secondaryCTA: "Notre Histoire",
   },
+/*
   {
     id: 2,
     image: "/images/senegal-story.jpg",
@@ -28,6 +29,7 @@ const slides = [
     primaryCTA: "Rencontrer les Artisans",
     secondaryCTA: "En savoir plus",
   },
+*/
   {
     id: 3,
     image: "/images/category-skincare.jpg",

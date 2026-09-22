@@ -4,6 +4,24 @@ import prisma from "@/lib/prisma"
 import { auth } from "@/auth"
 import { revalidatePath } from "next/cache"
 import { v2 as cloudinary } from 'cloudinary'
+import { z } from "zod"
+
+const RegisterSellerSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(100),
+  description: z.string().min(10, "Description must be at least 10 characters").max(1000),
+  image: z.string().url("Invalid image URL").optional().or(z.literal("")),
+})
+
+const CreateProductSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(100),
+  description: z.string().min(10, "Description must be at least 10 characters").max(2000),
+  price: z.number().positive("Price must be greater than 0"),
+  stock: z.number().int().nonnegative("Stock cannot be negative"),
+  categoryId: z.string().optional(),
+  images: z.array(z.string().url("Invalid image URL")).min(1, "At least one image is required"),
+})
+
+const UpdateProductSchema = CreateProductSchema.partial()
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -13,12 +31,18 @@ cloudinary.config({
 
 
 
-export async function registerSeller(formData: { name: string; description: string; image?: string }) {
+export async function registerSeller(formData: z.infer<typeof RegisterSellerSchema>) {
   const session = await auth()
   
   if (!session || !session.user?.id) {
     throw new Error("You must be logged in to become an artisan.")
   }
+
+  const validated = RegisterSellerSchema.safeParse(formData)
+  if (!validated.success) {
+    throw new Error(validated.error.errors[0]?.message || "Invalid input")
+  }
+  const { name, description, image } = validated.data
 
   const userId = session.user.id
 
@@ -35,9 +59,9 @@ export async function registerSeller(formData: { name: string; description: stri
   const [shop] = await prisma.$transaction([
     (prisma as any).shop.create({
       data: {
-        name: formData.name,
-        description: formData.description,
-        image: formData.image,
+        name: name,
+        description: description,
+        image: image,
         ownerId: userId,
         status: "PENDING"
       }
@@ -64,7 +88,7 @@ export async function registerSeller(formData: { name: string; description: stri
       data: {
         senderId: admin.id,
         receiverId: userId,
-        content: `Bienvenue sur Moomel ! Nous avons bien reçu votre candidature pour le laboratoire "${formData.name}". Notre équipe de curateurs va examiner votre dossier sous peu. Vous pouvez utiliser cette messagerie pour toute question.`,
+        content: `Bienvenue sur Moomel ! Nous avons bien reçu votre candidature pour le laboratoire "${name}". Notre équipe de curateurs va examiner votre dossier sous peu. Vous pouvez utiliser cette messagerie pour toute question.`,
       }
     })
 
@@ -73,7 +97,7 @@ export async function registerSeller(formData: { name: string; description: stri
       data: {
         userId: admin.id,
         title: "Nouvelle Candidature",
-        message: `L'artisan "${session.user.name}" a soumis une candidature pour sa boutique "${formData.name}".`,
+        message: `L'artisan "${session.user.name}" a soumis une candidature pour sa boutique "${name}".`,
         type: "INFO"
       }
     })
@@ -84,7 +108,7 @@ export async function registerSeller(formData: { name: string; description: stri
     data: {
       userId: userId,
       title: "Candidature Reçue",
-      message: `Votre demande pour la boutique "${formData.name}" a été transmise aux administrateurs. Vous pouvez désormais communiquer avec nous via la messagerie.`,
+      message: `Votre demande pour la boutique "${name}" a été transmise aux administrateurs. Vous pouvez désormais communiquer avec nous via la messagerie.`,
       type: "INFO"
     }
   })
@@ -168,20 +192,67 @@ export async function getSellerDashboardData() {
     shopTotal: order.items.reduce((acc, item) => acc + (item.price * item.quantity), 0)
   }))
 
+  // Generate chart data for the last 7 days
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+  sevenDaysAgo.setHours(0, 0, 0, 0);
+
+  const recentSalesData = await prisma.orderItem.findMany({
+    where: {
+      product: { shopId: shop.id },
+      order: {
+        status: { in: ["PAID", "SHIPPED", "DELIVERED"] },
+        createdAt: { gte: sevenDaysAgo }
+      }
+    },
+    include: { order: { select: { createdAt: true } } }
+  });
+
+  const chartDataMap = new Map();
+  const days = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+  
+  for(let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dayName = days[d.getDay()];
+      // Only keep the first entry if there are duplicates (e.g. today and 7 days ago both Tuesday)
+      if (!chartDataMap.has(dayName)) {
+        chartDataMap.set(dayName, { name: dayName, revenue: 0, orders: 0 });
+      }
+  }
+
+  recentSalesData.forEach(item => {
+      const dayName = days[item.order.createdAt.getDay()];
+      if(chartDataMap.has(dayName)) {
+          const entry = chartDataMap.get(dayName);
+          entry.revenue += item.price * item.quantity;
+          entry.orders += item.quantity;
+      }
+  });
+
+  const chartData = Array.from(chartDataMap.values()).reverse(); // To order chronologically
+
   return {
     shop,
     revenue: Number(sales._sum.price || 0),
     salesCount: sales._sum.quantity || 0,
     productCount: shop._count.products,
-    recentOrders: processedOrders
+    recentOrders: processedOrders,
+    chartData
   }
 }
 
-export async function createProduct(data: { name: string; description: string; price: number; stock: number; categoryId?: string; images: string[] }) {
+export async function createProduct(data: z.infer<typeof CreateProductSchema>) {
   const session = await auth()
   if (!session || ((session.user.role as string) !== "SELLER" && (session.user.role as string) !== "SUPER_ADMIN")) {
     throw new Error("Unauthorized")
   }
+
+  const validated = CreateProductSchema.safeParse(data)
+  if (!validated.success) {
+    throw new Error(validated.error.errors[0]?.message || "Invalid input")
+  }
+  const validData = validated.data
 
   const shop = await prisma.shop.findUnique({
     where: { ownerId: session.user.id }
@@ -191,7 +262,7 @@ export async function createProduct(data: { name: string; description: string; p
 
   const product = await prisma.product.create({
     data: {
-      ...data,
+      ...validData,
       shopId: shop.id
     }
   })
@@ -201,11 +272,17 @@ export async function createProduct(data: { name: string; description: string; p
   return product
 }
 
-export async function updateProduct(id: string, data: Partial<{ name: string; description: string; price: number; stock: number; categoryId: string; images: string[] }>) {
+export async function updateProduct(id: string, data: z.infer<typeof UpdateProductSchema>) {
     const session = await auth()
     if (!session || ((session.user.role as string) !== "SELLER" && (session.user.role as string) !== "SUPER_ADMIN")) {
       throw new Error("Unauthorized")
     }
+
+    const validated = UpdateProductSchema.safeParse(data)
+    if (!validated.success) {
+      throw new Error(validated.error.errors[0]?.message || "Invalid input")
+    }
+    const validData = validated.data
 
     const shop = await prisma.shop.findUnique({
         where: { ownerId: session.user.id }
@@ -221,7 +298,7 @@ export async function updateProduct(id: string, data: Partial<{ name: string; de
 
     const updated = await prisma.product.update({
         where: { id },
-        data
+        data: validData
     })
 
     revalidatePath("/seller/products")

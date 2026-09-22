@@ -41,8 +41,6 @@ export async function initiatePaydunyaPayment(orderId: string, amount: number) {
       }
     };
 
-    console.log("PayDunya API Request:", JSON.stringify(payload, null, 2));
-
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -55,7 +53,6 @@ export async function initiatePaydunyaPayment(orderId: string, amount: number) {
     });
 
     const data = await response.json();
-    console.log("PayDunya API Response:", data);
 
     if (data.response_code === "00") {
       return {

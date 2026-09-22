@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     siteName: 'Moomel',
     images: [
       {
-        url: '/images/og-image.jpg',
-        width: 1200,
-        height: 630,
+        url: '/mise-en-avant.png',
+        width: 1080,
+        height: 1080,
         alt: 'Moomel - Beauté Naturelle du Sénégal',
       },
     ],
@@ -42,11 +42,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Moomel | Beauté Naturelle du Sénégal',
     description: 'Produits de beauté bio haut de gamme d&apos;entrepreneurs sénégalais.',
-    images: ['/images/og-image.jpg'],
-  },
-  icons: {
-    icon: '/images/logo.png',
-    apple: '/images/logo.png',
+    images: ['/mise-en-avant.png'],
   },
 }
 

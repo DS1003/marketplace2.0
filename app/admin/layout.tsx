@@ -1,32 +1,20 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { 
-  LayoutDashboard, 
-  Users, 
-  ShoppingBag, 
-  Settings, 
-  LogOut, 
-  Bell,
-  Search,
-  ChevronRight,
-  TrendingUp,
-  Package,
-  Store,
-  MessageCircle
-} from "lucide-react"
+import { Category, Users, ShoppingBag, Setting2, Logout, Notification, SearchNormal, ArrowRight2, TrendUp, Box, Shop, Message } from "reicon-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
+import { LogoutButton } from "@/components/auth/logout-button"
 
 const navItems = [
-  { href: "/admin", label: "Vue d'ensemble", icon: LayoutDashboard },
-  { href: "/admin/sellers", label: "Artisans", icon: Store },
-  { href: "/admin/products", label: "Produits", icon: Package },
+  { href: "/admin", label: "Vue d'ensemble", icon: Category },
+  { href: "/admin/sellers", label: "Artisans", icon: Shop },
+  { href: "/admin/products", label: "Produits", icon: Box },
   { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
   { href: "/admin/users", label: "Clients", icon: Users },
-  { href: "/admin/messages", label: "Messages", icon: MessageCircle },
-  { href: "/admin/settings", label: "Paramètres", icon: Settings },
+  { href: "/admin/messages", label: "Messages", icon: Message },
+  { href: "/admin/settings", label: "Paramètres", icon: Setting2 },
 ]
 
 export default async function AdminLayout({
@@ -46,7 +34,7 @@ export default async function AdminLayout({
       <aside className="hidden lg:flex w-64 flex-col fixed inset-y-0 bg-[#1A1512] text-zinc-400 overflow-hidden shadow-xl border-r border-white/5">
         <div className="p-6 flex items-center gap-3">
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center shadow-md shadow-primary/20">
-            <TrendingUp className="h-4 w-4 text-white" />
+            <TrendUp className="h-4 w-4 text-white" />
           </div>
           <div>
             <h1 className="text-lg font-bold tracking-tight text-white italic">Moomel</h1>
@@ -65,7 +53,7 @@ export default async function AdminLayout({
                   <item.icon className="h-4 w-4" />
                 </div>
                 <span className="flex-1 tracking-tight">{item.label}</span>
-                <ChevronRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
+                <ArrowRight2 className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
               </div>
             </Link>
           ))}
@@ -83,11 +71,7 @@ export default async function AdminLayout({
                 <p className="text-[9px] uppercase tracking-wider text-zinc-500">Administrateur</p>
               </div>
             </div>
-            <Link href="/api/auth/signout" className="block w-full">
-              <Button variant="ghost" className="w-full justify-start h-9 rounded-xl gap-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-400/5 text-[11px] font-medium px-2">
-                <LogOut className="h-3.5 w-3.5" /> Déconnexion
-              </Button>
-            </Link>
+            <LogoutButton className="w-full justify-start h-9 rounded-xl gap-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-400/5 text-[11px] font-medium px-2" />
           </div>
         </div>
       </aside>
@@ -99,7 +83,7 @@ export default async function AdminLayout({
           <div className="flex items-center gap-4 flex-1">
             <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest hidden md:block">Gestion</h2>
             <div className="relative group max-w-sm w-full mx-4">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
+              <SearchNormal className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
               <input 
                 placeholder="Rechercher..." 
                 className="bg-zinc-100/50 border-none rounded-lg h-9 pl-10 pr-4 text-[13px] font-medium focus:ring-1 focus:ring-primary/30 transition-all w-full"
@@ -109,14 +93,14 @@ export default async function AdminLayout({
 
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg text-zinc-500 relative">
-              <Bell className="h-4 w-4" />
+              <Notification className="h-4 w-4" />
               <span className="absolute top-2 right-2 h-1.5 w-1.5 rounded-full bg-primary ring-2 ring-white" />
             </Button>
             <div className="h-8 w-px bg-zinc-200 mx-1" />
             <div className="flex items-center gap-2 pl-1 cursor-pointer group">
               <span className="text-[13px] font-semibold text-zinc-700 hidden sm:block">Assistance</span>
               <div className="h-8 w-8 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-500 group-hover:bg-primary/5 group-hover:text-primary transition-colors">
-                 <MessageCircle className="h-4 w-4" />
+                 <Message className="h-4 w-4" />
               </div>
             </div>
           </div>

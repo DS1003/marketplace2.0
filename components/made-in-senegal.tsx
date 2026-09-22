@@ -148,6 +148,7 @@ export function MadeInSenegal() {
               </div>
             </FadeContent>
 
+            {/*
             <FadeContent direction="up" delay={0.5}>
               <Magnet padding={50} magnetStrength={2}>
                 <Button
@@ -159,6 +160,7 @@ export function MadeInSenegal() {
                 </Button>
               </Magnet>
             </FadeContent>
+            */}
           </div>
         </div>
       </div>

@@ -63,7 +63,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 quantity: product.quantity || 1,
                 image: product.image || (product.images?.[0] || ""),
                 seller: product.shop?.name || product.seller || "Artisan Lab",
-                organic: product.organic || true
+                organic: product.organic ?? true
             }]
         })
     }, [])

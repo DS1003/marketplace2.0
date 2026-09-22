@@ -3,12 +3,21 @@
 import prisma from "@/lib/prisma"
 import { auth } from "@/auth"
 
+async function getSafeSession() {
+  try {
+    return await auth()
+  } catch (error) {
+    return null
+  }
+}
+
 export async function getPublicProducts() {
   try {
-    const session = await auth()
+    const session = await getSafeSession()
     const userId = session?.user?.id
 
     const products = await prisma.product.findMany({
+      where: { status: "ACTIVE" },
       include: {
         shop: {
           select: {
@@ -69,13 +78,18 @@ export async function getPublicSellers() {
           }
         },
         products: {
+          where: { status: "ACTIVE" },
           take: 3,
           select: {
             images: true
           }
         },
         _count: {
-          select: { products: true }
+          select: { 
+            products: {
+              where: { status: "ACTIVE" }
+            }
+          }
         }
       },
       orderBy: {
@@ -114,13 +128,13 @@ export async function getProductById(id: string) {
         } as any
       } as any
     })
-    if (!product) return { success: false, error: "Product not found" }
+    if (!product || (product as any).status !== "ACTIVE") return { success: false, error: "Product not found" }
     
     const avgRating = (product as any).reviews.length > 0 
       ? (product as any).reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / (product as any).reviews.length 
       : 0
 
-    const session = await auth()
+    const session = await getSafeSession()
     const userId = session?.user?.id
     const isWishlisted = userId 
       ? (product as any).wishlistedBy?.some((u: any) => u.id === userId)
@@ -146,6 +160,7 @@ export async function getRelatedProducts(productId: string, categoryId?: string 
     const products = await prisma.product.findMany({
       where: {
         id: { not: productId },
+        status: "ACTIVE",
         ...(categoryId ? { categoryId } : {})
       },
       include: {
@@ -195,13 +210,13 @@ export async function getProductFullDetails(id: string) {
       } as any
     })
 
-    if (!product) return { success: false, error: "Product not found" }
+    if (!product || (product as any).status !== "ACTIVE") return { success: false, error: "Product not found" }
 
     const avgRating = (product as any).reviews.length > 0 
       ? (product as any).reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / (product as any).reviews.length 
       : 0
 
-    const session = await auth()
+    const session = await getSafeSession()
     const userId = session?.user?.id
     const isWishlisted = userId 
       ? (product as any).wishlistedBy.some((u: any) => u.id === userId)
@@ -219,5 +234,34 @@ export async function getProductFullDetails(id: string) {
   } catch (error) {
     console.error("Failed to fetch product full details:", error)
     return { success: false, error: "Failed to fetch product details" }
+  }
+}
+
+export async function getPublicSellerById(id: string) {
+  try {
+    const shop = await prisma.shop.findUnique({
+      where: { id },
+      include: {
+        owner: {
+          select: {
+            name: true,
+            image: true
+          }
+        },
+        products: {
+          include: {
+            category: true,
+            reviews: { select: { rating: true } } as any
+          }
+        }
+      }
+    })
+    
+    if (!shop) return { success: false, error: "Shop not found" }
+    
+    return { success: true, data: shop }
+  } catch (error) {
+    console.error("Failed to fetch public seller:", error)
+    return { success: false, error: "Failed to fetch seller" }
   }
 }

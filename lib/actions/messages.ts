@@ -3,19 +3,31 @@
 import prisma from "@/lib/prisma"
 import { auth } from "@/auth"
 import { revalidatePath } from "next/cache"
+import { z } from "zod"
+
+const SendMessageSchema = z.object({
+  receiverId: z.string().min(1, "Receiver ID is required"),
+  content: z.string().min(1, "Message content cannot be empty").max(2000, "Message too long"),
+  productId: z.string().optional(),
+})
 
 export async function sendMessage(receiverId: string, content: string, productId?: string) {
     const session = await auth()
     if (!session || !session.user) {
         throw new Error("Unauthorized")
     }
+    const validated = SendMessageSchema.safeParse({ receiverId, content, productId })
+    if (!validated.success) {
+        throw new Error(validated.error.errors[0]?.message || "Invalid input")
+    }
+    const validData = validated.data
 
     const message = await (prisma as any).message.create({
         data: {
             senderId: session.user.id,
-            receiverId,
-            content,
-            productId: productId || null,
+            receiverId: validData.receiverId,
+            content: validData.content,
+            productId: validData.productId || null,
         }
     })
 
@@ -80,41 +92,60 @@ export async function getInbox() {
 
     const currentUserId = session.user.id
 
-    // Find all distinct users we have messaged or received messages from
-    const messages = await (prisma as any).message.findMany({
+    // 1. Get distinct partners to avoid loading thousands of messages in memory
+    const userIds = await (prisma as any).message.findMany({
         where: {
             OR: [
                 { senderId: currentUserId },
                 { receiverId: currentUserId }
             ]
         },
-        include: {
-            sender: { select: { id: true, name: true, image: true, role: true } },
-            receiver: { select: { id: true, name: true, image: true, role: true } },
-            product: { select: { id: true, name: true } }
-        },
-        orderBy: { createdAt: 'desc' }
+        select: { senderId: true, receiverId: true },
+        distinct: ['senderId', 'receiverId']
     })
 
-    // Group by conversation partner
-    const map = new Map<string, any>()
-    for (const m of messages) {
-        const partner = m.senderId === currentUserId ? m.receiver : m.sender
-        if (!map.has(partner.id)) {
-            map.set(partner.id, {
-                partner,
-                lastMessage: m,
-                unreadCount: m.receiverId === currentUserId && !m.read ? 1 : 0
-            })
-        } else {
-            const existing = map.get(partner.id)
-            if (m.receiverId === currentUserId && !m.read) {
-                existing.unreadCount += 1
-            }
-        }
-    }
+    const partnerIds = new Set<string>()
+    userIds.forEach((u: any) => {
+        if (u.senderId !== currentUserId) partnerIds.add(u.senderId)
+        if (u.receiverId !== currentUserId) partnerIds.add(u.receiverId)
+    })
 
-    return Array.from(map.values())
+    // 2. Fetch only the latest message and unread count for each partner
+    const inbox = await Promise.all(Array.from(partnerIds).map(async (partnerId) => {
+        const lastMessage = await (prisma as any).message.findFirst({
+            where: {
+                OR: [
+                    { senderId: currentUserId, receiverId: partnerId },
+                    { senderId: partnerId, receiverId: currentUserId }
+                ]
+            },
+            include: {
+                sender: { select: { id: true, name: true, image: true, role: true } },
+                receiver: { select: { id: true, name: true, image: true, role: true } },
+                product: { select: { id: true, name: true } }
+            },
+            orderBy: { createdAt: 'desc' }
+        })
+
+        const unreadCount = await (prisma as any).message.count({
+            where: {
+                senderId: partnerId as string,
+                receiverId: currentUserId,
+                read: false
+            }
+        })
+
+        const partner = lastMessage.senderId === currentUserId ? lastMessage.receiver : lastMessage.sender
+
+        return {
+            partner,
+            lastMessage,
+            unreadCount
+        }
+    }))
+
+    // Sort by latest message date descending
+    return inbox.sort((a, b) => b.lastMessage.createdAt.getTime() - a.lastMessage.createdAt.getTime())
 }
 export async function deleteConversation(partnerId: string) {
     const session = await auth()

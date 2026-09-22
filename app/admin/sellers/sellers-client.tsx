@@ -2,13 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import {
-    CheckCircle, XCircle, Clock, Search,
-    ExternalLink, Mail, MapPin,
-    Check, X, SlidersHorizontal,
-    ShoppingBag, Store, Globe, ShieldCheck,
-    Eye, Calendar, User, Info, Loader2
-} from "lucide-react"
+import { TickCircle, CloseCircle, Clock, SearchNormal, Maximize4, Sms, Location, TickSquare, CloseSquare, SliderHorizontal, ShoppingBag, Shop, Global, ShieldTick, Eye, Calendar, User, InfoCircle, Refresh } from "reicon-react"
 import Link from "next/link"
 import {
     Dialog,
@@ -84,7 +78,7 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                 </div>
                 <div className="flex gap-2">
                     <div className="relative group w-64 hidden md:block">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                        <SearchNormal className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
                         <Input 
                             placeholder="Seek artisan..." 
                             className="bg-white border-zinc-200/50 rounded-lg h-10 pl-10 pr-4 text-[13px] font-medium focus:ring-1 focus:ring-primary/20 transition-all shadow-sm"
@@ -96,10 +90,10 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {[
-                    { label: "Total Partners", value: shops.filter(s => s.status === 'APPROVED').length.toString(), icon: Store, color: "text-primary bg-primary/5" },
+                    { label: "Total Partners", value: shops.filter(s => s.status === 'APPROVED').length.toString(), icon: Shop, color: "text-primary bg-primary/5" },
                     { label: "Pending Apps", value: shops.filter(s => s.status === 'PENDING').length.toString(), icon: Clock, color: "text-amber-500 bg-amber-50" },
-                    { label: "Rejected", value: shops.filter(s => s.status === 'REJECTED').length.toString(), icon: XCircle, color: "text-rose-500 bg-rose-50" },
-                    { label: "Trust Score", value: "100%", icon: ShieldCheck, color: "text-blue-500 bg-blue-50" },
+                    { label: "Rejected", value: shops.filter(s => s.status === 'REJECTED').length.toString(), icon: CloseCircle, color: "text-rose-500 bg-rose-50" },
+                    { label: "Trust Score", value: "100%", icon: ShieldTick, color: "text-blue-500 bg-blue-50" },
                 ].map((stat, idx) => (
                     <Card key={idx} className="border-zinc-200/50 shadow-sm rounded-xl bg-white p-4">
                         <div className="flex items-center gap-3">
@@ -173,7 +167,7 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                                                     <div className="space-y-1">
                                                         <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Institutional Owner</p>
                                                         <p className="text-[13px] font-semibold text-slate-700 flex items-center gap-1.5 leading-none">
-                                                            <Mail className="h-3 w-3 text-primary" /> {shop.owner?.name || "Anonymous Artisan"}
+                                                            <Sms className="h-3 w-3 text-primary" /> {shop.owner?.name || "Anonymous Artisan"}
                                                         </p>
                                                         <p className="text-[11px] text-slate-500">{shop.owner?.email}</p>
                                                     </div>
@@ -203,7 +197,7 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                                                         onClick={() => handleApprove(shop.id, shop.name)}
                                                         className="flex-1 lg:w-40 h-10 rounded-lg bg-[#2D241E] text-white font-bold uppercase tracking-widest text-[9px] shadow-sm hover:translate-y-[-1px] transition-all"
                                                     >
-                                                        <Check className="mr-2 h-3.5 w-3.5" /> Approve Lab
+                                                        <TickSquare className="mr-2 h-3.5 w-3.5" /> Approve Lab
                                                     </Button>
                                                     <Button
                                                         disabled={isPending}
@@ -211,7 +205,7 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                                                         onClick={() => handleReject(shop.id, shop.name)}
                                                         className="flex-1 h-10 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 font-bold uppercase tracking-widest text-[8px] transition-all"
                                                     >
-                                                        <X className="mr-2 h-3.5 w-3.5" /> Deny
+                                                        <CloseSquare className="mr-2 h-3.5 w-3.5" /> Deny
                                                     </Button>
                                                 </div>
 
@@ -233,7 +227,7 @@ export default function AdminSellersClient({ initialShops }: AdminSellersClientP
                                 className="h-64 flex flex-col items-center justify-center text-center space-y-4 bg-slate-50/50 border border-dashed border-zinc-200 rounded-2xl"
                             >
                                 <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                                    <CheckCircle className="h-6 w-6" />
+                                    <TickCircle className="h-6 w-6" />
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-800">Clear Stewardship</h3>
                                 <p className="text-slate-400 text-sm max-w-sm">No laboratories awaiting moderation in the current registry.</p>

@@ -2,27 +2,23 @@
 
 import { useState } from "react"
 import { 
-  TrendingUp, 
+  TrendUp, 
   ShoppingBag, 
-  Package, 
-  ArrowUpRight, 
-  ArrowDownRight,
-  Activity,
+  Box, 
+  ShieldTick, 
+  Star,
+  Flash,
+  ArrowUp2,
   Calendar,
-  MessageCircle,
-  MoreHorizontal,
-  Edit,
-  Eye,
-  Clock,
-  ExternalLink,
-  ChevronRight,
-  Box,
-  Wallet,
-  Zap,
-  Plus,
-  ShieldCheck,
-  Star
-} from "lucide-react"
+  Activity,
+  More,
+  Add,
+  Edit2,
+  Maximize4,
+  ArrowRight2,
+  Message,
+  Clock
+} from "reicon-react"
 import { 
   XAxis, 
   YAxis, 
@@ -49,16 +45,7 @@ import {
 import { toast } from "sonner"
 import { sendCandidacyFollowUp } from "@/lib/actions/messages"
 
-// Mock chart data for seller (re-using admin style)
-const chartData = [
-  { name: 'Lun', revenue: 45000, orders: 12 },
-  { name: 'Mar', revenue: 52000, orders: 15 },
-  { name: 'Mer', revenue: 38000, orders: 8 },
-  { name: 'Jeu', revenue: 61000, orders: 19 },
-  { name: 'Ven', revenue: 48000, orders: 14 },
-  { name: 'Sam', revenue: 75000, orders: 22 },
-  { name: 'Dim', revenue: 92000, orders: 28 },
-]
+// Removed mock chart data
 
 export default function SellerDashboardClient({
     dashboardData,
@@ -106,7 +93,7 @@ export default function SellerDashboardClient({
                         className="flex-1 rounded-2xl h-14 bg-white hover:bg-slate-50 text-[10px] font-black uppercase tracking-[0.2em] text-slate-800 border-zinc-200 shadow-sm transition-all"
                     >
                         <Link href="/seller/messages">
-                            <MessageCircle className="w-4 h-4 mr-2 text-teal-600" />
+                            <Message className="w-4 h-4 mr-2 text-teal-600" />
                             Messagerie
                         </Link>
                     </Button>
@@ -125,21 +112,21 @@ export default function SellerDashboardClient({
 
                 <Link href="/account">
                     <span className="text-[10px] font-black text-slate-400 hover:text-teal-600 cursor-pointer uppercase tracking-[0.2em] transition-all flex items-center gap-2 group">
-                        <ChevronRight className="w-3.5 h-3.5 rotate-180 group-hover:-translate-x-1 transition-transform" /> Retour au profil
+                        <ArrowRight2 className="w-3.5 h-3.5 rotate-180 group-hover:-translate-x-1 transition-transform" /> Retour au profil
                     </span>
                 </Link>
             </div>
         )
     }
 
-    const { shop, revenue, salesCount, productCount, recentOrders } = dashboardData!;
+    const { shop, revenue, salesCount, productCount, recentOrders, chartData } = dashboardData!;
     const recentProducts = shop.products.slice(0, 4)
 
     const statsCards = [
-        { label: "Chiffre d'Affaires", value: formatPrice(revenue), change: "+12.5%", trending: "up", icon: Wallet, color: "bg-teal-50 text-teal-600" },
+        { label: "Chiffre d'Affaires", value: `${revenue} FCFA`, change: "+12.5%", trending: "up", icon: TrendUp, color: "bg-teal-50 text-teal-600" },
         { label: "Ventes Totales", value: salesCount.toString(), change: "+8.2%", trending: "up", icon: ShoppingBag, color: "bg-sky-50 text-sky-600" },
-        { label: "Mes Créations", value: productCount.toString(), change: "+2.4%", trending: "up", icon: Package, color: "bg-orange-50 text-orange-600" },
-        { label: "Note Artisan", value: "4.8", change: "Expert", trending: "up", icon: ShieldCheck, color: "bg-emerald-50 text-emerald-600" },
+        { label: "Mes Créations", value: productCount.toString(), change: "+2.4%", trending: "up", icon: Box, color: "bg-orange-50 text-orange-600" },
+        { label: "Note Artisan", value: "4.8", change: "Expert", trending: "up", icon: ShieldTick, color: "bg-emerald-50 text-emerald-600" },
     ]
 
     return (
@@ -148,7 +135,7 @@ export default function SellerDashboardClient({
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Zap className="w-3.5 h-3.5 text-teal-600 fill-teal-600" />
+                    <Star className="w-3.5 h-3.5 text-teal-600 fill-teal-600" />
                     <span className="text-[9px] font-black text-teal-600 uppercase tracking-[0.2em]">Tableau de Bord Artisan Live</span>
                   </div>
                   <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2 italic uppercase leading-none">
@@ -161,7 +148,7 @@ export default function SellerDashboardClient({
                     <Calendar className="mr-2 h-3 w-3" /> Rapports
                   </Button>
                   <Button className="h-8 rounded-lg bg-[#0F172A] text-white font-black uppercase tracking-widest text-[8px] px-5 shadow-lg shadow-black/10 hover:translate-y-[-0.5px] transition-all border-none">
-                     <ExternalLink className="mr-2 h-3 w-3" /> Ma Boutique
+                     <ArrowUp2 className="mr-2 h-3 w-3" /> Ma Boutique
                   </Button>
                 </div>
             </div>
@@ -252,9 +239,7 @@ export default function SellerDashboardClient({
                             <h4 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-700">Artisan Master Score</h4>
                             <p className="text-[10px] text-slate-400 tracking-tight italic mt-0.5 opacity-70">Moyenne de satisfaction globale.</p>
                         </div>
-                        <div className="h-8 w-8 rounded-full bg-teal-50 flex items-center justify-center text-teal-600">
-                            <Star className="w-4 h-4 fill-teal-600" />
-                        </div>
+                        <div className="h-10 w-10 bg-teal-50 rounded-xl flex items-center justify-center text-teal-600 group-hover:scale-110 transition-transform"><Star className="h-4 w-4" /></div>
                     </div>
 
                     <div className="flex items-center gap-4 mb-8">
@@ -289,7 +274,7 @@ export default function SellerDashboardClient({
                     </div>
 
                     <div className="mt-8 bg-[#0F172A] p-4 rounded-xl text-white flex items-center gap-3">
-                        <Zap className="w-4 h-4 text-teal-400 flex-shrink-0" />
+                        <Star className="w-4 h-4 text-teal-400 flex-shrink-0" />
                         <p className="text-[10px] font-medium leading-tight opacity-90 tracking-tight">Vos créations ont touché <span className="text-teal-400 font-bold">1.2k personnes</span> cette semaine.</p>
                     </div>
                 </Card>
@@ -349,7 +334,7 @@ export default function SellerDashboardClient({
                     <div className="flex items-center justify-between px-1">
                         <h3 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-700">Stocks Critique</h3>
                         <Link href="/seller/products">
-                            <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 hover:text-teal-600 transition-colors cursor-pointer">Gestion <ChevronRight className="w-2.5 h-2.5 inline-block" /></span>
+                            <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 hover:text-teal-600 transition-colors cursor-pointer">Gestion <ArrowRight2 className="w-2.5 h-2.5 inline-block" /></span>
                         </Link>
                     </div>
 
@@ -372,13 +357,13 @@ export default function SellerDashboardClient({
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg hover:bg-slate-100">
-                                            <MoreHorizontal className="w-3.5 h-3.5 text-slate-400" />
+                                            <More className="w-3.5 h-3.5 text-slate-400" />
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end" className="rounded-xl p-1.5 w-40 shadow-xl border-zinc-100 ring-1 ring-black/5 animate-in fade-in slide-in-from-right-1">
                                         <DropdownMenuItem asChild className="rounded-lg px-3 py-2 font-black text-[8px] uppercase tracking-widest cursor-pointer focus:bg-teal-50 focus:text-teal-700">
                                             <Link href={`/seller/products/edit/${p.id}`}>
-                                                <Edit className="w-3 h-3 mr-2" /> Édition
+                                                <Edit2 className="w-3 h-3 mr-2" /> Édition
                                             </Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -388,7 +373,7 @@ export default function SellerDashboardClient({
                         
                         <Link href="/seller/products/new" className="block pt-2">
                             <Button className="w-full h-10 rounded-xl bg-teal-600 text-white font-black uppercase tracking-widest text-[8px] shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 transition-all outline-none border-none">
-                                <Plus className="w-3.5 h-3.5 mr-2" /> Nouveau Rituel
+                                <Add className="w-3.5 h-3.5 mr-2" /> Nouveau Rituel
                             </Button>
                         </Link>
                     </div>

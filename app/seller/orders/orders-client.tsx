@@ -2,13 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
-  Search, Eye, Clock, Truck, 
-  CheckCircle2, XCircle, Filter, 
-  MapPin, ShoppingBag, CreditCard,
-  Phone, User, Calendar, ChevronRight,
-  Zap, Package, ArrowRight, TrendingUp
-} from "lucide-react"
+import { SearchNormal, Eye, Clock, TruckFast, TickCircle, CloseCircle, Filter, Location, ShoppingBag, Card as CreditCardIcon, Call, User, Calendar, ArrowRight2, Flash, Box, ArrowRight, TrendUp, Printer } from "reicon-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -47,11 +41,11 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
       case "PENDING":
         return <Badge className="bg-amber-500/10 text-amber-600 border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.2em]"><Clock className="mr-1 h-2.5 w-2.5" /> En Attente</Badge>
       case "SHIPPED":
-        return <Badge className="bg-blue-500/10 text-blue-600 border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.2em]"><Truck className="mr-1 h-2.5 w-2.5" /> Expédié</Badge>
+        return <Badge className="bg-blue-500/10 text-blue-600 border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.2em]"><TruckFast className="mr-1 h-2.5 w-2.5" /> Expédié</Badge>
       case "DELIVERED":
-        return <Badge className="bg-emerald-500/10 text-emerald-600 border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.2em]"><CheckCircle2 className="mr-1 h-2.5 w-2.5" /> Livré</Badge>
+        return <Badge className="bg-emerald-500/10 text-emerald-600 border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.2em]"><TickCircle className="mr-1 h-2.5 w-2.5" /> Livré</Badge>
       case "CANCELLED":
-        return <Badge className="bg-rose-500/10 text-rose-600 border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.2em]"><XCircle className="mr-1 h-2.5 w-2.5" /> Annulé</Badge>
+        return <Badge className="bg-rose-500/10 text-rose-600 border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.2em]"><CloseCircle className="mr-1 h-2.5 w-2.5" /> Annulé</Badge>
       default:
         return <Badge className="bg-slate-500/10 text-slate-600 border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.2em]">{status}</Badge>
     }
@@ -102,7 +96,7 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
 
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+          <SearchNormal className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
           <input
             placeholder="N° Commande ou Client..."
             className="w-full h-10 pl-10 pr-4 bg-white rounded-xl border border-zinc-100 text-[11px] font-bold uppercase tracking-widest focus:outline-none focus:ring-1 focus:ring-teal-500/20 transition-all placeholder:text-slate-300"
@@ -166,7 +160,7 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
                         size="sm" 
                         className="rounded-lg h-8 px-4 hover:bg-slate-100 transition-all font-black text-[9px] uppercase tracking-widest group-hover:bg-[#0F172A] group-hover:text-white"
                     >
-                        Détails <ChevronRight className="ml-1 h-3 w-3" />
+                        Détails <ArrowRight2 className="ml-1 h-3 w-3" />
                     </Button>
                     </TableCell>
                 </TableRow>
@@ -190,10 +184,10 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
       {/* Analytics Insights */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pb-10">
           {[
-              { label: "Ventes Jour", value: "84,500 F", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-50/50" },
-              { label: "Expéditions", value: "14", icon: Truck, color: "text-blue-500", bg: "bg-blue-50/50" },
-              { label: "Incidents", value: "0", icon: XCircle, color: "text-teal-500", bg: "bg-teal-50/50" },
-              { label: "Volume Mensuel", value: "1.2M F", icon: Package, color: "text-indigo-500", bg: "bg-indigo-50/50", dark: true },
+              { label: "Ventes Jour", value: "84,500 F", icon: TrendUp, color: "text-emerald-500", bg: "bg-emerald-50/50" },
+              { label: "Expéditions", value: "14", icon: TruckFast, color: "text-blue-500", bg: "bg-blue-50/50" },
+              { label: "Incidents", value: "0", icon: CloseCircle, color: "text-teal-500", bg: "bg-teal-50/50" },
+              { label: "Volume Mensuel", value: "1.2M F", icon: Box, color: "text-indigo-500", bg: "bg-indigo-50/50", dark: true },
           ].map((stat, i) => (
             <Card key={i} className={cn("border-none shadow-sm rounded-2xl p-5 overflow-hidden relative", stat.dark ? "bg-[#0F172A] text-white" : "bg-white")}>
                 {stat.dark && <div className="absolute top-0 right-0 w-20 h-20 bg-teal-500/5 blur-2xl rounded-full" />}
@@ -230,7 +224,7 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
                             </div>
                       </div>
                       <div className="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/5">
-                            <CreditCard className="h-4 w-4 text-teal-400" />
+                            <CreditCardIcon className="h-4 w-4 text-teal-400" />
                             <div>
                                 <p className="text-[7px] font-black text-white/40 uppercase tracking-widest">Transaction</p>
                                 <p className="text-[10px] font-black uppercase">PayDunya / Mobile</p>
@@ -249,12 +243,12 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
                         <div className="pl-6 space-y-1.5">
                             <p className="font-black text-[12px] text-slate-800 uppercase tracking-tight">{selectedOrder.user?.name || "Client Moomel"}</p>
                             <p className="text-[10px] text-slate-400 font-bold">{selectedOrder.user?.email}</p>
-                            <p className="text-[10px] text-slate-400 font-bold flex items-center gap-2"><Phone className="h-3 w-3" /> +221 Signal Secret</p>
+                            <p className="text-[10px] text-slate-400 font-bold flex items-center gap-2"><Call className="h-3 w-3" /> +221 Signal Secret</p>
                         </div>
                     </div>
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 text-slate-800">
-                            <MapPin className="h-3.5 w-3.5 text-teal-600" />
+                            <Location className="h-3.5 w-3.5 text-teal-600" />
                             <h4 className="font-black text-[9px] uppercase tracking-widest">Vecteur d'Expédition</h4>
                         </div>
                         <div className="pl-6">
@@ -314,7 +308,7 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
                             disabled={!!updating}
                             className="flex-1 h-12 bg-[#0F172A] hover:bg-black text-white rounded-xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-black/10 transition-transform active:scale-95"
                         >
-                            {updating === selectedOrder.id ? "Sync..." : <><Truck className="mr-2 h-4 w-4 text-teal-400" /> Expédier le Rituel</>}
+                            {updating === selectedOrder.id ? "Sync..." : <><TruckFast className="mr-2 h-4 w-4 text-teal-400" /> Expédier le Rituel</>}
                         </Button>
                       )}
                       
@@ -324,12 +318,17 @@ export default function SellerOrdersClient({ initialOrders }: { initialOrders: a
                             disabled={!!updating}
                             className="flex-1 h-12 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-teal-500/10 transition-transform active:scale-95"
                         >
-                            {updating === selectedOrder.id ? "Sync..." : <><CheckCircle2 className="mr-2 h-4 w-4" /> Marquer Comme Livré</>}
+                            {updating === selectedOrder.id ? "Sync..." : <><TickCircle className="mr-2 h-4 w-4" /> Marquer Comme Livré</>}
                         </Button>
                       )}
 
+                      <Button variant="outline" className="h-12 w-12 rounded-xl border-zinc-100 font-bold uppercase tracking-widest text-[10px] hover:bg-slate-50 p-0" asChild>
+                          <a href={`/api/invoice/${selectedOrder.id}`} download>
+                              <Printer className="h-4 w-4 text-slate-400" />
+                          </a>
+                      </Button>
                       <Button variant="outline" className="h-12 w-12 rounded-xl border-zinc-100 font-bold uppercase tracking-widest text-[10px] hover:bg-slate-50 p-0">
-                          <Phone className="h-4 w-4 text-slate-400" />
+                          <Call className="h-4 w-4 text-slate-400" />
                       </Button>
                   </div>
               </div>

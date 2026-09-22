@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion, useInView } from "framer-motion"
+import React, { useEffect, useRef, useState } from "react"
+import { motion, useInView, Variants } from "framer-motion"
 
 interface SplitTextProps {
   text: string
@@ -9,7 +9,7 @@ interface SplitTextProps {
   delay?: number
   duration?: number
   splitType?: "chars" | "words"
-  tag?: keyof JSX.IntrinsicElements
+  tag?: React.ElementType
   from?: { opacity?: number; y?: number; x?: number; scale?: number; rotateX?: number }
   to?: { opacity?: number; y?: number; x?: number; scale?: number; rotateX?: number }
   threshold?: number
@@ -40,7 +40,7 @@ export function SplitText({
     }
   }, [text, splitType])
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -50,13 +50,13 @@ export function SplitText({
     },
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: from,
     visible: {
       ...to,
       transition: {
         duration,
-        ease: [0.25, 0.1, 0.25, 1],
+        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
       },
     },
   }

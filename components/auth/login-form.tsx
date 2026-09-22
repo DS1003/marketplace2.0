@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
-import { Chrome, Loader2, Mail, Lock, ArrowRight } from "lucide-react"
+import { Chrome, Loader2, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react"
 
 const formSchema = z.object({
   email: z.string().email({
@@ -30,6 +30,7 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,9 +59,9 @@ export function LoginForm() {
 
   return (
     <div className="w-full space-y-8">
-      <div className="space-y-3">
-        <h1 className="text-4xl font-bold tracking-tight text-[#2D241E] italic">Bon retour parmi nous</h1>
-        <p className="text-muted-foreground text-sm italic leading-relaxed">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-semibold tracking-tight text-[#2D241E]">Bon retour parmi nous</h1>
+        <p className="text-muted-foreground text-sm font-light leading-relaxed">
           Connectez-vous pour accéder à vos rituels et suivre votre impact artisan.
         </p>
       </div>
@@ -81,7 +82,7 @@ export function LoginForm() {
                     <Input 
                       placeholder="votre@email.com" 
                       {...field} 
-                      className="bg-white border-stone-200/60 rounded-2xl h-14 pl-12 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
+                      className="bg-white border-stone-200/60 rounded-2xl h-12 pl-12 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
                     />
                   </div>
                 </FormControl>
@@ -106,11 +107,22 @@ export function LoginForm() {
                       <Lock className="h-4 w-4" />
                     </div>
                     <Input 
-                      type="password" 
+                      type={showPassword ? "text" : "password"} 
                       placeholder="••••••••" 
                       {...field} 
-                      className="bg-white border-stone-200/60 rounded-2xl h-14 pl-12 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
+                      className="bg-white border-stone-200/60 rounded-2xl h-12 pl-12 pr-12 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-4 flex items-center text-muted-foreground hover:text-primary transition-colors focus:outline-none"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
                   </div>
                 </FormControl>
                 <FormMessage className="text-[10px] font-bold text-destructive" />
@@ -121,7 +133,7 @@ export function LoginForm() {
           <Button 
             type="submit" 
             disabled={isLoading}
-            className="w-full h-14 rounded-full bg-[#2D241E] text-white hover:bg-black font-bold uppercase tracking-widest text-xs transition-all shadow-xl shadow-[#2D241E]/10 flex items-center justify-center gap-2 group"
+            className="w-full h-12 rounded-full bg-[#2D241E] text-white hover:bg-black font-semibold uppercase tracking-widest text-xs transition-all shadow-xl shadow-[#2D241E]/10 flex items-center justify-center gap-2 group"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -139,8 +151,8 @@ export function LoginForm() {
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t border-stone-200" />
         </div>
-        <div className="relative flex justify-center text-[10px] uppercase tracking-widest font-bold">
-          <span className="bg-[#FDFBF7] px-4 text-muted-foreground">Connexion Digitale</span>
+        <div className="relative flex justify-center text-[10px] uppercase tracking-wider font-semibold">
+          <span className="bg-[#FDFBF7] px-4 text-muted-foreground">Ou</span>
         </div>
       </div>
 
@@ -149,7 +161,7 @@ export function LoginForm() {
         type="button"
         disabled={isLoading}
         onClick={() => loginWithGoogle()}
-        className="w-full h-14 rounded-full border-stone-200 bg-white text-[#2D241E] hover:bg-stone-50 font-bold uppercase tracking-widest text-xs transition-all shadow-sm flex items-center justify-center gap-3"
+        className="w-full h-12 rounded-full border-stone-200 bg-white text-[#2D241E] hover:bg-stone-50 font-semibold uppercase tracking-widest text-xs transition-all shadow-sm flex items-center justify-center gap-3"
       >
         <Chrome className="h-4 w-4 text-primary" />
         Continuer avec Google

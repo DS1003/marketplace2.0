@@ -15,8 +15,14 @@ export function NotificationBell() {
 
     useEffect(() => {
         const fetchNotifications = async () => {
-            const data = await getNotifications()
-            setNotifications(data)
+            try {
+                const data = await getNotifications()
+                if (data && Array.isArray(data)) {
+                    setNotifications(data)
+                }
+            } catch (error) {
+                console.error("Failed to fetch notifications:", error)
+            }
         }
         fetchNotifications()
         // Simple polling for a live feel in the lab

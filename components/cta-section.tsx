@@ -5,6 +5,7 @@ import { ArrowRight, Store, ShoppingBag } from "lucide-react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import { useRef } from "react"
+import Link from "next/link"
 
 export function CTASection() {
   const { ref, isInView } = useScrollAnimation()
@@ -60,7 +61,7 @@ export function CTASection() {
         >
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity : 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight tracking-tight text-balance"
           >
@@ -84,22 +85,28 @@ export function CTASection() {
           >
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button 
+                asChild
                 size="lg" 
                 className="bg-background text-foreground hover:bg-background/90 group rounded-xl px-8 py-7 text-lg shadow-2xl shadow-foreground/10"
               >
-                <ShoppingBag className="mr-2 h-5 w-5" />
-                Acheter Maintenant
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <Link href="/marketplace">
+                  <ShoppingBag className="mr-2 h-5 w-5" />
+                  Acheter Maintenant
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button 
+                asChild
                 size="lg" 
                 variant="outline"
-                className="border-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground rounded-xl px-8 py-7 text-lg backdrop-blur-sm"
+                className="border-2 border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary rounded-xl px-8 py-7 text-lg backdrop-blur-sm transition-colors duration-300"
               >
-                <Store className="mr-2 h-5 w-5" />
-                Devenir Vendeur
+                <Link href="/become-seller">
+                  <Store className="mr-2 h-5 w-5" />
+                  Devenir Vendeur
+                </Link>
               </Button>
             </motion.div>
           </motion.div>

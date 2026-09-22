@@ -125,11 +125,12 @@ export async function getDashboardStats() {
 
   // Revenue overview
   const orders = await prisma.order.findMany({
-      where: { status: "DELIVERED" },
-      select: { total: true }
+      select: { id: true, total: true, status: true, createdAt: true },
+      orderBy: { createdAt: 'desc' }
   })
-  const revenue = orders.reduce((acc, curr) => acc + curr.total, 0)
-  const avgTicket = orders.length > 0 ? revenue / orders.length : 0
+  const completedOrders = orders.filter((o: any) => o.status === "DELIVERED")
+  const revenue = completedOrders.reduce((acc: number, curr: any) => acc + curr.total, 0)
+  const avgTicket = completedOrders.length > 0 ? revenue / completedOrders.length : 0
 
   const recentOrdersData = await prisma.order.findMany({
       take: 5,
@@ -139,6 +140,52 @@ export async function getDashboardStats() {
       }
   })
 
+  // Chart data (last 7 days)
+  const chartData = []
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  for (let i = 6; i >= 0; i--) {
+      const d = new Date()
+      d.setDate(d.getDate() - i)
+      const dayStart = new Date(d.setHours(0,0,0,0))
+      const dayEnd = new Date(d.setHours(23,59,59,999))
+      
+      const dayOrders = orders.filter((o: any) => o.createdAt >= dayStart && o.createdAt <= dayEnd)
+      const dayRevenue = dayOrders.filter((o: any) => o.status === "DELIVERED").reduce((acc: number, curr: any) => acc + curr.total, 0)
+      
+      chartData.push({
+          name: days[d.getDay()],
+          revenue: dayRevenue,
+          orders: dayOrders.length
+      })
+  }
+
+  // Performance by category (Top 4)
+  const categories = await prisma.category.findMany({
+      include: {
+          products: {
+              include: {
+                  orderItems: {
+                      include: {
+                          order: true
+                      }
+                  }
+              }
+          }
+      }
+  })
+
+  const performance = categories.map((cat: any) => {
+      let sales = 0
+      cat.products.forEach((p: any) => {
+          p.orderItems.forEach((oi: any) => {
+              if (oi.order?.status === "DELIVERED") {
+                  sales += oi.price * oi.quantity
+              }
+          })
+      })
+      return { category: cat.name, sales }
+  }).sort((a: any, b: any) => b.sales - a.sales).slice(0, 4)
+
   return {
       totalShops,
       totalProducts,
@@ -146,6 +193,8 @@ export async function getDashboardStats() {
       totalUsers,
       totalRevenue: revenue,
       avgTicket,
+      chartData,
+      performance,
       recentOrders: recentOrdersData.map((order: any) => ({
           id: order.id,
           user: order.user?.name || 'Unknown',
@@ -180,7 +229,11 @@ export async function getAllOrders() {
       include: {
           user: { select: { name: true, email: true } },
           items: {
-              include: { product: true }
+              include: { 
+                  product: {
+                      include: { shop: { select: { name: true } } }
+                  } 
+              }
           }
       },
       orderBy: { createdAt: 'desc' }
@@ -244,4 +297,104 @@ export async function toggleProductStatus(productId: string) {
 
     revalidatePath(`/admin/sellers/${product.shopId}`)
     return { success: true, status: newStatus }
+}
+
+export async function updateOrderStatus(orderId: string, status: string) {
+    const session = await auth()
+    if (!session || (session.user.role as string) !== "SUPER_ADMIN") {
+        throw new Error("Unauthorized")
+    }
+
+    const order = await prisma.order.findUnique({ where: { id: orderId } })
+    if (!order) throw new Error("Order not found")
+
+    await prisma.order.update({
+        where: { id: orderId },
+        data: { status }
+    })
+
+    revalidatePath("/admin/orders")
+    revalidatePath("/admin")
+    return { success: true, status }
+}
+
+export async function getOrderById(orderId: string) {
+    const session = await auth()
+    if (!session || (session.user.role as string) !== "SUPER_ADMIN") {
+        throw new Error("Unauthorized")
+    }
+
+    return prisma.order.findUnique({
+        where: { id: orderId },
+        include: {
+            user: { select: { name: true, email: true, image: true } },
+            items: {
+                include: {
+                    product: {
+                        include: {
+                            shop: { select: { name: true, id: true } }
+                        }
+                    }
+                }
+            }
+        }
+    })
+}
+
+export async function updateProductStatus(productId: string, status: "ACTIVE" | "SUSPENDED", reason?: string) {
+    const session = await auth()
+    if (!session || (session.user.role as string) !== "SUPER_ADMIN") {
+        throw new Error("Unauthorized")
+    }
+
+    const product = await prisma.product.findUnique({
+        where: { id: productId },
+        include: { shop: true }
+    })
+
+    if (!product) throw new Error("Product not found")
+
+    await prisma.product.update({
+        where: { id: productId },
+        data: { status }
+    })
+
+    if (status === "SUSPENDED" && reason && product.shop?.ownerId) {
+        await prisma.notification.create({
+            data: {
+                userId: product.shop.ownerId,
+                title: "Produit suspendu",
+                message: `Votre produit "${product.name}" a été suspendu par l'administrateur. Motif : ${reason}`,
+                type: "ERROR"
+            }
+        })
+    }
+
+    if (status === "ACTIVE" && product.shop?.ownerId) {
+         await prisma.notification.create({
+            data: {
+                userId: product.shop.ownerId,
+                title: "Produit réactivé",
+                message: `Votre produit "${product.name}" a été réactivé et est de nouveau en ligne.`,
+                type: "SUCCESS"
+            }
+        })
+    }
+
+    revalidatePath("/admin/products")
+    return { success: true }
+}
+
+export async function deleteProduct(productId: string) {
+    const session = await auth()
+    if (!session || (session.user.role as string) !== "SUPER_ADMIN") {
+        throw new Error("Unauthorized")
+    }
+
+    await prisma.product.delete({
+        where: { id: productId }
+    })
+
+    revalidatePath("/admin/products")
+    return { success: true }
 }

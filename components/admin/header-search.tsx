@@ -1,6 +1,6 @@
 "use client"
 
-import { Search, Command as CommandIcon } from "lucide-react"
+import { SearchNormal, Command as CommandIcon } from "reicon-react"
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import {
@@ -48,7 +48,7 @@ export function HeaderSearch({ placeholder = "Search...", className }: HeaderSea
           className
         )}
       >
-        <Search className="h-4 w-4 text-zinc-400 group-hover:text-primary transition-colors" />
+        <SearchNormal className="h-4 w-4 text-zinc-400 group-hover:text-primary transition-colors" />
         <span className="text-[13px] font-medium text-zinc-400 group-hover:text-zinc-600 transition-colors flex-1 text-left">
           {placeholder}
         </span>

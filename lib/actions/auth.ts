@@ -84,5 +84,5 @@ export async function logout() {
 }
 
 export async function loginWithGoogle() {
-  await signIn("google")
+  await signIn("google", { redirectTo: "/account" })
 }

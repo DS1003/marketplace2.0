@@ -7,7 +7,7 @@ import { X, ChevronRight, User, ShoppingBag, LayoutDashboard, Store, Instagram, 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
-import { logout } from "@/lib/actions/auth"
+import { signOut } from "next-auth/react"
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -125,7 +125,14 @@ export function MobileMenu({ isOpen, setIsOpen, pathname, session, totalItems, n
                 </Link>
               )}
               <Button 
-                onClick={() => !session?.user ? router.push("/account") : logout()}
+                onClick={async () => {
+                  setIsOpen(false)
+                  if (!session?.user) {
+                    router.push("/account")
+                  } else {
+                    await signOut({ callbackUrl: "/", redirect: true })
+                  }
+                }}
                 className="w-full h-14 rounded-2xl bg-[#2D241E] text-white hover:bg-black font-bold uppercase tracking-widest text-[10px] mb-6"
               >
                 {!session?.user ? "Se Connecter" : "Déconnexion"}

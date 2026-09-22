@@ -7,15 +7,15 @@ import Link from "next/link"
 import { Search, ShoppingBag, User, Menu, X, ChevronRight, Instagram, Facebook, Command as CommandIcon, LogOut, Settings, LayoutDashboard, Heart, Store } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { useCart } from "@/providers/cart-provider"
-import { logout } from "@/lib/actions/auth"
 import { motion, AnimatePresence } from "framer-motion"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { NotificationBell } from "./notifications/NotificationBell"
 import { SearchCommand } from "./search-command"
 import { MobileMenu } from "./mobile-menu"
+import { GoogleOneTapPrompt } from "./auth/google-one-tap-prompt"
 
 const navLinks = [
   { href: "/", label: "Accueil" },
@@ -284,7 +284,7 @@ export function Header() {
                       </div>
                       <DropdownMenuSeparator className="bg-border/30 mx-2" />
                       <DropdownMenuItem 
-                        onClick={() => logout()}
+                        onClick={() => signOut({ callbackUrl: "/", redirect: true })}
                         className="rounded-2xl cursor-pointer py-3 px-4 focus:bg-destructive/10 text-destructive group transition-all duration-300 mt-2 hover:translate-x-1"
                       >
                         <div className="flex items-center gap-3 w-full capitalize">
@@ -415,6 +415,7 @@ export function Header() {
       />
 
       <SearchCommand isOpen={isSearchOpen} setIsOpen={setIsSearchOpen} />
+      <GoogleOneTapPrompt />
     </>
   )
 }

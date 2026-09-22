@@ -4,26 +4,24 @@ import { signIn, signOut } from "@/auth"
 import prisma from "@/lib/prisma"
 import { AuthError } from "next-auth"
 import bcrypt from "bcryptjs"
-import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { redirect } from "next/navigation"
 
 const LoginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(1, "Password is required"),
+  password: z.string().min(1, "Le mot de passe est requis"),
 })
 
 const RegisterSchema = z.object({
-  name: z.string().min(2, "Name is required"),
+  name: z.string().min(2, "Le nom est requis"),
   email: z.string().email(),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères"),
 })
 
 export async function login(values: z.infer<typeof LoginSchema>) {
   const validatedFields = LoginSchema.safeParse(values)
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" }
+    return { error: "Champs invalides !" }
   }
 
   const { email, password } = validatedFields.data
@@ -35,14 +33,14 @@ export async function login(values: z.infer<typeof LoginSchema>) {
       redirect: false,
     })
     
-    return { success: "Logged in successfully", result }
+    return { success: "Connexion réussie !", result }
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid credentials!" }
+          return { error: "Email ou mot de passe incorrect !" }
         default:
-          return { error: "Something went wrong!" }
+          return { error: "Une erreur est survenue lors de la connexion !" }
       }
     }
 
@@ -54,7 +52,7 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
   const validatedFields = RegisterSchema.safeParse(values)
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" }
+    return { error: "Champs invalides !" }
   }
 
   const { name, email, password } = validatedFields.data
@@ -65,7 +63,7 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
   })
 
   if (existingUser) {
-    return { error: "Email already in use!" }
+    return { error: "Un compte avec cet email existe déjà." }
   }
 
   await prisma.user.create({
@@ -76,7 +74,7 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
     },
   })
 
-  return { success: "User created!" }
+  return { success: "Compte créé avec succès !" }
 }
 
 export async function logout() {
@@ -86,3 +84,4 @@ export async function logout() {
 export async function loginWithGoogle() {
   await signIn("google", { redirectTo: "/account" })
 }
+

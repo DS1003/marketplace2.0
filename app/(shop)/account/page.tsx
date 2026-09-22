@@ -24,8 +24,8 @@ import { Label } from "@/components/ui/label"
 import { FadeContent } from "@/components/ui/fade-content"
 import { LoginForm } from "@/components/auth/login-form"
 import { RegisterForm } from "@/components/auth/register-form"
-import { useSession } from "next-auth/react"
-import { logout } from "@/lib/actions/auth"
+import { useSession, signOut } from "next-auth/react"
+import { ShieldTick, Shop, MagicStar } from "reicon-react"
 import { formatPrice } from "@/lib/utils"
 import { getCustomerDashboard, updateCustomerProfile } from "@/lib/actions/customer"
 import { toggleWishlist } from "@/lib/actions/wishlist"
@@ -111,51 +111,104 @@ function AccountPageContent() {
     return (
       <div className="min-h-screen bg-[#FDFBF7]">
         <main className="pt-24 lg:pt-0 min-h-screen flex flex-col lg:flex-row w-full">
-          {/* Left: Image side */}
-          <div className="hidden lg:flex lg:w-1/2 relative bg-stone-100">
+          {/* Left: Showcase side */}
+          <div className="hidden lg:flex lg:w-1/2 relative bg-[#1C1613] overflow-hidden">
             <NextImage 
               src="/images/hero-products.jpg" 
               alt="Moomel Rituals" 
               fill 
-              className="object-cover"
+              className="object-cover opacity-80"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-16 xl:p-24 text-white">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1C1613] via-[#1C1613]/40 to-transparent" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)] pointer-events-none" />
+
+            {/* Top badges */}
+            <div className="absolute top-12 left-12 right-12 flex justify-between items-center z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white">
+                <ShieldTick className="h-4 w-4 text-amber-400" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em]">100% Bio & Ancestral</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white">
+                <Shop className="h-4 w-4 text-teal-400" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Coopératives Sénégalaises</span>
+              </div>
+            </div>
+
+            {/* Bottom showcase text & floating card */}
+            <div className="absolute bottom-0 left-0 right-0 p-12 xl:p-20 text-white z-10 space-y-8">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
+                className="space-y-4"
               >
-                <h2 className="text-4xl xl:text-5xl font-semibold mb-6 leading-tight">
-                  Le Rituel de la<br/>Sélection Naturelle
+                <div className="inline-flex items-center gap-2 text-amber-300 text-xs font-bold uppercase tracking-widest">
+                  <MagicStar className="h-4 w-4" />
+                  <span>Artisanat Luxueux du Sénégal</span>
+                </div>
+                <h2 className="text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight">
+                  Le Rituel de la<br/>
+                  <span className="italic font-serif font-normal text-amber-200">Sélection Naturelle</span>
                 </h2>
-                <p className="text-white/90 text-lg leading-relaxed max-w-md font-light">
-                  Découvrez les secrets de beauté ancestraux préservés pour les esprits modernes. Pur, biologique et directement du cœur du Sénégal.
+                <p className="text-white/80 text-base xl:text-lg leading-relaxed max-w-lg font-light">
+                  Découvrez les soins d'exception préservés pour les esprits exigeants. Rituels purs, formules certifiées et impact direct au cœur de l'Afrique.
                 </p>
+              </motion.div>
+
+              {/* Floating Testimonial Card */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="p-6 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center gap-4 max-w-lg shadow-2xl"
+              >
+                <div className="h-12 w-12 rounded-2xl bg-amber-500/20 border border-amber-300/30 flex items-center justify-center text-amber-300 shrink-0 text-xl font-bold">
+                  ✨
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs text-white/90 italic leading-snug">
+                    "Des ingrédients d'une qualité inégalée. On ressent toute la bienveillance des femmes artisanes dans chaque flacon."
+                  </p>
+                  <p className="text-[10px] font-bold text-amber-300 uppercase tracking-widest">— Aminata S., Dakar</p>
+                </div>
               </motion.div>
             </div>
           </div>
 
           {/* Right: Form side */}
-          <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-16 xl:p-24 bg-white relative">
-            <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(212,165,116,0.05)_0%,transparent_50%)] pointer-events-none" />
+          <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10 lg:p-14 xl:p-16 bg-[#FDFBF7] relative">
+            <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(212,165,116,0.12)_0%,transparent_60%)] pointer-events-none" />
             
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-md z-10"
+              className="w-full max-w-md z-10 bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-[#2D241E]/5 border border-stone-200/60 relative overflow-hidden"
             >
+              {/* Subtle top ambient bar */}
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30" />
+
+              {/* Tab Selector */}
               <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as any)} className="w-full">
-                <TabsList className="grid grid-cols-2 w-full max-w-[240px] h-11 bg-stone-100 rounded-full p-1 mb-10 mx-auto">
-                  <TabsTrigger value="login" className="rounded-full font-semibold uppercase tracking-wider text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white">Connexion</TabsTrigger>
-                  <TabsTrigger value="register" className="rounded-full font-semibold uppercase tracking-wider text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white">Rejoindre</TabsTrigger>
+                <TabsList className="grid grid-cols-2 w-full max-w-[280px] h-12 bg-stone-100/90 rounded-full p-1 mx-auto border border-stone-200/70 shadow-inner">
+                  <TabsTrigger 
+                    value="login" 
+                    className="rounded-full font-bold uppercase tracking-widest text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white data-[state=active]:shadow-md transition-all cursor-pointer"
+                  >
+                    Connexion
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="register" 
+                    className="rounded-full font-bold uppercase tracking-widest text-[10px] data-[state=active]:bg-[#2D241E] data-[state=active]:text-white data-[state=active]:shadow-md transition-all cursor-pointer"
+                  >
+                    Rejoindre
+                  </TabsTrigger>
                 </TabsList>
-                <TabsContent value="login" className="mt-0">
+                <TabsContent value="login" className="mt-8">
                   <LoginForm />
                 </TabsContent>
-                <TabsContent value="register" className="mt-0">
+                <TabsContent value="register" className="mt-8">
                   <RegisterForm onSuccess={() => setAuthMode("login")} />
                 </TabsContent>
               </Tabs>
@@ -263,7 +316,7 @@ function AccountPageContent() {
 
                 <Button 
                   variant="ghost" 
-                  onClick={() => logout()}
+                  onClick={() => signOut({ callbackUrl: "/", redirect: true })}
                   className="w-full justify-start h-12 rounded-2xl gap-4 px-6 text-xs font-bold uppercase tracking-widest text-red-500 hover:bg-red-50 hover:text-red-600 transition-all"
                 >
                   <LogOut className="w-4 h-4" />

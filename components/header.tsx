@@ -351,10 +351,12 @@ export function Header() {
                     )}
                   >
                     <ShoppingBag className="h-5 w-5" />
-                    <span className={cn(
-                      "absolute top-0 right-0 h-4 w-4 rounded-full text-[10px] flex items-center justify-center font-bold",
-                      !shouldBeTransparent ? "bg-primary text-primary-foreground" : "bg-white text-black"
-                    )}>0</span>
+                    {totalItems > 0 && (
+                      <span className={cn(
+                        "absolute -top-1 -right-1 h-4 w-4 rounded-full text-[10px] flex items-center justify-center font-bold shadow-md",
+                        !shouldBeTransparent ? "bg-primary text-primary-foreground" : "bg-white text-black"
+                      )}>{totalItems}</span>
+                    )}
                   </Button>
                 </Link>
               </div>

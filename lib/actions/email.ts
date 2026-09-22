@@ -1,27 +1,54 @@
 "use server"
 
 import { Resend } from "resend"
-import { OrderConfirmationEmail } from "../emails/order-confirmation"
+import { OrderConfirmationEmail, OrderItemEmailProps } from "../emails/order-confirmation"
 import { ShopApprovedEmail } from "../emails/shop-approved"
 
-// In a real scenario, the API key should be in process.env.RESEND_API_KEY
-// For demo purposes, we define a dummy key if not present. Resend throws if key is empty.
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
-export async function sendOrderConfirmationEmail(to: string, customerName: string, orderId: string, total: number) {
+export interface SendOrderEmailInput {
+  to: string
+  customerName: string
+  orderId: string
+  orderDate?: string
+  paymentMethod: string
+  paymentStatus: string
+  shippingAddress: string
+  city: string
+  phone: string
+  items: OrderItemEmailProps[]
+  subtotal: number
+  shippingFee: number
+  taxFee: number
+  total: number
+}
+
+export async function sendOrderConfirmationEmail(params: SendOrderEmailInput) {
   try {
+    const { to, customerName, orderId, total } = params
+    const shortId = orderId.length > 8 ? orderId.slice(-8).toUpperCase() : orderId.toUpperCase()
+
+    if (!to) {
+      console.warn("No recipient email provided for order confirmation:", orderId)
+      return { success: false, error: "Recipient email is missing" }
+    }
+
     if (!resend) {
-      console.warn("RESEND_API_KEY is not set. Simulating email sending.")
-      return { success: true }
+      console.warn(`[SIMULATION EMAIL] RESEND_API_KEY is missing. Email would be sent to: ${to} for Order #${shortId}`)
+      return { success: true, simulated: true }
     }
 
     const data = await resend.emails.send({
       from: "Moomel <commandes@moomel.sn>",
-      to,
-      subject: `Confirmation de commande Moomel #${orderId.slice(-6).toUpperCase()}`,
-      react: OrderConfirmationEmail({ customerName, orderId, total }),
+      to: [to],
+      subject: `✨ Confirmation de commande Moomel #${shortId}`,
+      react: OrderConfirmationEmail({
+        ...params,
+        trackingUrl: `${process.env.NEXTAUTH_URL || "https://moomel.sn"}/account`,
+      }),
     })
 
+    console.log("Order confirmation email sent successfully via Resend:", data)
     return { success: true, data }
   } catch (error) {
     console.error("Error sending order confirmation email:", error)
@@ -31,15 +58,17 @@ export async function sendOrderConfirmationEmail(to: string, customerName: strin
 
 export async function sendShopApprovedEmail(to: string, sellerName: string, shopName: string) {
   try {
+    if (!to) return { success: false, error: "No recipient email" }
+
     if (!resend) {
-      console.warn("RESEND_API_KEY is not set. Simulating email sending.")
-      return { success: true }
+      console.warn(`[SIMULATION EMAIL] RESEND_API_KEY is missing. Shop approval email would be sent to: ${to}`)
+      return { success: true, simulated: true }
     }
 
     const data = await resend.emails.send({
       from: "Moomel Artisans <artisans@moomel.sn>",
-      to,
-      subject: "Félicitations, votre boutique est approuvée !",
+      to: [to],
+      subject: "🎉 Félicitations, votre boutique Moomel est approuvée !",
       react: ShopApprovedEmail({ sellerName, shopName }),
     })
 

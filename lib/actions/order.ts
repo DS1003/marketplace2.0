@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma"
 import { auth } from "@/auth"
 import { z } from "zod"
+import { sendOrderConfirmationEmail } from "@/lib/actions/email"
 
 const CreateOrderSchema = z.object({
   items: z.array(z.object({
@@ -122,6 +123,52 @@ export async function createOrder(props: z.infer<typeof CreateOrderSchema>) {
           type: "SUCCESS"
         }
       })
+    }
+
+    // 7. Send rich order confirmation email to customer
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { email: true, name: true }
+      })
+
+      if (user?.email) {
+        const emailItems = items.map(item => {
+          const dbProduct = dbProducts.find(p => p.id === item.id)!
+          return {
+            name: dbProduct.name,
+            quantity: item.quantity,
+            price: dbProduct.price,
+            image: dbProduct.images?.[0] || "",
+            shopName: dbProduct.shop?.name || "",
+          }
+        })
+
+        await sendOrderConfirmationEmail({
+          to: user.email,
+          customerName: user.name || session.user.name || "Client Moomel",
+          orderId: order.id,
+          orderDate: new Date(order.createdAt).toLocaleDateString("fr-FR", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          paymentMethod: order.paymentMethod,
+          paymentStatus: order.paymentStatus,
+          shippingAddress: order.shippingAddress || shippingAddress,
+          city: order.city || city,
+          phone: order.phone || phone,
+          items: emailItems,
+          subtotal,
+          shippingFee: shipping,
+          taxFee: tax,
+          total: serverTotal,
+        })
+      }
+    } catch (emailErr) {
+      console.error("Non-blocking order email error:", emailErr)
     }
 
     return { success: true, orderId: order.id }

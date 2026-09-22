@@ -177,7 +177,7 @@ function CheckoutPageContent() {
                 </div>
             </header>
 
-            <main className="pt-40 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <main className="pt-24 sm:pt-32 lg:pt-40 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
 
                     {/* Left Column: Form Sections */}
